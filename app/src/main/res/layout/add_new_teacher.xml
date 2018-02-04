@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-           android:hint="  الرقم الجامعي"
+           android:hint=" الرقم الجامعي"
             android:layout_gravity="center"
             />
     </LinearLayout>
