@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SmartAttendance</string>
+
+    <string name="NameOfLogin">Enter your ID number</string>
+    <string name="enterpassord">Enter password</string>
+    <string name="loginBTN">Login</string>
+    <string name="Forgot">Forgot password</string>
+    <string name="title_activity_login">Sign in</string>
+
+
+
+</resources>

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/InfLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mm_kau.smartattendance.adminHome">
+
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Course ID :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+
+                />
+
+            <EditText
+                android:id="@+id/editTextForCourseID"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Course Name :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/editTextForCourseName"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Teacher ID:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/editTextForTeacherIdOfCourse"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:hint="can be empty"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Class room :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/editTextForCLassRoomOfCourse"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:hint="can be empty"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/textViewForSTLofCourse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Time of Lecture :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+
+                />
+
+            <EditText
+                android:id="@+id/editTextForSTL"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:hint="format must be like this : 00:00:00"
+                android:inputType="time" />
+
+            <TextView
+                android:id="@+id/textView55"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="End Time of Lecture :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/editTextForETL"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:hint="format must be like this : 00:00:00"
+                android:inputType="time" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Time Of Attendace :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/editText2ForSTA"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:hint="format must be like this : 00:00:00"
+                android:inputType="time" />
+
+            <TextView
+                android:id="@+id/textView89"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="End Time Of Attendance :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+
+            <EditText
+                android:id="@+id/editTextForETA"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:hint="format must be like this : 00:00:00"
+                android:inputType="time" />
+
+
+            <Button
+                android:id="@+id/AddCourseBTN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>
