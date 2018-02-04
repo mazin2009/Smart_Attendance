@@ -380,7 +380,7 @@ public class adminHome extends AppCompatActivity implements Designable {
 
     public Boolean IsEmailValid(String Email) {
 
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        String emailPattern = "[a-zA0-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (Email.matches(emailPattern)) {
             return true;
         } else {
