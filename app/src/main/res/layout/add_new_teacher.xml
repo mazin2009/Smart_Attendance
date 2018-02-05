@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="أضافة استاذ جديد"
+        android:text="Add New Teacher"
         android:textSize="30dp"
 
 
@@ -34,8 +34,9 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="number"
-           android:hint="  الرقم الجامعي"
+           android:hint="Teacher ID"
             android:layout_gravity="center"
+            android:maxLength="10"
             />
     </LinearLayout>
 
@@ -45,24 +46,28 @@
         android:orientation="horizontal">
 
         <EditText
-            android:layout_marginRight="5dp"
             android:id="@+id/editTextFor_T_Fname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:ems="10"
+            android:hint="First Name"
             android:inputType="textPersonName"
-            android:hint="الأسم الأخير" />
+            android:maxLength="15"
+            />
 
         <EditText
-            android:layout_marginLeft="5dp"
             android:id="@+id/editTextFor_T_Lname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:ems="10"
+            android:hint="Last Name"
             android:inputType="textPersonName"
-            android:hint=" الأسم الأول"/>
+            android:maxLength="15"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -76,9 +81,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint=" كلمة المرور"
-            android:gravity="right"
-            android:inputType="textPassword" />
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:maxLength="30"
+            />
 
         <EditText
             android:layout_marginTop="35dp"
@@ -86,15 +92,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint=" البريد الألكتروني"
-            android:inputType="textEmailAddress" />
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:maxLength="30"
+            />
 
         <Button
             android:id="@+id/buttonOfAddNewTeacher"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_marginTop="60dp"
-            android:text="أضافة" />
+            android:text="Add" />
 
     </LinearLayout>
 

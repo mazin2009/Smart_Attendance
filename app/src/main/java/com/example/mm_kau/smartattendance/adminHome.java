@@ -36,6 +36,7 @@ public class adminHome extends AppCompatActivity implements Designable {
     private Button LogOutBTN;
     private Button AddCourseBTN;
     private Button AddTeacherBTN;
+    private Button AddStudentBTN;
     private ProgressDialog progressDialog;
 
     //for add new course
@@ -47,6 +48,13 @@ public class adminHome extends AppCompatActivity implements Designable {
 
     private EditText T_TeacherID_AD, T_Fname_AD, T_Lname_AD, T_Password_AD, T_email;
     private Button Add_NewTeacher_BTN;
+
+    //for add new Student
+
+    private EditText S_StudentID_AD, S_Fname_AD, S_Lname_AD, S_Password_AD, S_email;
+    private Button Add_NewStudent_BTN;
+
+
 
 
     @Override
@@ -67,6 +75,7 @@ public class adminHome extends AppCompatActivity implements Designable {
         this.LogOutBTN = findViewById(R.id.button_Log_OUT);
         this.AddCourseBTN = findViewById(R.id.buttonOfAddCourse);
         this.AddTeacherBTN = findViewById(R.id.button2ForAddTeacher);
+        this.AddStudentBTN = findViewById(R.id.button3ForAddStudent);
         this.progressDialog = new ProgressDialog(adminHome.this);
 
 
@@ -84,6 +93,126 @@ public class adminHome extends AppCompatActivity implements Designable {
 
     @Override
     public void HandleAction() {
+
+
+        AddStudentBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.add_new_student, null, false);
+                setContentView(v);
+
+                Add_NewStudent_BTN = v.findViewById(R.id.buttonOfAddNewStudent);
+
+                S_StudentID_AD = v.findViewById(R.id.editTextOfStudentID_inS);
+                S_Fname_AD = v.findViewById(R.id.editTextFor_S_Fname);
+                S_Lname_AD = v.findViewById(R.id.editTextFor_S_Lname);
+                S_Password_AD = v.findViewById(R.id.editText_S_Pass);
+                S_email = v.findViewById(R.id.editText_S_Email);
+
+
+                Add_NewStudent_BTN.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+
+
+                            if (S_StudentID_AD.getText().toString().trim().isEmpty() || S_Fname_AD.getText().toString().trim().isEmpty() || S_Lname_AD.getText().toString().trim().isEmpty() || S_Password_AD.getText().toString().trim().isEmpty() || S_email.getText().toString().trim().isEmpty()) {
+                                Toast.makeText(getBaseContext(), "Please fill up all fields", Toast.LENGTH_LONG).show();
+                            } else if (Network.isConnected(getBaseContext()) == false) {
+                                Toast.makeText(getBaseContext(), "No Internet ", Toast.LENGTH_LONG).show();
+
+                            } else if (!IsEmailValid(S_email.getText().toString().trim())) {
+                                Toast.makeText(getBaseContext(), "Please enter valid email.", Toast.LENGTH_LONG).show();
+                            } else {
+                                progressDialog.setMessage("Please wait ...");
+                                progressDialog.show();
+
+
+                                StringRequest request = new StringRequest(Request.Method.POST, Constants.ADDnewStudent, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+
+                                     //     Toast.makeText(getBaseContext(),response,Toast.LENGTH_SHORT).show();
+
+                                        try {
+
+
+                                            JSONObject jsonObject = new JSONObject(response);
+                                            String status = jsonObject.getString("state");
+
+                                            if (status.equals("yes")) {
+
+                                                progressDialog.dismiss();
+
+                                                Toast.makeText(getBaseContext(), "Student Added.", Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(getBaseContext(), adminHome.class);
+                                                startActivity(intent);
+
+
+                                            } else {
+                                                progressDialog.dismiss();
+
+                                                Toast.makeText(getBaseContext(), "There is problem , try again ", Toast.LENGTH_LONG).show();
+
+                                                S_StudentID_AD.setText("");
+                                                S_Fname_AD.setText("");
+                                                S_Lname_AD.setText("");
+                                                S_Password_AD.setText("");
+                                                S_email.setText("");
+
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
+                                    }
+                                }) {
+                                    @Override
+                                    protected Map<String, String> getParams() throws AuthFailureError {
+                                        /*** Here you put the HTTP request parameters **/
+
+                                        HashMap<String, String> map = new HashMap<>();
+
+                                        map.put("S_StudentID", S_StudentID_AD.getText().toString());
+                                        map.put("S_Fname", S_Fname_AD.getText().toString());
+                                        map.put("S_Lname", S_Lname_AD.getText().toString());
+                                        map.put("S_Password", S_Password_AD.getText().toString());
+                                        map.put("S_Email", S_email.getText().toString());
+
+                                        return map;
+                                    }
+                                };
+                                Singleton_Queue.getInstance(getBaseContext()).Add(request);
+                            }
+
+
+                        } catch (Exception e) {
+
+                            Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+
+
+                    }
+                });
+
+
+            }
+        });
+
+
+
+
+
+
+
 
         AddTeacherBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +251,7 @@ public class adminHome extends AppCompatActivity implements Designable {
                                     @Override
                                     public void onResponse(String response) {
 
-                                        //    Toast.makeText(getBaseContext(),response,Toast.LENGTH_SHORT).show();
+                                    //      Toast.makeText(getBaseContext(),response,Toast.LENGTH_SHORT).show();
 
                                         try {
 

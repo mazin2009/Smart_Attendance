@@ -43,7 +43,7 @@
             android:text="Add New Teacher" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/button3ForAddStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add New Student" />
