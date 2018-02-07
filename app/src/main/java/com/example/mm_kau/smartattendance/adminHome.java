@@ -21,9 +21,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +39,7 @@ public class adminHome extends AppCompatActivity implements Designable {
     private Button AddCourseBTN;
     private Button AddTeacherBTN;
     private Button AddStudentBTN;
+    private Button AddClassRoomBTN;
     private ProgressDialog progressDialog;
 
     //for add new course
@@ -53,6 +56,11 @@ public class adminHome extends AppCompatActivity implements Designable {
 
     private EditText S_StudentID_AD, S_Fname_AD, S_Lname_AD, S_Password_AD, S_email;
     private Button Add_NewStudent_BTN;
+
+    //for add new classroom
+
+    private EditText C_ClassRoomID, C_ClassRoomName,C_capacity , C_Beacons ;
+    private Button Add_NewClassRoom_BTN;
 
 
 
@@ -76,6 +84,7 @@ public class adminHome extends AppCompatActivity implements Designable {
         this.AddCourseBTN = findViewById(R.id.buttonOfAddCourse);
         this.AddTeacherBTN = findViewById(R.id.button2ForAddTeacher);
         this.AddStudentBTN = findViewById(R.id.button3ForAddStudent);
+        this.AddClassRoomBTN = findViewById(R.id.buttonOfAddClassroom);
         this.progressDialog = new ProgressDialog(adminHome.this);
 
 
@@ -93,6 +102,126 @@ public class adminHome extends AppCompatActivity implements Designable {
 
     @Override
     public void HandleAction() {
+
+
+
+
+
+        AddClassRoomBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.add_new_classroom, null, false);
+                setContentView(v);
+
+                Add_NewClassRoom_BTN = v.findViewById(R.id.buttonOfAddNewclassRoom);
+
+                C_ClassRoomID = v.findViewById(R.id.editTextOfclassroom_ID);
+                C_ClassRoomName = v.findViewById(R.id.editTextFor_classroom_Name);
+                C_capacity = v.findViewById(R.id.editText_Capacity);
+                C_Beacons = v.findViewById(R.id.editText_Beacons);
+
+
+                Add_NewClassRoom_BTN.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+
+
+                            if (C_ClassRoomID.getText().toString().trim().isEmpty() || C_ClassRoomName.getText().toString().trim().isEmpty() || C_Beacons.getText().toString().trim().isEmpty() || C_capacity.getText().toString().trim().isEmpty() ) {
+                                Toast.makeText(getBaseContext(), "Please fill up all fields", Toast.LENGTH_LONG).show();
+                            } else if (Network.isConnected(getBaseContext()) == false) {
+                                Toast.makeText(getBaseContext(), "No Internet ", Toast.LENGTH_LONG).show();
+
+                            } else {
+                                progressDialog.setMessage("Please wait ...");
+                                progressDialog.show();
+
+                                final String [] arr_Beacon = C_Beacons.getText().toString().split(",");
+
+                                final JSONArray BeaconJSONArray = new JSONArray(Arrays.asList(arr_Beacon));
+
+                             //   Toast.makeText(getBaseContext(), BeaconJSONArray.toString(), Toast.LENGTH_LONG).show();
+
+
+                                StringRequest request = new StringRequest(Request.Method.POST, Constants.ADDnewClassRoom, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+
+                                      //      Toast.makeText(getBaseContext(),response,Toast.LENGTH_SHORT).show();
+
+                                        try {
+
+
+                                            JSONObject jsonObject = new JSONObject(response);
+                                            String status = jsonObject.getString("state");
+
+                                            if (status.equals("yes")) {
+
+                                                progressDialog.dismiss();
+
+                                                Toast.makeText(getBaseContext(), "classRoom Added.", Toast.LENGTH_LONG).show();
+                                                Intent intent = new Intent(getBaseContext(), adminHome.class);
+                                                startActivity(intent);
+
+
+                                            } else {
+                                                progressDialog.dismiss();
+
+                                                Toast.makeText(getBaseContext(), "There is problem , try again ", Toast.LENGTH_LONG).show();
+
+                                                S_StudentID_AD.setText("");
+                                                S_Fname_AD.setText("");
+                                                S_Lname_AD.setText("");
+                                                S_Password_AD.setText("");
+                                                S_email.setText("");
+
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getBaseContext(), "  There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
+                                    }
+                                }) {
+                                    @Override
+                                    protected Map<String, String > getParams() throws AuthFailureError {
+                                        /*** Here you put the HTTP request parameters **/
+
+                                        HashMap<String , String > map = new HashMap<>();
+
+                                    map.put("RoomID", C_ClassRoomID.getText().toString());
+                                    map.put("RoomName", C_ClassRoomName.getText().toString());
+                                    map.put("capacity", C_capacity.getText().toString());
+                                    map.put("BeaconIDs", BeaconJSONArray.toString());
+
+                                        return map;
+                                    }
+                                };
+                                Singleton_Queue.getInstance(getBaseContext()).Add(request);
+                            }
+
+
+                        } catch (Exception e) {
+
+                            Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+
+
+                    }
+                });
+
+
+            }
+        });
+
+
 
 
         AddStudentBTN.setOnClickListener(new View.OnClickListener() {
