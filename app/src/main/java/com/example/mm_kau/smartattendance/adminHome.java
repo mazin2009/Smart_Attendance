@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +27,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +50,9 @@ public class adminHome extends AppCompatActivity implements Designable {
     private ProgressDialog progressDialog;
 
     //for add new course
-    private EditText CourseID_AD, CourseName_AD, TeacherID_AD, ClassRommID_AD, STL_AD, ETL_AD, STA_AD, ETA_AD;
+    private EditText CourseID_AD, CourseName_AD, TeacherID_AD, ClassRommID_AD, STL_AD, ETL_AD, STA_AD, ETA_AD , NoOf_week;
+    private CheckBox S,M,Tu,W,TH;
+    private DatePicker StartDayinWeek;
     private String TeacherID, ClassroomID;
     private Button Add_NewCourse_BTN;
 
@@ -248,6 +257,7 @@ public class adminHome extends AppCompatActivity implements Designable {
 
                             if (S_StudentID_AD.getText().toString().trim().isEmpty() || S_Fname_AD.getText().toString().trim().isEmpty() || S_Lname_AD.getText().toString().trim().isEmpty() || S_Password_AD.getText().toString().trim().isEmpty() || S_email.getText().toString().trim().isEmpty()) {
                                 Toast.makeText(getBaseContext(), "Please fill up all fields", Toast.LENGTH_LONG).show();
+
                             } else if (Network.isConnected(getBaseContext()) == false) {
                                 Toast.makeText(getBaseContext(), "No Internet ", Toast.LENGTH_LONG).show();
 
@@ -504,6 +514,15 @@ public class adminHome extends AppCompatActivity implements Designable {
                 ETL_AD = v.findViewById(R.id.editTextForETL);
                 STA_AD = v.findViewById(R.id.editText2ForSTA);
                 ETA_AD = v.findViewById(R.id.editTextForETA);
+                NoOf_week = v.findViewById(R.id.editTextForNumberOfweek);
+                S = v.findViewById(R.id.checkBoxSun);
+                M = v.findViewById(R.id.checkBox2Mon);
+                Tu = v.findViewById(R.id.checkBox3Tue);
+                W = v.findViewById(R.id.checkBox4Wed);
+                TH = v.findViewById(R.id.checkBox5Thur);
+                StartDayinWeek = v.findViewById(R.id.FirstDayonFirstWeek);
+
+
 
 
                 Add_NewCourse_BTN.setOnClickListener(new View.OnClickListener() {
@@ -511,13 +530,23 @@ public class adminHome extends AppCompatActivity implements Designable {
                     public void onClick(View view) {
                         try {
 
+                            SimpleDateFormat simpledateformat = new SimpleDateFormat("EEEE");
+                            Date date = new Date(StartDayinWeek.getYear(), StartDayinWeek.getMonth(), StartDayinWeek.getDayOfMonth()-1);
+                            String dayOfWeek_ForCheek = simpledateformat.format(date);
 
-                            if (CourseID_AD.getText().toString().trim().isEmpty() || CourseName_AD.getText().toString().trim().isEmpty() || STL_AD.getText().toString().trim().isEmpty() || ETL_AD.getText().toString().trim().isEmpty() || STA_AD.getText().toString().trim().isEmpty() || ETA_AD.getText().toString().trim().isEmpty()) {
+
+                            if (NoOf_week.getText().toString().trim().isEmpty() || CourseID_AD.getText().toString().trim().isEmpty() || CourseName_AD.getText().toString().trim().isEmpty() || STL_AD.getText().toString().trim().isEmpty() || ETL_AD.getText().toString().trim().isEmpty() || STA_AD.getText().toString().trim().isEmpty() || ETA_AD.getText().toString().trim().isEmpty()) {
+
                                 Toast.makeText(getBaseContext(), "Please fill in all fields", Toast.LENGTH_LONG).show();
                             } else if (Network.isConnected(getBaseContext()) == false) {
                                 Toast.makeText(getBaseContext(), "No connection with Internet", Toast.LENGTH_LONG).show();
 
-                            } else {
+                            }else if (!dayOfWeek_ForCheek.equals("Sunday")){
+
+                                Toast.makeText(getBaseContext(), "The First day in week must be Sunday .", Toast.LENGTH_LONG).show();
+
+                        }else {
+
                                 progressDialog.setMessage("Please wait ...");
                                 progressDialog.show();
 
@@ -550,15 +579,67 @@ public class adminHome extends AppCompatActivity implements Designable {
                                             JSONObject jsonObject = new JSONObject(response);
                                             String status = jsonObject.getString("state");
 
+                                            String dt = ""+StartDayinWeek.getYear()+"-"+(StartDayinWeek.getMonth()+1)+"-"+StartDayinWeek.getDayOfMonth();
+                                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                            Calendar c = Calendar.getInstance();
+                                            c.setTime(sdf.parse(dt));
+                                            dt = sdf.format(c.getTime());  // dt is now the new date
+
                                             if (status.equals("yes")) {
+
+                                                for (int i = 0 ; i<Integer.parseInt(NoOf_week.getText().toString());i++) {
+
+                                                    if(S.isChecked()) {
+                                                        Calendar cS= Calendar.getInstance();
+                                                        cS.setTime(sdf.parse(dt));
+                                                        String dtS = sdf.format(cS.getTime());  // dt is now the new date
+                                                        AddLecture(CourseID_AD.getText().toString(),dtS);
+
+                                                    }
+                                                    if(M.isChecked()) {
+                                                        Calendar cM = Calendar.getInstance();
+                                                        cM.setTime(sdf.parse(dt));
+                                                        cM.add(Calendar.DATE, 1);  // number of days to add
+                                                        String dtM = sdf.format(cM.getTime());  // dt is now the new date
+                                                        AddLecture(CourseID_AD.getText().toString(),dtM);
+
+                                                    }
+                                                    if(Tu.isChecked()) {
+                                                        Calendar cTu = Calendar.getInstance();
+                                                        cTu.setTime(sdf.parse(dt));
+                                                        cTu.add(Calendar.DATE, 2);  // number of days to add
+                                                        String dtTu = sdf.format(cTu.getTime());  // dt is now the new date
+                                                        AddLecture(CourseID_AD.getText().toString(),dtTu);
+                                                    }
+                                                    if(W.isChecked()) {
+                                                        Calendar cW = Calendar.getInstance();
+                                                        cW.setTime(sdf.parse(dt));
+                                                        cW.add(Calendar.DATE, 3);  // number of days to add
+                                                        String dtW = sdf.format(cW.getTime());  // dt is now the new date
+                                                        AddLecture(CourseID_AD.getText().toString(),dtW);
+                                                    }
+                                                    if(TH.isChecked()) {
+                                                        Calendar cTH = Calendar.getInstance();
+                                                        cTH.setTime(sdf.parse(dt));
+                                                        cTH.add(Calendar.DATE, 4);  // number of days to add
+                                                        String dtTH = sdf.format(cTH.getTime());  // dt is now the new date
+                                                        AddLecture(CourseID_AD.getText().toString(),dtTH);
+                                                    }
+
+                                                    c.setTime(sdf.parse(dt));
+                                                    c.add(Calendar.DATE, 7);  // number of days to add
+                                                    dt = sdf.format(c.getTime());  // dt is now the new date
+
+                                                }
+
 
                                                 progressDialog.dismiss();
 
-                                                Toast.makeText(getBaseContext(), " Course Added.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getBaseContext(), " Course Added.", Toast.LENGTH_LONG).show();
+                                            Intent intent = new Intent(getBaseContext(), adminHome.class);
+                                            startActivity(intent);
 
 
-                                                Intent intent = new Intent(getBaseContext(), adminHome.class);
-                                                startActivity(intent);
 
 
                                             } else {
@@ -577,6 +658,8 @@ public class adminHome extends AppCompatActivity implements Designable {
 
                                             }
                                         } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        } catch (ParseException e) {
                                             e.printStackTrace();
                                         }
 
@@ -635,6 +718,69 @@ public class adminHome extends AppCompatActivity implements Designable {
 
     }
 
+    public void AddLecture (final String CourseID , final String Date) {
+
+
+        try {
+
+
+                StringRequest request = new StringRequest(Request.Method.POST, Constants.AddLecture, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        //      Toast.makeText(getBaseContext(),response,Toast.LENGTH_SHORT).show();
+
+                        try {
+
+
+                            JSONObject jsonObject = new JSONObject(response);
+                            String status = jsonObject.getString("state");
+
+                            if (status.equals("yes")) {
+
+
+
+                            } else {
+
+                                Toast.makeText(getBaseContext(), " هناك مشكلة , الرجاء المحاولة مرة أخرى ", Toast.LENGTH_LONG).show();
+                            return;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        /*** Here you put the HTTP request parameters **/
+
+                        HashMap<String, String> map = new HashMap<>();
+
+                        map.put("date",Date);
+                        map.put("CourseID", CourseID);
+
+                        return map;
+                    }
+                };
+                Singleton_Queue.getInstance(getBaseContext()).Add(request);
+
+
+        } catch (Exception e) {
+
+            Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+
+        }
+
+
+
+    }
 
     public Boolean IsEmailValid(String Email) {
 

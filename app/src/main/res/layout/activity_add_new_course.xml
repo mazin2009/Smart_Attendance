@@ -29,6 +29,14 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textView0110"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Course Information"
+                android:textColor="@color/colorAccent"
+               android:layout_marginBottom="10dp"
+                android:textSize="30dp" />
 
             <TextView
                 android:id="@+id/textView"
@@ -161,6 +169,107 @@
                 android:hint="format must be like this : 00:00:00"
                 android:inputType="time" />
 
+
+            <TextView
+                android:id="@+id/textView00"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lecture Information"
+                android:textColor="@color/colorAccent"
+                android:layout_marginBottom="10dp"
+                android:textSize="30dp" />
+
+
+
+            <TextView
+                android:id="@+id/textView879"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Number of week ?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+
+            <EditText
+                android:id="@+id/editTextForNumberOfweek"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:hint=""
+                android:inputType="number" />
+
+
+
+            <TextView
+                android:id="@+id/textViewj9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Date Of First day in First week :
+(Must be Sunday)"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginBottom="10dp"
+                android:textSize="20dp" />
+
+            <DatePicker
+                android:id="@+id/FirstDayonFirstWeek"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+            <TextView
+                android:id="@+id/textViewjs9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="day of lecture per week :"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginBottom="10dp"
+                android:textSize="20dp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginBottom="15dp"
+                >
+
+
+                <CheckBox
+                    android:id="@+id/checkBoxSun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Sunday" />
+
+                <CheckBox
+                    android:id="@+id/checkBox2Mon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Monday" />
+
+                <CheckBox
+                    android:id="@+id/checkBox3Tue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Tuesday" />
+
+                <CheckBox
+                    android:id="@+id/checkBox4Wed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Wednesday" />
+
+                <CheckBox
+                    android:id="@+id/checkBox5Thur"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Thursday" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/AddCourseBTN"

@@ -13,7 +13,7 @@ public class Constants {
     public static final String ADDnewTeacher = "http://10.0.2.2/SA_Project/AddNewTeacher.php";
     public static final String ADDnewStudent = "http://10.0.2.2/SA_Project/AddNewStudent.php";
     public static final String ADDnewClassRoom = "http://10.0.2.2/SA_Project/AddNewClassroom.php";
-    public static final String TEST = "http://10.0.2.2/SA_Project/TEST.php";
+    public static final String AddLecture = "http://10.0.2.2/SA_Project/addLectureOfcourse.php";
 
 
 
