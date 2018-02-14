@@ -4,16 +4,19 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +30,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,7 +41,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class adminHome extends AppCompatActivity implements Designable {
+public class adminHome extends AppCompatActivity implements Designable  {
 
 
     private SharedPreferences sharedPreferences;
@@ -47,7 +52,11 @@ public class adminHome extends AppCompatActivity implements Designable {
     private Button AddTeacherBTN;
     private Button AddStudentBTN;
     private Button AddClassRoomBTN;
+    private Button ManageCoursesBTN;
     private ProgressDialog progressDialog;
+    private ListView listView;
+    private ArrayList<course> list;
+    TextView No_Class ;
 
     //for add new course
     private EditText CourseID_AD, CourseName_AD, TeacherID_AD, ClassRommID_AD, STL_AD, ETL_AD, STA_AD, ETA_AD , NoOf_week;
@@ -94,6 +103,7 @@ public class adminHome extends AppCompatActivity implements Designable {
         this.AddTeacherBTN = findViewById(R.id.button2ForAddTeacher);
         this.AddStudentBTN = findViewById(R.id.button3ForAddStudent);
         this.AddClassRoomBTN = findViewById(R.id.buttonOfAddClassroom);
+        this.ManageCoursesBTN = findViewById(R.id.button4MangeCourse);
         this.progressDialog = new ProgressDialog(adminHome.this);
 
 
@@ -114,7 +124,110 @@ public class adminHome extends AppCompatActivity implements Designable {
 
 
 
+        ManageCoursesBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.course_list, null, false);
+                setContentView(v);
+
+               list = new ArrayList<>();
+               listView = v.findViewById(R.id.listTheCourse);
+               No_Class = v.findViewById(R.id.no_Clasess);
+
+                StringRequest  request = new StringRequest(Request.Method.POST, Constants.GetCourses, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                                course Course = new course();
+                                Course.setCourse_id(jsonObject.getString("Course_ID"));
+                                Course.setCourse_Name(jsonObject.getString("Course_name"));
+                                Course.setNumberOfStudent(Integer.parseInt(jsonObject.getString("No.of_Std")));
+                                Course.setSTL(jsonObject.getString("S_T_L"));
+                                Course.setETL(jsonObject.getString("E_T_L"));
+                                Course.setSTA(jsonObject.getString("S_T_A"));
+                                Course.setETA(jsonObject.getString("E_T_A"));
+
+                                if (!jsonObject.getString("Teacher_ID").isEmpty()) {
+                            Course.setTeacher_ID(jsonObject.getString("Teacher_ID"));
+                                }
+                                if (!jsonObject.getString(	"room_ID").isEmpty()) {
+                                    Course.setRoom_ID(jsonObject.getString("room_ID"));
+                                }
+
+                                list.add(Course);
+                            }
+
+
+                            if (list.size() == 0) {
+
+                                No_Class.setText("There is no clases ");
+
+                            } else {
+                                MyCoursAdpt adapter = new MyCoursAdpt(getBaseContext(), list);
+                                 listView.setAdapter(adapter);
+
+                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                        Intent intent=new Intent(getBaseContext(),Manage_Course.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.putExtra("course_ID",list.get(i).getCourse_id());
+                                        intent.putExtra("name",list.get(i).getCourse_Name());
+                                        intent.putExtra("TeacherID",list.get(i).getTeacher_ID());
+                                        intent.putExtra("Room_ID",list.get(i).getRoom_ID());
+                                        intent.putExtra("STL",list.get(i).getSTL());
+                                        intent.putExtra("ETL",list.get(i).getETL());
+                                        intent.putExtra("STA",list.get(i).getSTA());
+                                        intent.putExtra("ETA",list.get(i).getETA());
+                                        intent.putExtra("E","D");
+                                        startActivity(intent);
+
+
+                                    }
+                                });
+
+
+
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                       // progressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getBaseContext(), "هنالك مشكلة في الخادم الرجاء المحاولة مرة اخرى", Toast.LENGTH_LONG).show();
+                    }
+                }) {
+
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+
+                        return map;
+                    }
+                };
+                Singleton_Queue.getInstance(getBaseContext()).Add(request);
+
+
+
+
+
+            }
+        });
 
         AddClassRoomBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +251,7 @@ public class adminHome extends AppCompatActivity implements Designable {
 
 
                             if (C_ClassRoomID.getText().toString().trim().isEmpty() || C_ClassRoomName.getText().toString().trim().isEmpty() || C_Beacons.getText().toString().trim().isEmpty() || C_capacity.getText().toString().trim().isEmpty() ) {
+
                                 Toast.makeText(getBaseContext(), "Please fill up all fields", Toast.LENGTH_LONG).show();
                             } else if (Network.isConnected(getBaseContext()) == false) {
                                 Toast.makeText(getBaseContext(), "No Internet ", Toast.LENGTH_LONG).show();
@@ -536,12 +650,11 @@ public class adminHome extends AppCompatActivity implements Designable {
 
 
                             if (NoOf_week.getText().toString().trim().isEmpty() || CourseID_AD.getText().toString().trim().isEmpty() || CourseName_AD.getText().toString().trim().isEmpty() || STL_AD.getText().toString().trim().isEmpty() || ETL_AD.getText().toString().trim().isEmpty() || STA_AD.getText().toString().trim().isEmpty() || ETA_AD.getText().toString().trim().isEmpty()) {
-
                                 Toast.makeText(getBaseContext(), "Please fill in all fields", Toast.LENGTH_LONG).show();
                             } else if (Network.isConnected(getBaseContext()) == false) {
                                 Toast.makeText(getBaseContext(), "No connection with Internet", Toast.LENGTH_LONG).show();
 
-                            }else if (!dayOfWeek_ForCheek.equals("Sunday")){
+                            }else if (!dayOfWeek_ForCheek.equals("Sunday") && !dayOfWeek_ForCheek.equals("الأحد")){
 
                                 Toast.makeText(getBaseContext(), "The First day in week must be Sunday .", Toast.LENGTH_LONG).show();
 
@@ -551,10 +664,10 @@ public class adminHome extends AppCompatActivity implements Designable {
                                 progressDialog.show();
 
 
-                                if (TeacherID_AD.getText().length() == 0) {
-                                    TeacherID = "NULL";
+                               if (TeacherID_AD.getText().length() == 0) {
+                                   TeacherID = "NULL";
 
-                                } else {
+                               } else {
                                     TeacherID = TeacherID_AD.getText().toString();
 
                                 }
@@ -668,6 +781,7 @@ public class adminHome extends AppCompatActivity implements Designable {
                                 }, new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
+                                        progressDialog.dismiss();
                                         Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
                                     }
                                 }) {
@@ -741,7 +855,6 @@ public class adminHome extends AppCompatActivity implements Designable {
 
 
                             } else {
-
                                 Toast.makeText(getBaseContext(), " هناك مشكلة , الرجاء المحاولة مرة أخرى ", Toast.LENGTH_LONG).show();
                             return;
                             }

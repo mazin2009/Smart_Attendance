@@ -171,6 +171,7 @@ public class LoginPage extends Activity implements Designable {
                    }, new Response.ErrorListener() {
                        @Override
                        public void onErrorResponse(VolleyError error) {
+                           progressDialog.dismiss();
                            Toast.makeText(getBaseContext(),"There is an error at connecting to server .",Toast.LENGTH_SHORT).show();
                        }
                    }){

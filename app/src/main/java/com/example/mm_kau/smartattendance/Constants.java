@@ -14,6 +14,9 @@ public class Constants {
     public static final String ADDnewStudent = "http://10.0.2.2/SA_Project/AddNewStudent.php";
     public static final String ADDnewClassRoom = "http://10.0.2.2/SA_Project/AddNewClassroom.php";
     public static final String AddLecture = "http://10.0.2.2/SA_Project/addLectureOfcourse.php";
+    public static final String GetCourses = "http://10.0.2.2/SA_Project/getAllCourses.php";
+    public static final String updateCourse = "http://10.0.2.2/SA_Project/Update_Course.php";
+    public static final String IsTeacherEXISTS  = "http://10.0.2.2/SA_Project/isTeacherEXISTS.php";
 
 
 
