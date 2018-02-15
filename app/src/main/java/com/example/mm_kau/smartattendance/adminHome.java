@@ -57,6 +57,7 @@ public class adminHome extends AppCompatActivity implements Designable  {
     private ListView listView;
     private ArrayList<course> list;
     TextView No_Class ;
+    Button DeleteAllCourseBTN;
 
     //for add new course
     private EditText CourseID_AD, CourseName_AD, TeacherID_AD, ClassRommID_AD, STL_AD, ETL_AD, STA_AD, ETA_AD , NoOf_week;
@@ -134,18 +135,19 @@ public class adminHome extends AppCompatActivity implements Designable  {
                list = new ArrayList<>();
                listView = v.findViewById(R.id.listTheCourse);
                No_Class = v.findViewById(R.id.no_Clasess);
-
+               DeleteAllCourseBTN = v.findViewById(R.id.button3ForDeleteAllCourses);
                 StringRequest  request = new StringRequest(Request.Method.POST, Constants.GetCourses, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         try {
+
+
                             JSONArray jsonArray = new JSONArray(response);
 
                             for (int i = 0; i < jsonArray.length(); i++) {
 
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-
                                 course Course = new course();
                                 Course.setCourse_id(jsonObject.getString("Course_ID"));
                                 Course.setCourse_Name(jsonObject.getString("Course_name"));
@@ -166,9 +168,9 @@ public class adminHome extends AppCompatActivity implements Designable  {
                             }
 
 
-                            if (list.size() == 0) {
 
-                                No_Class.setText("There is no clases ");
+                            if (list.size() == 0) {
+                                 No_Class.setText("There is no clases ");
 
                             } else {
                                 MyCoursAdpt adapter = new MyCoursAdpt(getBaseContext(), list);
@@ -201,7 +203,11 @@ public class adminHome extends AppCompatActivity implements Designable  {
 
                             }
                         } catch (JSONException e) {
-                            e.printStackTrace();
+
+                            No_Class.setText("There is no clases ");
+
+
+
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -224,10 +230,56 @@ public class adminHome extends AppCompatActivity implements Designable  {
 
 
 
+                DeleteAllCourseBTN.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+
+
+                        StringRequest request = new StringRequest(Request.Method.POST, Constants.DeleteAllCourse, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                                try {
+
+                                    JSONObject jsonObject = new JSONObject(response);
+                                    String status = jsonObject.getString("state");
+                                    if (status.equals("yes")) {
+
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getBaseContext(), "All Courses deleted.", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(getBaseContext(), adminHome.class);
+                                        startActivity(intent);
+
+                                    } else {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getBaseContext(), " Tehre is problem , try agine ", Toast.LENGTH_LONG).show();
+                                    }
+                                } catch (JSONException e) {
+
+                                    Toast.makeText(getBaseContext(), "There is an error , try agine.", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        Singleton_Queue.getInstance(getBaseContext()).Add(request);
+
+                    }
+                });
+
 
 
             }
         });
+
+
 
         AddClassRoomBTN.setOnClickListener(new View.OnClickListener() {
             @Override
