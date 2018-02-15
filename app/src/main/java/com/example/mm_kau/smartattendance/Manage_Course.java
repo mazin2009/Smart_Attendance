@@ -37,7 +37,7 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
     private EditText  CourseName_AD, TeacherID_AD, ClassRommID_AD;
     private TextView CourseID_AD;
     private TimePicker STL , ETL , STA ,ETA;
-    private Button UpdateBTN , DeleteBTN , DeleteAllCourseBTN;
+    private Button UpdateBTN , DeleteBTN ;
     private ProgressDialog progressDialog;
     String TeacherID , ClassroomID , STL_ad , ETL_ad , STA_ad ,ETA_ad;
 
@@ -58,7 +58,7 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
         this.progressDialog = new ProgressDialog(Manage_Course.this);
 
         this.UpdateBTN = findViewById(R.id.UpdateCourseBTN);
-        this.DeleteAllCourseBTN = findViewById(R.id.button3ForDeleteAllCourses);
+        this.DeleteBTN = findViewById(R.id.DeleteCourseBTN);
         this.CourseID_AD = findViewById(R.id.editTextForViewCourseID);
         this.CourseID_AD.setText(getIntent().getStringExtra("course_ID"));
 
@@ -124,7 +124,64 @@ Desing();
 
 
 
+        DeleteBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+
+                StringRequest request = new StringRequest(Request.Method.POST, Constants.DeleteCourseByID, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+
+                            JSONObject jsonObject = new JSONObject(response);
+                            String status = jsonObject.getString("state");
+                            if (status.equals("yes")) {
+
+                                progressDialog.dismiss();
+                                Toast.makeText(getBaseContext(), " Course Deleted.", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(getBaseContext(), adminHome.class);
+                                startActivity(intent);
+
+                            } else {
+                                progressDialog.dismiss();
+
+                                Toast.makeText(getBaseContext(), " Tehre is problem , try agine ", Toast.LENGTH_LONG).show();
+
+                            }
+                        } catch (JSONException e) {
+
+                            e.printStackTrace();
+
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
+                        Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        /*** Here you put the HTTP request parameters **/
+
+                        HashMap<String, String> map = new HashMap<>();
+
+                        map.put("course_id", CourseID_AD.getText().toString());
+
+                        return map;
+                    }
+                };
+                Singleton_Queue.getInstance(getBaseContext()).Add(request);
+
+
+
+            }
+        });
 
 
         UpdateBTN.setOnClickListener(new View.OnClickListener() {
@@ -235,7 +292,6 @@ Desing();
                     Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
-
 
 
 
