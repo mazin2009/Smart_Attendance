@@ -64,7 +64,6 @@ public class LoginPage extends Activity implements Designable {
     @Override
     public void InitializeView() {
         this.admin = new admin();
-
         this.userfile=getSharedPreferences(Constants.UserFile,MODE_PRIVATE);
         this.userfileEditer=userfile.edit();
 
@@ -99,12 +98,32 @@ public class LoginPage extends Activity implements Designable {
 
 
 
-        if(userfile.getBoolean("isLoggedIn",false)==true){
-            /*** Go To Home Page */
-            Intent intent=new Intent(getBaseContext(),adminHome.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
+        if(userfile.getBoolean(Constants.UserIsLoggedIn,false)== true){
+
+
+
+          String Type =  userfile.getString(Constants.UserType , "");
+
+            if (Type.equals("admin")) {
+
+                Intent intent=new Intent(getBaseContext(),adminHome.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+
+            }  else if (Type.equals("teacher")) {
+
+                Intent intent=new Intent(getBaseContext(),Teacher_HomePage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            } else {
+                Intent intent=new Intent(getBaseContext(),Student_HomePage.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
 
         }
 
@@ -133,7 +152,7 @@ public class LoginPage extends Activity implements Designable {
                        public void onResponse(String response) {
 
 
-                          //   Toast.makeText(getBaseContext(),response,Toast.LENGTH_SHORT).show();
+                       //  Toast.makeText(getBaseContext(),response,Toast.LENGTH_SHORT).show();
 
                            try {
 
@@ -144,19 +163,79 @@ public class LoginPage extends Activity implements Designable {
                               // Toast.makeText(getBaseContext(),response,Toast.LENGTH_SHORT).show();
 
                                if(status.equals("yes")){
+
+                                   String Type=jsonObject.getString("type");
                                    progressDialog.dismiss();
 
-                                   JSONObject UserOB=jsonObject.getJSONObject("user");
-                                   String Name = UserOB.getString("name");
+                                   if (Type.equals("admin")) {
 
-                                   userfileEditer.putBoolean(Constants.UserIsLoggedIn,true);
-                                   userfileEditer.putString(Constants.UserName,Name);
-                                   userfileEditer.commit();
+                                       JSONObject UserOB=jsonObject.getJSONObject("user");
+                                       String ADminID = UserOB.getString("admin_id");
+                                       String AdminName = UserOB.getString("name");
+                                       String password = UserOB.getString("name");
 
-                                   Intent intent=new Intent(getBaseContext(),adminHome.class);
-                                   intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                   intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                   startActivity(intent);
+                                       userfileEditer.putString(Constants.adminID,ADminID);
+                                       userfileEditer.putString(Constants.adminName,AdminName);
+                                       userfileEditer.putString(Constants.adminpass,password);
+                                       userfileEditer.putBoolean(Constants.UserIsLoggedIn,true);
+                                       userfileEditer.putString(Constants.UserType , "admin");
+                                       userfileEditer.commit();
+
+                                       Intent intent=new Intent(getBaseContext(),adminHome.class);
+                                       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                       startActivity(intent);
+
+                                   } else if (Type.equals("teacher")) {
+
+                                       JSONObject UserOB=jsonObject.getJSONObject("user");
+                                       String T_ID = UserOB.getString("Teacher_ID");
+                                       String T_Fname = UserOB.getString("Fname");
+                                       String T_Lname = UserOB.getString("Lname");
+                                       String T_Pass = UserOB.getString("Password");
+                                       String T_Email = UserOB.getString("Email");
+                                       userfileEditer.putString(Constants.TeacherID,T_ID);
+                                       userfileEditer.putString(Constants.T_Fname,T_Fname);
+                                       userfileEditer.putString(Constants.T_Lname,T_Lname);
+                                       userfileEditer.putString(Constants.T_Pass,T_Pass);
+                                       userfileEditer.putString(Constants.T_email,T_Email);
+
+                                       userfileEditer.putBoolean(Constants.UserIsLoggedIn,true);
+                                       userfileEditer.putString(Constants.UserType , "teacher");
+                                       userfileEditer.commit();
+
+                                       Intent intent=new Intent(getBaseContext(),Teacher_HomePage.class);
+                                       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                       startActivity(intent);
+
+                                   } else {
+
+                                       JSONObject UserOB=jsonObject.getJSONObject("user");
+
+                                       String s_ID = UserOB.getString("S_StudentID");
+                                       String s_Fname = UserOB.getString("S_Fname");
+                                       String s_Lname = UserOB.getString("S_Lname");
+                                       String s_Pass = UserOB.getString("S_Password");
+                                       String s_Email = UserOB.getString("S_Email");
+
+                                       userfileEditer.putString(Constants.StudentID,s_ID);
+                                       userfileEditer.putString(Constants.s_Fname,s_Fname);
+                                       userfileEditer.putString(Constants.s_Lname,s_Lname);
+                                       userfileEditer.putString(Constants.s_Pass,s_Pass);
+                                       userfileEditer.putString(Constants.s_email,s_Email);
+
+                                       userfileEditer.putBoolean(Constants.UserIsLoggedIn,true);
+                                       userfileEditer.putString(Constants.UserType , "student");
+                                       userfileEditer.commit();
+
+                                       Intent intent=new Intent(getBaseContext(),Student_HomePage.class);
+                                       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                       startActivity(intent);
+
+                                   }
+
 
                                }else{
                                    progressDialog.dismiss();

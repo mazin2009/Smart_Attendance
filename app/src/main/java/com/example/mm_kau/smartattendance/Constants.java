@@ -17,13 +17,37 @@ public class Constants {
     public static final String GetCourses = "http://10.0.2.2/SA_Project/getAllCourses.php";
     public static final String updateCourse = "http://10.0.2.2/SA_Project/Update_Course.php";
     public static final String DeleteAllCourse = "http://10.0.2.2/SA_Project/DeleteAllCourses.php";
+    public static final String DeleteCourseByID = "http://10.0.2.2/SA_Project/DelteCourseByID.php";
 
 
 
-
+// for all user (admin , teacher and student)
     public static final String UserFile = "Userfile";
-    public static final String UserName = "adminName";
     public static final String UserIsLoggedIn = "isLoggedIn";
+    public static final String UserType = "UserType";
+
+
+    // for admin
+    public static final String adminID = "AdminID";
+    public static final String adminName = "adminName";
+    public static final String adminpass = "adminPass";
+
+    //for Teacher
+    public static final String TeacherID = "TeacherID";
+    public static final String T_Fname = "T_Fname";
+    public static final String T_Lname = "T_Lname";
+    public static final String T_Pass = "T_Pass";
+    public static final String T_email = "T_email";
+
+    //for Teacher
+    public static final String StudentID = "StudentID";
+    public static final String s_Fname = "s_Fname";
+    public static final String s_Lname = "s_Lname";
+    public static final String s_Pass = "s_Pass";
+    public static final String s_email = "s_email";
+
+
+
 
 
 }

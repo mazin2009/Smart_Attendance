@@ -53,11 +53,14 @@ public class adminHome extends AppCompatActivity implements Designable  {
     private Button AddStudentBTN;
     private Button AddClassRoomBTN;
     private Button ManageCoursesBTN;
+    private Button ManageTeacherBTN;
     private ProgressDialog progressDialog;
-    private ListView listView;
-    private ArrayList<course> list;
-    TextView No_Class ;
-    Button DeleteAllCourseBTN;
+    private ListView listView_course , listview_Teacher ;
+    private ArrayList<course> list_course;
+    private ArrayList<teacher> list_teacher;
+    TextView No_courses , No_Teachers ;
+    Button DeleteAllCourseBTN , DeleteAllTeacherBTN;
+
 
     //for add new course
     private EditText CourseID_AD, CourseName_AD, TeacherID_AD, ClassRommID_AD, STL_AD, ETL_AD, STA_AD, ETA_AD , NoOf_week;
@@ -105,6 +108,7 @@ public class adminHome extends AppCompatActivity implements Designable  {
         this.AddStudentBTN = findViewById(R.id.button3ForAddStudent);
         this.AddClassRoomBTN = findViewById(R.id.buttonOfAddClassroom);
         this.ManageCoursesBTN = findViewById(R.id.button4MangeCourse);
+        ManageTeacherBTN = findViewById(R.id.button5ManageTeacher);
         this.progressDialog = new ProgressDialog(adminHome.this);
 
 
@@ -114,7 +118,7 @@ public class adminHome extends AppCompatActivity implements Designable  {
     @Override
     public void Desing() {
 
-        String NAMEOfADD = "Welcome Mr. " + sharedPreferences.getString(Constants.UserName, "");
+        String NAMEOfADD = "Welcome Mr. " + sharedPreferences.getString(Constants.adminName, "");
         welcomeTextView.setText(NAMEOfADD);
 
         HandleAction();
@@ -125,6 +129,25 @@ public class adminHome extends AppCompatActivity implements Designable  {
 
 
 
+        ManageTeacherBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.teacher_list, null, false);
+                setContentView(v);
+                list_teacher = new ArrayList<>();
+                listview_Teacher = v.findViewById(R.id.listTheTeacher);
+                No_Teachers = v.findViewById(R.id.no_Teacher);
+                DeleteAllTeacherBTN = v.findViewById(R.id.button3ForDeleteAllTeacher);
+
+
+            }
+        });
+
+
+
+
+
         ManageCoursesBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,9 +155,9 @@ public class adminHome extends AppCompatActivity implements Designable  {
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.course_list, null, false);
                 setContentView(v);
 
-               list = new ArrayList<>();
-               listView = v.findViewById(R.id.listTheCourse);
-               No_Class = v.findViewById(R.id.no_Clasess);
+                list_course = new ArrayList<>();
+                listView_course = v.findViewById(R.id.listTheCourse);
+                No_courses = v.findViewById(R.id.no_Courses);
                DeleteAllCourseBTN = v.findViewById(R.id.button3ForDeleteAllCourses);
                 StringRequest  request = new StringRequest(Request.Method.POST, Constants.GetCourses, new Response.Listener<String>() {
                     @Override
@@ -164,33 +187,32 @@ public class adminHome extends AppCompatActivity implements Designable  {
                                     Course.setRoom_ID(jsonObject.getString("room_ID"));
                                 }
 
-                                list.add(Course);
+                                list_course.add(Course);
                             }
 
 
 
-                            if (list.size() == 0) {
-                                 No_Class.setText("There is no clases ");
-
+                            if (list_course.size() == 0) {
+                                 No_courses.setText("There is no clases ");
                             } else {
-                                MyCoursAdpt adapter = new MyCoursAdpt(getBaseContext(), list);
-                                 listView.setAdapter(adapter);
+                                MyCoursAdpt adapter = new MyCoursAdpt(getBaseContext(), list_course);
+                                listView_course.setAdapter(adapter);
 
-                                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                listView_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                                         Intent intent=new Intent(getBaseContext(),Manage_Course.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        intent.putExtra("course_ID",list.get(i).getCourse_id());
-                                        intent.putExtra("name",list.get(i).getCourse_Name());
-                                        intent.putExtra("TeacherID",list.get(i).getTeacher_ID());
-                                        intent.putExtra("Room_ID",list.get(i).getRoom_ID());
-                                        intent.putExtra("STL",list.get(i).getSTL());
-                                        intent.putExtra("ETL",list.get(i).getETL());
-                                        intent.putExtra("STA",list.get(i).getSTA());
-                                        intent.putExtra("ETA",list.get(i).getETA());
+                                        intent.putExtra("course_ID",list_course.get(i).getCourse_id());
+                                        intent.putExtra("name",list_course.get(i).getCourse_Name());
+                                        intent.putExtra("TeacherID",list_course.get(i).getTeacher_ID());
+                                        intent.putExtra("Room_ID",list_course.get(i).getRoom_ID());
+                                        intent.putExtra("STL",list_course.get(i).getSTL());
+                                        intent.putExtra("ETL",list_course.get(i).getETL());
+                                        intent.putExtra("STA",list_course.get(i).getSTA());
+                                        intent.putExtra("ETA",list_course.get(i).getETA());
                                         intent.putExtra("E","D");
                                         startActivity(intent);
 
@@ -204,7 +226,7 @@ public class adminHome extends AppCompatActivity implements Designable  {
                             }
                         } catch (JSONException e) {
 
-                            No_Class.setText("There is no clases ");
+                            No_courses.setText("There is no clases ");
 
 
 
