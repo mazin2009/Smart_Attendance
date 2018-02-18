@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/listTheTeacher"
+        android:layout_width="match_parent"
+        android:layout_height="440dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:divider="@android:color/white"
+        android:dividerHeight="3dp"
+        android:scrollbars="none"
+        android:layout_marginBottom="80dp"
+        android:layout_margin="10dp"
+        ></ListView>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:id="@+id/no_Teacher"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@android:color/holo_red_dark"
+
+        />
+
+
+    <Button
+        android:id="@+id/button3ForDeleteAllTeacher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="11dp"
+        android:background="@android:color/holo_red_dark"
+        android:text="Delete All Teacher"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"
+        android:layout_margin="10dp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>
