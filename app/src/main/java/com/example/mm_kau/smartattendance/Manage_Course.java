@@ -31,8 +31,6 @@ import java.util.Map;
 
 
 public class Manage_Course extends AppCompatActivity implements Designable  {
-    Boolean T_State = true ;
-    Boolean C_State = true ;
 
     private EditText  CourseName_AD, TeacherID_AD, ClassRommID_AD;
     private TextView CourseID_AD;
@@ -66,6 +64,7 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
         this.CourseName_AD.setText(  getIntent().getStringExtra("name"));
 
         this.TeacherID_AD = findViewById(R.id.editTextForTeacherIdOfCourse_mng);
+
         if (getIntent().getStringExtra("TeacherID").equals("null")) {
             TeacherID_AD.setHint("undefined");
         }else {

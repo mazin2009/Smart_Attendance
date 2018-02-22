@@ -178,7 +178,6 @@
                 android:layout_height="wrap_content"
                 android:text="Delete" />
 
-
         </LinearLayout>
     </ScrollView>
 

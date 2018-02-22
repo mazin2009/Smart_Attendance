@@ -31,7 +31,8 @@
             android:label="Admin Page" />
         <activity android:name=".Manage_Course" />
         <activity android:name=".Teacher_HomePage" />
-        <activity android:name=".Student_HomePage"></activity>
+        <activity android:name=".Student_HomePage" />
+        <activity android:name=".Manage_Teacher"></activity>
     </application>
 
 </manifest>

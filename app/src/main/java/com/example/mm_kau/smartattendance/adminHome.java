@@ -140,6 +140,84 @@ public class adminHome extends AppCompatActivity implements Designable  {
                 No_Teachers = v.findViewById(R.id.no_Teacher);
                 DeleteAllTeacherBTN = v.findViewById(R.id.button3ForDeleteAllTeacher);
 
+                StringRequest  request = new StringRequest(Request.Method.POST, Constants.GetTeachers, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                teacher TE = new teacher();
+
+                                TE.setId(jsonObject.getString("Teacher_ID"));
+                                TE.setFname(jsonObject.getString("Fname"));
+                                TE.setLname(jsonObject.getString("Lname"));
+                                TE.setEmail(jsonObject.getString("Email"));
+                                TE.setPass(jsonObject.getString("Password"));
+                                list_teacher.add(TE);
+                            }
+
+
+
+                            if (list_teacher.size() == 0) {
+                                No_Teachers.setText("There is no clases ");
+                            } else {
+
+                                  MyTeacherAdpt adapter = new MyTeacherAdpt(getBaseContext(), list_teacher);
+                                     listview_Teacher.setAdapter(adapter);
+
+
+                                listview_Teacher.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                        Intent intent=new Intent(getBaseContext(),Manage_Teacher.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                        intent.putExtra("Teacher_ID",list_teacher.get(i).getId());
+                                        intent.putExtra("Fname",list_teacher.get(i).getFname());
+                                        intent.putExtra("Lname",list_teacher.get(i).getLname());
+                                        intent.putExtra("Email",list_teacher.get(i).getEmail());
+                                        intent.putExtra("Pass",list_teacher.get(i).getPass());
+                                        startActivity(intent);
+
+                                    }
+                                });
+
+
+                            }
+                        } catch (JSONException e) {
+
+                            No_Teachers.setText("There is no Teachers ");
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // progressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getBaseContext(), "هنالك مشكلة في الخادم الرجاء المحاولة مرة اخرى", Toast.LENGTH_LONG).show();
+                    }
+                }) {
+
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+
+                        return map;
+                    }
+                };
+                Singleton_Queue.getInstance(getBaseContext()).Add(request);
+
+
+
 
             }
         });
@@ -159,6 +237,7 @@ public class adminHome extends AppCompatActivity implements Designable  {
                 listView_course = v.findViewById(R.id.listTheCourse);
                 No_courses = v.findViewById(R.id.no_Courses);
                DeleteAllCourseBTN = v.findViewById(R.id.button3ForDeleteAllCourses);
+
                 StringRequest  request = new StringRequest(Request.Method.POST, Constants.GetCourses, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -669,6 +748,7 @@ public class adminHome extends AppCompatActivity implements Designable  {
                         if (Network.isConnected(getBaseContext()) == false) {
                             Toast.makeText(getBaseContext(), "لا يوجد اتصال بالانترنت", Toast.LENGTH_LONG).show();
                         } else {
+
                             editor.putBoolean(Constants.UserIsLoggedIn, false);
                             editor.commit();
                             Intent intent = new Intent(getBaseContext(), LoginPage.class);
@@ -680,8 +760,6 @@ public class adminHome extends AppCompatActivity implements Designable  {
                 });
                 ConfirmationDialog.setNegativeButton("لا", null);
                 ConfirmationDialog.show();
-
-
             }
         });
 

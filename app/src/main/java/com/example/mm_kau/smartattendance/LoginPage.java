@@ -56,7 +56,6 @@ public class LoginPage extends Activity implements Designable {
         setContentView(R.layout.activity_login_page);
 
 
-
         InitializeView();
     }
 
@@ -96,10 +95,7 @@ public class LoginPage extends Activity implements Designable {
     public void HandleAction() {
 
 
-
-
         if(userfile.getBoolean(Constants.UserIsLoggedIn,false)== true){
-
 
 
           String Type =  userfile.getString(Constants.UserType , "");
@@ -133,8 +129,6 @@ public class LoginPage extends Activity implements Designable {
             public void onClick(View v) {
 
 
-
-
                 //check if edittext is empty or not
 
                if (id.getText().toString().trim().isEmpty() || password.getText().toString().trim().isEmpty()) {
@@ -152,15 +146,11 @@ public class LoginPage extends Activity implements Designable {
                        public void onResponse(String response) {
 
 
-                       //  Toast.makeText(getBaseContext(),response,Toast.LENGTH_SHORT).show();
-
                            try {
 
-
                                JSONObject jsonObject = new JSONObject(response);
-                               String status=jsonObject.getString("state");
 
-                              // Toast.makeText(getBaseContext(),response,Toast.LENGTH_SHORT).show();
+                               String status =jsonObject.getString("state");
 
                                if(status.equals("yes")){
 
@@ -169,10 +159,11 @@ public class LoginPage extends Activity implements Designable {
 
                                    if (Type.equals("admin")) {
 
-                                       JSONObject UserOB=jsonObject.getJSONObject("user");
+                                       JSONObject UserOB  =  jsonObject.getJSONObject("user");
+
                                        String ADminID = UserOB.getString("admin_id");
                                        String AdminName = UserOB.getString("name");
-                                       String password = UserOB.getString("name");
+                                       String password = UserOB.getString("password");
 
                                        userfileEditer.putString(Constants.adminID,ADminID);
                                        userfileEditer.putString(Constants.adminName,AdminName);
@@ -199,7 +190,6 @@ public class LoginPage extends Activity implements Designable {
                                        userfileEditer.putString(Constants.T_Lname,T_Lname);
                                        userfileEditer.putString(Constants.T_Pass,T_Pass);
                                        userfileEditer.putString(Constants.T_email,T_Email);
-
                                        userfileEditer.putBoolean(Constants.UserIsLoggedIn,true);
                                        userfileEditer.putString(Constants.UserType , "teacher");
                                        userfileEditer.commit();
@@ -242,7 +232,8 @@ public class LoginPage extends Activity implements Designable {
                                    Toast.makeText(getBaseContext(),"الرجاء التأكد من البريد الالكتروني او كلمة المرور .",Toast.LENGTH_LONG).show();
                                }
                            } catch (JSONException e) {
-                               e.printStackTrace();
+                             //  e.printStackTrace();
+
                            }
 
 
@@ -251,7 +242,7 @@ public class LoginPage extends Activity implements Designable {
                        @Override
                        public void onErrorResponse(VolleyError error) {
                            progressDialog.dismiss();
-                           Toast.makeText(getBaseContext(),"There is an error at connecting to server .",Toast.LENGTH_SHORT).show();
+                           Toast.makeText(getBaseContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
                        }
                    }){
                        @Override
@@ -264,6 +255,7 @@ public class LoginPage extends Activity implements Designable {
                            return map;
                        }
                    };
+
                  Singleton_Queue.getInstance(getBaseContext()).Add(request);
                }
             }
@@ -271,26 +263,5 @@ public class LoginPage extends Activity implements Designable {
         });
 
     }
-
-
-
-    /*
-    public String streamToString (InputStream IN){
-
-        BufferedReader redear = new BufferedReader(new InputStreamReader(IN));
-        String line;
-        String Text="";
-        try {
-
-            while ((line=redear.readLine())!=null){
-                Text += line;
-            }
-
-            IN.close();
-        } catch (Exception ex){
-            return Text;
-        }
-        return Text;
-    }*/
 
 }

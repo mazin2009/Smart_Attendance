@@ -28,10 +28,10 @@ public class MyCoursAdpt extends ArrayAdapter {
     private ArrayList<course> courses;
 
 
-    public MyCoursAdpt(Context context, ArrayList<course> productses) {
-       super(context, R.layout.course_costum_list, R.id.CourseID_InLayout, productses);
+    public MyCoursAdpt(Context context, ArrayList<course> courses) {
+       super(context, R.layout.course_costum_list, R.id.CourseID_InLayout, courses);
         this.context = context;
-        this.courses = productses;
+        this.courses = courses;
 
     }
 
@@ -46,9 +46,6 @@ public class MyCoursAdpt extends ArrayAdapter {
 
         TextView textView = (TextView) view.findViewById(R.id.CourseID_InLayout);
         textView.setText("Course Name : "+courses.get(position).getCourse_Name() +"\nCourse ID : "+courses.get(position).getCourse_id());
-
-
-
 
 
 

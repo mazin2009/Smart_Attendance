@@ -18,6 +18,9 @@ public class Constants {
     public static final String updateCourse = "http://10.0.2.2/SA_Project/Update_Course.php";
     public static final String DeleteAllCourse = "http://10.0.2.2/SA_Project/DeleteAllCourses.php";
     public static final String DeleteCourseByID = "http://10.0.2.2/SA_Project/DelteCourseByID.php";
+    public static final String GetTeachers = "http://10.0.2.2/SA_Project/getAllTeacher.php";
+    public static final String updateTeacher = "http://10.0.2.2/SA_Project/Update_Teacher.php";
+    public static final String DeleteTecherByID = "http://10.0.2.2/SA_Project/Delete_Teacher_by_ID.php";
 
 
 

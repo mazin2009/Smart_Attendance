@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mm_kau.smartattendance.Manage_Teacher">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp"
+        >
+
+
+        <LinearLayout
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Teacher ID :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+
+                />
+
+            <TextView
+                android:id="@+id/TextForViewTeacherID"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textColor="@android:color/black"
+                android:textSize="20dp" />
+
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_marginRight="5dp"
+                android:id="@+id/editTextFor_T_Fname_manage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+                />
+
+            <EditText
+                android:layout_marginLeft="5dp"
+                android:id="@+id/editTextFor_T_Lname_Manage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:inputType="textPersonName"
+              />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewEm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:layout_marginTop="5dp"
+                android:id="@+id/editText_T_Email_Manage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint=""
+                android:inputType="textEmailAddress" />
+
+            <TextView
+                android:id="@+id/textViewPm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Set New Password :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                />
+
+            <EditText
+                android:id="@+id/editText_T_Pass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Enter New Passowrd"
+                android:inputType="textPassword" />
+
+
+
+            <Button
+                android:id="@+id/buttonOfUpdateTeacher"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="40dp"
+                android:text="Update" />
+
+            <Button
+                android:id="@+id/buttonOfDeleteTeacher"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+
+                android:text="Delete" />
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
