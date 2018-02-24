@@ -79,10 +79,6 @@ Desing();
          @Override
          public void onClick(View view) {
 
-
-
-
-
              try {
 
                  if (T_F_name.getText().toString().trim().isEmpty() || T_L_name.getText().toString().trim().isEmpty() || T_email.getText().toString().trim().isEmpty()) {

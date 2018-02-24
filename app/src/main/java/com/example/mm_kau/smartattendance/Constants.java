@@ -21,6 +21,13 @@ public class Constants {
     public static final String GetTeachers = "http://10.0.2.2/SA_Project/getAllTeacher.php";
     public static final String updateTeacher = "http://10.0.2.2/SA_Project/Update_Teacher.php";
     public static final String DeleteTecherByID = "http://10.0.2.2/SA_Project/Delete_Teacher_by_ID.php";
+    public static final String GetStudents = "http://10.0.2.2/SA_Project/getAllStudent.php";
+    public static final String ADD_CRS4ST = "http://10.0.2.2/SA_Project/add_CRS_4_ST.php";
+    public static final String UpdateStudent = "http://10.0.2.2/SA_Project/update_student.php";
+    public static final String DeleteStByID = "http://10.0.2.2/SA_Project/Delete_ST_ByID.php";
+    public static final String GetAllClassroom = "http://10.0.2.2/SA_Project/getAllCR.php";
+    public static final String GetBeaconForCR = "http://10.0.2.2/SA_Project/GetBeaconForCR.php";
+    public static final String UpdateCR = "http://10.0.2.2/SA_Project/UpdateClassRoom.php";
 
 
 

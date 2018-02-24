@@ -22,7 +22,7 @@ public class MyTeacherAdpt extends ArrayAdapter {
 
 
     public MyTeacherAdpt(Context context, ArrayList<teacher> teachers) {
-        super(context, R.layout.teacher_costum_list, R.id.TeacherID_InLayout, teachers);
+        super(context, R.layout.costum_list, R.id.TextView_INcostum, teachers);
         this.context = context;
         this.teachers = teachers;
 
@@ -35,9 +35,9 @@ public class MyTeacherAdpt extends ArrayAdapter {
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        final View view = LayoutInflater.from(getContext()).inflate(R.layout.teacher_costum_list, parent, false);
+        final View view = LayoutInflater.from(getContext()).inflate(R.layout.costum_list, parent, false);
 
-        TextView textView = (TextView) view.findViewById(R.id.TeacherID_InLayout);
+        TextView textView = (TextView) view.findViewById(R.id.TextView_INcostum);
         textView.setText("Teacher Name : "+teachers.get(position).getFname() +"\nTeacher ID : "+teachers.get(position).getId());
 
         return view;

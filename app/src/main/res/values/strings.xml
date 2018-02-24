@@ -6,6 +6,7 @@
     <string name="loginBTN">Login</string>
     <string name="Forgot">Forgot password</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_manage_clasroom">Manage_clasroom</string>
 
 
 </resources>

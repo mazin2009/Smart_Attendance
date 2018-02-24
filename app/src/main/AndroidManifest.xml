@@ -32,7 +32,14 @@
         <activity android:name=".Manage_Course" />
         <activity android:name=".Teacher_HomePage" />
         <activity android:name=".Student_HomePage" />
-        <activity android:name=".Manage_Teacher"></activity>
+        <activity android:name=".Manage_Teacher" />
+        <activity android:name=".Manage_Student" />
+        <activity android:name=".ManageClassRoom" />
+        <activity
+            android:name=".Manage_clasroom"
+            android:label="@string/title_activity_manage_clasroom"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Manage_classRoom"></activity>
     </application>
 
 </manifest>

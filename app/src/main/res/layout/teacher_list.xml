@@ -8,7 +8,7 @@
     <ListView
         android:id="@+id/listTheTeacher"
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="470dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:divider="@android:color/white"
@@ -30,22 +30,6 @@
         android:textColor="@android:color/holo_red_dark"
 
         />
-
-
-    <Button
-        android:id="@+id/button3ForDeleteAllTeacher"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="11dp"
-        android:background="@android:color/holo_red_dark"
-        android:text="Delete All Teacher"
-        android:textColor="@android:color/white"
-        android:textSize="20dp"
-        android:layout_margin="10dp"
-        android:textStyle="bold" />
 
 
 </RelativeLayout>

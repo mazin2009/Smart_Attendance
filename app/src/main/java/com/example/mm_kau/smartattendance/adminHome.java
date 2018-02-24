@@ -54,12 +54,16 @@ public class adminHome extends AppCompatActivity implements Designable  {
     private Button AddClassRoomBTN;
     private Button ManageCoursesBTN;
     private Button ManageTeacherBTN;
+    private Button ManageStudentBTN;
+    private Button ManageCRtBTN;
     private ProgressDialog progressDialog;
-    private ListView listView_course , listview_Teacher ;
+    private ListView listView_course , listview_Teacher , listview_student , listview_CR ;
     private ArrayList<course> list_course;
     private ArrayList<teacher> list_teacher;
-    TextView No_courses , No_Teachers ;
-    Button DeleteAllCourseBTN , DeleteAllTeacherBTN;
+    private ArrayList<student> list_student;
+    private ArrayList<classroom> list_classroom;
+    TextView No_courses , No_Teachers , No_student , NoCR;
+    Button DeleteAllCourseBTN ;
 
 
     //for add new course
@@ -109,8 +113,9 @@ public class adminHome extends AppCompatActivity implements Designable  {
         this.AddClassRoomBTN = findViewById(R.id.buttonOfAddClassroom);
         this.ManageCoursesBTN = findViewById(R.id.button4MangeCourse);
         ManageTeacherBTN = findViewById(R.id.button5ManageTeacher);
+        ManageStudentBTN = findViewById(R.id.button6ManageStudent);
+        ManageCRtBTN = findViewById(R.id.button11M_C_R);
         this.progressDialog = new ProgressDialog(adminHome.this);
-
 
         Desing();
     }
@@ -128,6 +133,188 @@ public class adminHome extends AppCompatActivity implements Designable  {
     public void HandleAction() {
 
 
+        ManageCRtBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.classroom_list, null, false);
+                setContentView(v);
+                list_classroom = new ArrayList<>();
+                listview_CR = v.findViewById(R.id.listTheClassRoom);
+                No_student = v.findViewById(R.id.no_classroom);
+
+
+                StringRequest  request = new StringRequest(Request.Method.POST, Constants.GetAllClassroom, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                              classroom CR = new classroom();
+                                CR.setID(jsonObject.getString("room_ID"));
+                                CR.setName(jsonObject.getString("room_Name"));
+                                CR.setCap(jsonObject.getString("capacity"));
+                                list_classroom.add(CR);
+                            }
+
+
+
+                            if (list_classroom.size() == 0) {
+                                NoCR.setText("There is no Class Room ");
+                            } else {
+
+                                MyClassRoomAdpt adapter = new MyClassRoomAdpt(getBaseContext(), list_classroom);
+                                listview_CR.setAdapter(adapter);
+
+
+                                listview_CR.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                        Intent intent=new Intent(getBaseContext(),Manage_classRoom.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                        intent.putExtra("ID",list_classroom.get(i).getID());
+                                        intent.putExtra("name",list_classroom.get(i).getName());
+                                        intent.putExtra("Cap",list_classroom.get(i).getCap());
+                                        startActivity(intent);
+
+                                    }
+                                });
+
+
+                            }
+                        } catch (JSONException e) {
+
+                            No_Teachers.setText("There is no students ");
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // progressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getBaseContext(), "هنالك مشكلة في الخادم الرجاء المحاولة مرة اخرى", Toast.LENGTH_LONG).show();
+                    }
+                }) {
+
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+
+                        return map;
+                    }
+                };
+                Singleton_Queue.getInstance(getBaseContext()).Add(request);
+
+
+
+
+
+
+            }
+        });
+
+
+        ManageStudentBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.student_list, null, false);
+                setContentView(v);
+                list_student = new ArrayList<>();
+                listview_student = v.findViewById(R.id.listTheStudent);
+                No_student = v.findViewById(R.id.no_student);
+
+
+                StringRequest  request = new StringRequest(Request.Method.POST, Constants.GetStudents, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                student ST = new student();
+
+                                ST.setId(jsonObject.getString("S_StudentID"));
+                                ST.setFname(jsonObject.getString("S_Fname"));
+                                ST.setLname(jsonObject.getString("S_Lname"));
+                                ST.setEmail(jsonObject.getString("S_Email"));
+                                ST.setPass(jsonObject.getString("S_Password"));
+
+                                list_student.add(ST);
+                            }
+
+
+
+                            if (list_student.size() == 0) {
+                                No_student.setText("There is no students ");
+                            } else {
+
+                                MystudentAdpt adapter = new MystudentAdpt(getBaseContext(), list_student);
+                                listview_student.setAdapter(adapter);
+
+
+                                listview_student.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                        Intent intent=new Intent(getBaseContext(),Manage_Student.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                        intent.putExtra("S_ID",list_student.get(i).getId());
+                                        intent.putExtra("Fname",list_student.get(i).getFname());
+                                        intent.putExtra("Lname",list_student.get(i).getLname());
+                                        intent.putExtra("Email",list_student.get(i).getEmail());
+                                        intent.putExtra("Pass",list_student.get(i).getPass());
+                                        startActivity(intent);
+
+                                    }
+                                });
+
+
+                            }
+                        } catch (JSONException e) {
+
+                            No_Teachers.setText("There is no students ");
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // progressBar.setVisibility(View.INVISIBLE);
+                        Toast.makeText(getBaseContext(), "هنالك مشكلة في الخادم الرجاء المحاولة مرة اخرى", Toast.LENGTH_LONG).show();
+                    }
+                }) {
+
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String, String> map = new HashMap<String, String>();
+
+
+                        return map;
+                    }
+                };
+                Singleton_Queue.getInstance(getBaseContext()).Add(request);
+
+
+
+
+
+            }
+        });
 
         ManageTeacherBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,33 +325,32 @@ public class adminHome extends AppCompatActivity implements Designable  {
                 list_teacher = new ArrayList<>();
                 listview_Teacher = v.findViewById(R.id.listTheTeacher);
                 No_Teachers = v.findViewById(R.id.no_Teacher);
-                DeleteAllTeacherBTN = v.findViewById(R.id.button3ForDeleteAllTeacher);
 
-                StringRequest  request = new StringRequest(Request.Method.POST, Constants.GetTeachers, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                            StringRequest  request = new StringRequest(Request.Method.POST, Constants.GetTeachers, new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
 
-                        try {
-
-
-                            JSONArray jsonArray = new JSONArray(response);
-
-                            for (int i = 0; i < jsonArray.length(); i++) {
-
-                                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                teacher TE = new teacher();
-
-                                TE.setId(jsonObject.getString("Teacher_ID"));
-                                TE.setFname(jsonObject.getString("Fname"));
-                                TE.setLname(jsonObject.getString("Lname"));
-                                TE.setEmail(jsonObject.getString("Email"));
-                                TE.setPass(jsonObject.getString("Password"));
-                                list_teacher.add(TE);
-                            }
+                                    try {
 
 
+                                        JSONArray jsonArray = new JSONArray(response);
 
-                            if (list_teacher.size() == 0) {
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                            teacher TE = new teacher();
+
+                                            TE.setId(jsonObject.getString("Teacher_ID"));
+                                            TE.setFname(jsonObject.getString("Fname"));
+                                            TE.setLname(jsonObject.getString("Lname"));
+                                            TE.setEmail(jsonObject.getString("Email"));
+                                            TE.setPass(jsonObject.getString("Password"));
+                                            list_teacher.add(TE);
+                                        }
+
+
+
+                                        if (list_teacher.size() == 0) {
                                 No_Teachers.setText("There is no clases ");
                             } else {
 

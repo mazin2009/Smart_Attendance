@@ -34,49 +34,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add New Course"
+            android:background="@drawable/steps_off"
             />
 
         <Button
             android:id="@+id/button2ForAddTeacher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add New Teacher" />
+            android:text="Add New Teacher"
+            android:background="@drawable/steps_off"/>
 
         <Button
             android:id="@+id/button3ForAddStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add New Student" />
+            android:text="Add New Student"
+            android:background="@drawable/steps_off"/>
 
         <Button
             android:id="@+id/buttonOfAddClassroom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add New Classroom" />
+            android:text="Add New Classroom"
+            android:background="@drawable/steps_off"/>
 
         <Button
             android:id="@+id/button4MangeCourse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Manage Course" />
+            android:text="Manage Course"
+            android:background="@drawable/steps_off"/>
 
         <Button
             android:id="@+id/button5ManageTeacher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Manage Teacher" />
+            android:text="Manage Teacher"
+            android:background="@drawable/steps_off"/>
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/button6ManageStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Manage Student" />
+            android:text="Manage Student"
+            android:background="@drawable/steps_off"/>
 
         <Button
-            android:id="@+id/button11"
+            android:id="@+id/button11M_C_R"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Manage Class room" />
+            android:text="Manage Class room"
+            android:background="@drawable/steps_off"/>
 
         <Button
             android:id="@+id/button_Log_OUT"
