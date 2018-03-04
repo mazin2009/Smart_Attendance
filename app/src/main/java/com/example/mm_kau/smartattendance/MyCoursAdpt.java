@@ -42,7 +42,6 @@ public class MyCoursAdpt extends ArrayAdapter {
         textView.setText("Course Name : "+courses.get(position).getCourse_Name() +"\nCourse ID : "+courses.get(position).getCourse_id());
 
 
-
 return view;
     }
 

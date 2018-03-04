@@ -39,7 +39,8 @@
             android:name=".Manage_clasroom"
             android:label="@string/title_activity_manage_clasroom"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Manage_classRoom"></activity>
+        <activity android:name=".Manage_classRoom" />
+        <activity android:name=".course_info_for_teacher"></activity>
     </application>
 
 </manifest>

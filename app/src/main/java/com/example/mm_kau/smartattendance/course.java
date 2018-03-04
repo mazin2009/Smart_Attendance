@@ -52,19 +52,25 @@ private String ETA;
     }
 
     public void setSTL(String STL) {
-        this.STL = STL;
+
+        String [] T = STL.split(":");
+
+        this.STL = T[0]+":"+T[1];
     }
 
     public void setETL(String ETL) {
-        this.ETL = ETL;
+        String [] T = ETL.split(":");
+        this.ETL = T[0]+":"+T[1];
     }
 
     public void setSTA(String STA) {
-        this.STA = STA;
+        String [] T = STA.split(":");
+        this.STA = T[0]+":"+T[1];
     }
 
     public void setETA(String ETA) {
-        this.ETA = ETA;
+        String [] T = ETA.split(":");
+        this.ETA = T[0]+":"+T[1];
     }
 
 

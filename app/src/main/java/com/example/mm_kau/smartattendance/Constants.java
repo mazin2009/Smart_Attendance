@@ -28,6 +28,9 @@ public class Constants {
     public static final String GetAllClassroom = "http://10.0.2.2/SA_Project/getAllCR.php";
     public static final String GetBeaconForCR = "http://10.0.2.2/SA_Project/GetBeaconForCR.php";
     public static final String UpdateCR = "http://10.0.2.2/SA_Project/UpdateClassRoom.php";
+    public static final String getCourseByID_forTeacher = "http://10.0.2.2/SA_Project/GetCoursesByID_forTeacher.php";
+    public static final String Update_TimeOdAttendance = "http://10.0.2.2/SA_Project/update_TimeOfAttendance.php";
+    public static final String Get_numberOfST = "http://10.0.2.2/SA_Project/Get_NumberOfStudent.php";
 
 
 
