@@ -156,4 +156,14 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
 
 
     }
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(getBaseContext(), LoginPage.class);
+        startActivity(intent);
+
+    }
+
+
 }

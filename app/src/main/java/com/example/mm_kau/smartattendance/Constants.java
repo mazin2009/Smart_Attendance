@@ -7,9 +7,9 @@ package com.example.mm_kau.smartattendance;
 public class Constants {
 
 
-
-    public static final String LOGIN_URL = "http://10.0.2.2/SA_Project/ChekLogin.php";
-    public static final String ADDnewCourse = "http://10.0.2.2/SA_Project/AddNewCourse.php";
+    public static final String IP = "10.0.2.2";
+    public static final String LOGIN_URL = "http://"+IP+"/SA_Project/ChekLogin.php";
+    public static final String ADDnewCourse = "http://"+IP+"/SA_Project/AddNewCourse.php";
     public static final String ADDnewTeacher = "http://10.0.2.2/SA_Project/AddNewTeacher.php";
     public static final String ADDnewStudent = "http://10.0.2.2/SA_Project/AddNewStudent.php";
     public static final String ADDnewClassRoom = "http://10.0.2.2/SA_Project/AddNewClassroom.php";
@@ -28,9 +28,10 @@ public class Constants {
     public static final String GetAllClassroom = "http://10.0.2.2/SA_Project/getAllCR.php";
     public static final String GetBeaconForCR = "http://10.0.2.2/SA_Project/GetBeaconForCR.php";
     public static final String UpdateCR = "http://10.0.2.2/SA_Project/UpdateClassRoom.php";
-    public static final String getCourseByID_forTeacher = "http://10.0.2.2/SA_Project/GetCoursesByID_forTeacher.php";
+    public static final String getCourseByID_forTeacher = "http://"+IP+"/SA_Project/GetCoursesByID_forTeacher.php";
     public static final String Update_TimeOdAttendance = "http://10.0.2.2/SA_Project/update_TimeOfAttendance.php";
     public static final String Get_numberOfST = "http://10.0.2.2/SA_Project/Get_NumberOfStudent.php";
+    public static final String Get_attend_INFO = "http://10.0.2.2/SA_Project/GetStudentInfo_forCourse_inTeacherInterface.php";
 
 
 

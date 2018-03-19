@@ -228,6 +228,7 @@ public class adminHome extends AppCompatActivity implements Designable  {
 
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.student_list, null, false);
                 setContentView(v);
+
                 list_student = new ArrayList<>();
                 listview_student = v.findViewById(R.id.listTheStudent);
                 No_student = v.findViewById(R.id.no_student);
