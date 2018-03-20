@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.mm_kau.smartattendance.Manage_classRoom">
+
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Class Room ID :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+
+                />
+
+            <TextView
+                android:id="@+id/editTextForClassRoomID_InManage"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textColor="@android:color/black"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Class Room Name :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/editTextForCR_Name_InManage"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:id="@+id/textView54"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Capacity:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/editTextForCapcty_CR_onManage"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Beacons :"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/editTextForBeacons_InManage"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:ems="10"
+                android:inputType="textMultiLine" />
+
+
+            <Button
+                android:id="@+id/UpdateClassRoomBTN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="update" />
+            <Button
+                android:id="@+id/DeleteClassRoomBTN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="delete" />
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</android.support.constraint.ConstraintLayout>
