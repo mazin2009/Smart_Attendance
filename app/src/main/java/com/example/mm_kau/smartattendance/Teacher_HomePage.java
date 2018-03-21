@@ -56,7 +56,6 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
 
                 try {
 
-                    Toast.makeText(getBaseContext(), response, Toast.LENGTH_LONG).show();
 
                     JSONArray jsonArray = new JSONArray(response);
 

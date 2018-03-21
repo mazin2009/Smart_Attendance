@@ -32,10 +32,13 @@ public class Constants {
     public static final String Update_TimeOdAttendance = "http://10.0.2.2/SA_Project/update_TimeOfAttendance.php";
     public static final String Get_numberOfST = "http://10.0.2.2/SA_Project/Get_NumberOfStudent.php";
     public static final String Get_attend_INFO = "http://10.0.2.2/SA_Project/GetStudentInfo_forCourse_inTeacherInterface.php";
+    public static final String Get_Lecture_for_course = "http://10.0.2.2/SA_Project/GetLecture_ByCourseID.php";
+    public static final String CancelLecByCourseID = "http://10.0.2.2/SA_Project/CancelTheLecture.php";
 
 
 
-// for all user (admin , teacher and student)
+
+    // for all user (admin , teacher and student)
     public static final String UserFile = "Userfile";
     public static final String UserIsLoggedIn = "isLoggedIn";
     public static final String UserType = "UserType";

@@ -37,16 +37,16 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
     private TimePicker STL_p , ETL_p , STA_p ,ETA_p;
     String STL_ad , ETL_ad , STA_ad ,ETA_ad;
     private ProgressDialog progressDialog;
-private ListView listview_attendance_info;
+private ListView listview_attendance_info , listview_of_lecture;
     private ArrayList<String> list_attendance_info;
+    private ArrayList<lecture> list_lecture;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_info_for_teacher);
-
-
         InitializeView();
 
     }
@@ -106,6 +106,64 @@ private ListView listview_attendance_info;
             @Override
             public void onClick(View view) {
 
+                View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.lecture_list_for_course_in_teacher, null, false);
+                setContentView(v);
+                list_lecture = new ArrayList<>();
+                listview_of_lecture = findViewById(R.id.listTheLectureOfCourseInTeacher);
+
+                StringRequest  request = new StringRequest(Request.Method.POST, Constants.Get_Lecture_for_course, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                lecture LEC = new lecture();
+
+
+                                LEC.setDate(jsonObject.getString("date"));
+                                LEC.setState(jsonObject.getString("state"));
+                                LEC.setCourseID(jsonObject.getString("CourseID"));
+                                list_lecture.add(LEC);
+                            }
+
+
+
+                            if (list_lecture.size() == 0) {
+                                Toast.makeText(getBaseContext(), "The is no Lecture", Toast.LENGTH_LONG).show();
+                            } else {
+
+                                LectureList_Adpt adapter = new LectureList_Adpt(getBaseContext(), list_lecture);
+                                listview_of_lecture.setAdapter(adapter);
+
+
+                            }
+                        } catch (JSONException e) {
+
+                            Toast.makeText(getBaseContext(), "The is no Lecture", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getBaseContext(), "هنالك مشكلة في الخادم الرجاء المحاولة مرة اخرى", Toast.LENGTH_LONG).show();
+                    }
+                }) {
+
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put("ID",C_id.getText().toString());
+                        return map;
+                    }
+                };
+                Singleton_Queue.getInstance(getBaseContext()).Add(request);
 
 
 
@@ -371,7 +429,7 @@ private ListView listview_attendance_info;
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(getBaseContext(), adminHome.class);
+        Intent intent = new Intent(getBaseContext(), Teacher_HomePage.class);
         startActivity(intent);
 
     }
