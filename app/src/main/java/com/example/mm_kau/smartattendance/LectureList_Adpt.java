@@ -2,7 +2,6 @@ package com.example.mm_kau.smartattendance;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -34,17 +33,14 @@ import static android.graphics.Color.*;
 
 public class LectureList_Adpt extends ArrayAdapter {
 
-
     private Context context;
     private ArrayList<lecture> LECture;
     String STUTUS = "";
 
 
-
-
     public LectureList_Adpt(Context context, ArrayList<lecture> LECture) {
 
-        super(context, R.layout.coutum_list_for_attend_info,LECture);
+        super(context, R.layout.custom_list_for_lecture, R.id.buttonForActionTheLecture, LECture);
         this.context = context;
         this.LECture = LECture;
     }

@@ -2,49 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:descendantFocusability="blocksDescendants"
-    >
-
-
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="40dp"
         android:layout_margin="5dp"
-        android:background="@android:color/darker_gray"
-        android:elevation="5dp"
         android:gravity="center"
-        >
+        android:background="@android:color/darker_gray"
+        android:elevation="5dp">
 
         <TextView
-            android:id="@+id/TextView_DateOfLecture"
-            android:layout_width="135dp"
+            android:id="@+id/TextView_IDofSTU_inlec"
+            android:layout_width="95dp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:paddingLeft="20dp"
+            android:text="Mazin"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="20dp" />
         <TextView
-            android:id="@+id/TextView_StateOfLec"
-            android:layout_width="110dp"
+            android:id="@+id/TextView_NameofSTU_iclec"
+            android:layout_width="170dp"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
-            android:paddingLeft="20dp"
+            android:text="Alrefaei"
             android:gravity="center"
             android:textColor="@android:color/white"
             android:textSize="20dp" />
 
-        <Button
-            android:layout_margin="10dp"
-            android:id="@+id/buttonForActionTheLecture"
+        <Switch
+            android:id="@+id/switch1ForAttendance"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:textColor="@android:color/white"
-            android:background="@android:color/holo_red_dark"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:layout_marginRight="10dp"
+           />
+
 
     </LinearLayout>
 

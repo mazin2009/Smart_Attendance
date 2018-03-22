@@ -40,7 +40,8 @@
             android:label="@string/title_activity_manage_clasroom"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Manage_classRoom" />
-        <activity android:name=".course_info_for_teacher"></activity>
+        <activity android:name=".course_info_for_teacher" />
+        <activity android:name=".listOfAttenanceInfo_forEachLecture"></activity>
     </application>
 
 </manifest>

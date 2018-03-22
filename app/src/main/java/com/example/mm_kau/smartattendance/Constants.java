@@ -34,6 +34,9 @@ public class Constants {
     public static final String Get_attend_INFO = "http://10.0.2.2/SA_Project/GetStudentInfo_forCourse_inTeacherInterface.php";
     public static final String Get_Lecture_for_course = "http://10.0.2.2/SA_Project/GetLecture_ByCourseID.php";
     public static final String CancelLecByCourseID = "http://10.0.2.2/SA_Project/CancelTheLecture.php";
+    public static final String GetAttendInfoForEachLec = "http://10.0.2.2/SA_Project/GetAttendanceInfo_foreacheLecture.php";
+    public static final String ChangeAttendaceForSTudent = "http://10.0.2.2/SA_Project/ChangeStateOfStudent.php";
+
 
 
 

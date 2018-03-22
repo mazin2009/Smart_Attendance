@@ -109,7 +109,7 @@ private ListView listview_attendance_info , listview_of_lecture;
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.lecture_list_for_course_in_teacher, null, false);
                 setContentView(v);
                 list_lecture = new ArrayList<>();
-                listview_of_lecture = findViewById(R.id.listTheLectureOfCourseInTeacher);
+                listview_of_lecture = v.findViewById(R.id.listTheLectureOfCourseInTeacher);
 
                 StringRequest  request = new StringRequest(Request.Method.POST, Constants.Get_Lecture_for_course, new Response.Listener<String>() {
                     @Override
@@ -138,8 +138,31 @@ private ListView listview_attendance_info , listview_of_lecture;
                                 Toast.makeText(getBaseContext(), "The is no Lecture", Toast.LENGTH_LONG).show();
                             } else {
 
+
+
+
+
+
+
                                 LectureList_Adpt adapter = new LectureList_Adpt(getBaseContext(), list_lecture);
                                 listview_of_lecture.setAdapter(adapter);
+
+                                listview_of_lecture.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                       Intent intent=new Intent(getBaseContext(),listOfAttenanceInfo_forEachLecture.class);
+                                       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.putExtra("Course_name",C_name.getText().toString());
+                                        intent.putExtra("Course_ID",list_lecture.get(i).getCourseID());
+                                        intent.putExtra("DATE",list_lecture.get(i).getDate());
+                                        intent.putExtra("state",list_lecture.get(i).getState());
+                                        startActivity(intent);
+
+                                    }
+                                });
+
 
 
                             }
@@ -193,8 +216,7 @@ private ListView listview_attendance_info , listview_of_lecture;
                             for (int i = 0; i < jsonArray.length(); i++) {
 
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                String StudentInfo = new String();
-
+                                String StudentInfo ;
                                 String ID = jsonObject.getString("ID");
                                 String name = jsonObject.getString("name");
                                 String total_absent = jsonObject.getString("total_absent");
@@ -211,7 +233,6 @@ private ListView listview_attendance_info , listview_of_lecture;
 
                                 attendance_Info_adpt adapter = new attendance_Info_adpt(getBaseContext(), list_attendance_info);
                                 listview_attendance_info.setAdapter(adapter);
-
 
 
                             }
