@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -26,6 +27,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +42,8 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
 private ListView listview_attendance_info , listview_of_lecture;
     private ArrayList<String> list_attendance_info;
     private ArrayList<lecture> list_lecture;
+
+    EditText Title , Body;
 
 
 
@@ -83,6 +87,7 @@ private ListView listview_attendance_info , listview_of_lecture;
         change_AT = findViewById(R.id.button_UP_Ch_Attend);
         View_AttendInfo = findViewById(R.id.button2ViewAttendInfo_InTeacher);
         viewLec = findViewById(R.id.button3ForViweingLecture);
+        SendAnnouncment = findViewById(R.id.button4ForSendAnnouncment);
 
 
         Desing();
@@ -102,12 +107,106 @@ private ListView listview_attendance_info , listview_of_lecture;
     public void HandleAction() {
 
 
+        SendAnnouncment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.send_new_announcement, null, false);
+                setContentView(v);
+
+                Button Send = v.findViewById(R.id.buttonSendMessage);
+                Title = v.findViewById(R.id.editTextTitleOfmessage);
+                Body = v.findViewById(R.id.editText3BodyOfmessage);
+
+                Send.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+
+                        if (Title.getText().toString().trim().isEmpty() || Body.getText().toString().trim().isEmpty()) {
+                            Toast.makeText(getBaseContext(), "Please fill in all fields", Toast.LENGTH_LONG).show();
+                        } else if (Network.isConnected(getBaseContext()) == false) {
+                            Toast.makeText(getBaseContext(), "No connection with Internet", Toast.LENGTH_LONG).show();
+
+                        } else {
+
+
+                            StringRequest request = new StringRequest(Request.Method.POST, Constants.AddNewAnnouncment, new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+
+                                    try {
+
+
+                                        JSONObject jsonObject = new JSONObject(response);
+                                        String status = jsonObject.getString("state");
+
+                                        if (status.equals("yes")) {
+
+                                            progressDialog.dismiss();
+
+                                            Toast.makeText(getBaseContext(), "The Message Sent", Toast.LENGTH_LONG).show();
+                                            Intent intent = new Intent(getBaseContext(), Teacher_HomePage.class);
+                                            startActivity(intent);
+
+                                        } else {
+                                            progressDialog.dismiss();
+
+                                            Toast.makeText(getBaseContext(), "  There is problem m try agine ", Toast.LENGTH_LONG).show();
+
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                    Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
+                                }
+                            }) {
+                                @Override
+                                protected Map<String, String> getParams() throws AuthFailureError {
+                                    /*** Here you put the HTTP request parameters **/
+
+                                    HashMap<String, String> map = new HashMap<>();
+
+                                    map.put("TeacherID",sharedPreferences.getString(Constants.TeacherID,""));
+                                    map.put("CourseID",C_id.getText().toString());
+                                    map.put("Title",Title.getText().toString());
+                                    map.put("Body", Body.getText().toString());
+
+                                    return map;
+                                }
+                            };
+                            Singleton_Queue.getInstance(getBaseContext()).Add(request);
+
+
+
+
+                        }
+
+
+                    }
+                });
+
+
+            }
+        });
+
+
+
+
         viewLec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.lecture_list_for_course_in_teacher, null, false);
                 setContentView(v);
+
                 list_lecture = new ArrayList<>();
                 listview_of_lecture = v.findViewById(R.id.listTheLectureOfCourseInTeacher);
 

@@ -240,7 +240,7 @@
             android:text="View lecture" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/button4ForSendAnnouncment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

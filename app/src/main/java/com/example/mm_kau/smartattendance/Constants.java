@@ -36,6 +36,8 @@ public class Constants {
     public static final String CancelLecByCourseID = "http://10.0.2.2/SA_Project/CancelTheLecture.php";
     public static final String GetAttendInfoForEachLec = "http://10.0.2.2/SA_Project/GetAttendanceInfo_foreacheLecture.php";
     public static final String ChangeAttendaceForSTudent = "http://10.0.2.2/SA_Project/ChangeStateOfStudent.php";
+    public static final String AddNewAnnouncment = "http://10.0.2.2/SA_Project/AddNewMessage.php";
+    public static final String GetMSG = "http://10.0.2.2/SA_Project/GetMessages.php";
 
 
 
@@ -59,13 +61,12 @@ public class Constants {
     public static final String T_Pass = "T_Pass";
     public static final String T_email = "T_email";
 
-    //for Teacher
+    //for Student
     public static final String StudentID = "StudentID";
     public static final String s_Fname = "s_Fname";
     public static final String s_Lname = "s_Lname";
     public static final String s_Pass = "s_Pass";
     public static final String s_email = "s_email";
-
 
 
 

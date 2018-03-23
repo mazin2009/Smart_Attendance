@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:padding="5dp"
+        android:background="@android:color/holo_green_light"
+        android:orientation="vertical">
+
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/textView80234"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Title  :"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/textViewTitleOfms_inMsgList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:text="123456789"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/textViewade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Course  :"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/textViewForCourseOfMSg_inMsgList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:text="123456789"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/textViewqw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Teacher  :"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/textViewForTeacher_inMsgList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:text="123456789"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+            </TableRow>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date :"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/textViewForDateInMsglist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:text="123456789"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="18dp" />
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

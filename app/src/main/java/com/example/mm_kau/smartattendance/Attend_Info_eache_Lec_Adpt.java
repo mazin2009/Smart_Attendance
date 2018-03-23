@@ -138,8 +138,6 @@ if (Info[2].equals("present")) {
             }
         });
 
-
-
         return view;
     }
 
