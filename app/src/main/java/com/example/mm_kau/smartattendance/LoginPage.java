@@ -95,9 +95,8 @@ public class LoginPage extends Activity implements Designable {
     public void HandleAction() {
 
 
-        if(userfile.getBoolean(Constants.UserIsLoggedIn,false)== true){
-
-
+        if(userfile.getBoolean(Constants.UserIsLoggedIn,false)){
+            
           String Type =  userfile.getString(Constants.UserType , "");
 
             if (Type.equals("admin")) {

@@ -39,12 +39,10 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
     private TimePicker STL_p , ETL_p , STA_p ,ETA_p;
     String STL_ad , ETL_ad , STA_ad ,ETA_ad;
     private ProgressDialog progressDialog;
-private ListView listview_attendance_info , listview_of_lecture;
+    private ListView listview_attendance_info , listview_of_lecture;
     private ArrayList<String> list_attendance_info;
     private ArrayList<lecture> list_lecture;
-
     EditText Title , Body;
-
 
 
     @Override
@@ -61,6 +59,8 @@ private ListView listview_attendance_info , listview_of_lecture;
         this.progressDialog = new ProgressDialog(course_info_for_teacher.this);
         C_id = findViewById(R.id.textViewForCRS_ID);
         C_name = findViewById(R.id.textViewForCRS_Name);
+        C_id.setText(getIntent().getStringExtra("course_ID"));
+        C_name.setText( getIntent().getStringExtra("name"));
         C_CR = findViewById(R.id.textViewForCRS_ClassRoom);
         STL = findViewById(R.id.textViewForCRS_STL);
         ETL = findViewById(R.id.textViewForCRS_ETL);
@@ -70,6 +70,9 @@ private ListView listview_attendance_info , listview_of_lecture;
         setNumberOfStudent();
         C_id.setText(getIntent().getStringExtra("course_ID"));
         C_name.setText( getIntent().getStringExtra("name"));
+
+
+
         if (getIntent().getStringExtra("Room_ID").equals("null")) {
             C_CR.setText("undefined");
         }else {

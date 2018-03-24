@@ -41,7 +41,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Manage_classRoom" />
         <activity android:name=".course_info_for_teacher" />
-        <activity android:name=".listOfAttenanceInfo_forEachLecture"></activity>
+        <activity android:name=".listOfAttenanceInfo_forEachLecture" />
+        <activity android:name=".course_Info_for_student"></activity>
     </application>
 
 </manifest>

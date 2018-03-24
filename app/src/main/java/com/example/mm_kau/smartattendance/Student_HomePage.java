@@ -31,13 +31,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Student_HomePage extends AppCompatActivity implements Designable {
-
-    private SharedPreferences userfile;
-    private SharedPreferences.Editor userfileEditer;
+    private ListView listView_course  ;
+    private ArrayList<course> list_course;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor sharedPreferencesEditer;
     ImageView MsgBTN ;
     private ArrayList<Message> List_MSG;
     ListView ListViewMSG;
     Button LogOUT;
+    TextView Name;
 
 
 
@@ -47,8 +49,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
         setContentView(R.layout.activity_student__home_page);
 
 
-        this.userfile=getSharedPreferences(Constants.UserFile,MODE_PRIVATE);
-        this.userfileEditer=userfile.edit();
+
 
 InitializeView();
 
@@ -57,8 +58,114 @@ InitializeView();
     @Override
     public void InitializeView() {
 
+
+        this.sharedPreferences=getSharedPreferences(Constants.UserFile,MODE_PRIVATE);
+        this.sharedPreferencesEditer=sharedPreferences.edit();
+        Name = findViewById(R.id.textViewForNAmeOfSTU);
+        Name.setText(sharedPreferences.getString(Constants.s_Fname,"") +" "+ sharedPreferences.getString(Constants.s_Lname,""));
+
         MsgBTN = findViewById(R.id.imageViewMessage);
         LogOUT = findViewById(R.id.buttonLogOUT_ST);
+
+        listView_course = findViewById(R.id.listCoursesInStudent);
+        list_course = new ArrayList<>();
+
+
+
+        StringRequest request = new StringRequest(Request.Method.POST, Constants.GetCoursesForStudent, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+
+                    JSONArray jsonArray = new JSONArray(response);
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                        JSONObject CourseObject = jsonObject.getJSONObject("object");
+                        String TeacherName = jsonObject.getString("Teacher_Name");
+
+                        course Course = new course();
+                        Course.setCourse_id(CourseObject.getString("Course_ID"));
+                        Course.setCourse_Name(CourseObject.getString("Course_name"));
+                        Course.setNumberOfStudent(Integer.parseInt(CourseObject.getString("No.of_Std")));
+                        Course.setSTL(CourseObject.getString("S_T_L"));
+                        Course.setETL(CourseObject.getString("E_T_L"));
+                        Course.setSTA(CourseObject.getString("S_T_A"));
+                        Course.setETA(CourseObject.getString("E_T_A"));
+
+                        if (!CourseObject.getString("Teacher_ID").isEmpty()) {
+                            Course.setTeacher_ID(CourseObject.getString("Teacher_ID"));
+                            Course.setTeacher_name(TeacherName);
+                        }
+                        if (!CourseObject.getString(	"room_ID").isEmpty()) {
+                            Course.setRoom_ID(CourseObject.getString("room_ID"));
+                        }
+
+                        list_course.add(Course);
+                    }
+
+
+
+                    if (list_course.size() == 0) {
+                        //       No_courses.setText("There is no clases ");
+                    } else {
+
+
+                        MyCoursAdpt adapter = new MyCoursAdpt(getBaseContext(), list_course);
+                        listView_course.setAdapter(adapter);
+
+                        listView_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                                Intent intent=new Intent(getBaseContext(),course_Info_for_student.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("course_ID",list_course.get(i).getCourse_id());
+                                intent.putExtra("name",list_course.get(i).getCourse_Name());
+                                intent.putExtra("T_name",list_course.get(i).getTeacher_name());
+                                intent.putExtra("Room_ID",list_course.get(i).getRoom_ID());
+                                intent.putExtra("STL",list_course.get(i).getSTL());
+                                intent.putExtra("ETL",list_course.get(i).getETL());
+                                intent.putExtra("STA",list_course.get(i).getSTA());
+                                intent.putExtra("ETA",list_course.get(i).getETA());
+                                startActivity(intent);
+
+
+                            }
+                        });
+
+
+
+
+                    }
+                } catch (JSONException e) {
+
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // progressBar.setVisibility(View.INVISIBLE);
+                Toast.makeText(getBaseContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), "هنالك مشكلة في الخادم الرجاء المحاولة مرة اخرى", Toast.LENGTH_LONG).show();
+            }
+        }) {
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                HashMap<String, String> map = new HashMap<String, String>();
+                map.put("ID",sharedPreferences.getString(Constants.StudentID," "));
+                return map;
+            }
+        };
+        Singleton_Queue.getInstance(getBaseContext()).Add(request);
+
+
 
 
         Desing();
@@ -94,8 +201,8 @@ InitializeView();
                             Toast.makeText(getBaseContext(), "no connection", Toast.LENGTH_LONG).show();
                         } else {
 
-                            userfileEditer.putBoolean(Constants.UserIsLoggedIn, false);
-                            userfileEditer.commit();
+                            sharedPreferencesEditer.putBoolean(Constants.UserIsLoggedIn, false);
+                            sharedPreferencesEditer.commit();
                             Intent intent = new Intent(getBaseContext(), LoginPage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -200,7 +307,7 @@ InitializeView();
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("ID",userfile.getString(Constants.StudentID,""));
+                        map.put("ID",sharedPreferences.getString(Constants.StudentID,""));
                         return map;
                     }
                 };

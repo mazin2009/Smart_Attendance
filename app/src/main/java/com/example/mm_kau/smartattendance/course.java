@@ -15,6 +15,7 @@ private String Course_id;
 private String Course_Name;
 private int NumberOfStudent;
 private String Teacher_ID;
+private String Teacher_name;
 private String Room_ID;
 private ArrayList<student> Students;
 private ArrayList<lecture> Lecture;
@@ -56,6 +57,14 @@ private String ETA;
         String [] T = STL.split(":");
 
         this.STL = T[0]+":"+T[1];
+    }
+
+    public void setTeacher_name(String teacher_name) {
+        Teacher_name = teacher_name;
+    }
+
+    public String getTeacher_name() {
+        return Teacher_name;
     }
 
     public void setETL(String ETL) {

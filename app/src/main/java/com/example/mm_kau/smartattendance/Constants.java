@@ -38,6 +38,8 @@ public class Constants {
     public static final String ChangeAttendaceForSTudent = "http://10.0.2.2/SA_Project/ChangeStateOfStudent.php";
     public static final String AddNewAnnouncment = "http://10.0.2.2/SA_Project/AddNewMessage.php";
     public static final String GetMSG = "http://10.0.2.2/SA_Project/GetMessages.php";
+    public static final String GetCoursesForStudent = "http://10.0.2.2/SA_Project/GetCoursesByID_forStu.php";
+    public static final String GetNumberOfabsent = "http://10.0.2.2/SA_Project/GetNumberOfAbsent_bySTid.php";
 
 
 
