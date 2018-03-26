@@ -1,5 +1,10 @@
 package com.example.mm_kau.smartattendance;
 
+import com.kontakt.sdk.android.ble.manager.listeners.EddystoneListener;
+import com.kontakt.sdk.android.ble.manager.listeners.simple.SimpleEddystoneListener;
+import com.kontakt.sdk.android.common.profile.IEddystoneDevice;
+import com.kontakt.sdk.android.common.profile.IEddystoneNamespace;
+
 /**
  * Created by Mez on 31/01/18.
  */
@@ -7,7 +12,7 @@ package com.example.mm_kau.smartattendance;
 public class Constants {
 
 
-    public static final String IP = "10.0.2.2";
+    public static final String IP = "192.168.1.19";
     public static final String LOGIN_URL = "http://"+IP+"/SA_Project/ChekLogin.php";
     public static final String ADDnewCourse = "http://"+IP+"/SA_Project/AddNewCourse.php";
     public static final String ADDnewTeacher = "http://10.0.2.2/SA_Project/AddNewTeacher.php";
@@ -29,17 +34,20 @@ public class Constants {
     public static final String GetBeaconForCR = "http://10.0.2.2/SA_Project/GetBeaconForCR.php";
     public static final String UpdateCR = "http://10.0.2.2/SA_Project/UpdateClassRoom.php";
     public static final String getCourseByID_forTeacher = "http://"+IP+"/SA_Project/GetCoursesByID_forTeacher.php";
-    public static final String Update_TimeOdAttendance = "http://10.0.2.2/SA_Project/update_TimeOfAttendance.php";
-    public static final String Get_numberOfST = "http://10.0.2.2/SA_Project/Get_NumberOfStudent.php";
-    public static final String Get_attend_INFO = "http://10.0.2.2/SA_Project/GetStudentInfo_forCourse_inTeacherInterface.php";
-    public static final String Get_Lecture_for_course = "http://10.0.2.2/SA_Project/GetLecture_ByCourseID.php";
-    public static final String CancelLecByCourseID = "http://10.0.2.2/SA_Project/CancelTheLecture.php";
-    public static final String GetAttendInfoForEachLec = "http://10.0.2.2/SA_Project/GetAttendanceInfo_foreacheLecture.php";
-    public static final String ChangeAttendaceForSTudent = "http://10.0.2.2/SA_Project/ChangeStateOfStudent.php";
-    public static final String AddNewAnnouncment = "http://10.0.2.2/SA_Project/AddNewMessage.php";
-    public static final String GetMSG = "http://10.0.2.2/SA_Project/GetMessages.php";
-    public static final String GetCoursesForStudent = "http://10.0.2.2/SA_Project/GetCoursesByID_forStu.php";
-    public static final String GetNumberOfabsent = "http://10.0.2.2/SA_Project/GetNumberOfAbsent_bySTid.php";
+    public static final String Update_TimeOdAttendance = "http://"+IP+"/SA_Project/update_TimeOfAttendance.php";
+    public static final String Get_numberOfST = "http://"+IP+"/SA_Project/Get_NumberOfStudent.php";
+    public static final String Get_attend_INFO = "http://"+IP+"/SA_Project/GetStudentInfo_forCourse_inTeacherInterface.php";
+    public static final String Get_Lecture_for_course = "http://"+IP+"/SA_Project/GetLecture_ByCourseID.php";
+    public static final String CancelLecByCourseID = "http://"+IP+"/SA_Project/CancelTheLecture.php";
+    public static final String GetAttendInfoForEachLec = "http://"+IP+"/SA_Project/GetAttendanceInfo_foreacheLecture.php";
+    public static final String ChangeAttendaceForSTudent = "http://"+IP+"/SA_Project/ChangeStateOfStudent.php";
+    public static final String AddNewAnnouncment = "http://"+IP+"/SA_Project/AddNewMessage.php";
+    public static final String GetMSG = "http://"+IP+"/SA_Project/GetMessages.php";
+    public static final String GetCoursesForStudent = "http://"+IP+"/SA_Project/GetCoursesByID_forStu.php";
+    public static final String GetNumberOfabsent = "http://"+IP+"/SA_Project/GetNumberOfAbsent_bySTid.php";
+    public static final String GetBeacons = "http://"+IP+"/SA_Project/GetBeacons_byClassroomID.php";
+    public static final String MakeAttendance = "http://"+IP+"/SA_Project/MakeAttendance.php";
+
 
 
 
@@ -69,7 +77,6 @@ public class Constants {
     public static final String s_Lname = "s_Lname";
     public static final String s_Pass = "s_Pass";
     public static final String s_email = "s_email";
-
 
 
 

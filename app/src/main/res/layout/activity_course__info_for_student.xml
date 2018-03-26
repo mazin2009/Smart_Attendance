@@ -248,10 +248,12 @@
 
     <Button
         android:layout_marginTop="30dp"
-        android:id="@+id/button"
+        android:id="@+id/buttonOfMakaAttendANCE"
+        android:background="@android:color/holo_orange_light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_margin="5dp"
+        android:text="Make Attendance" />
 
     <Button
         android:id="@+id/button2"

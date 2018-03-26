@@ -26,7 +26,7 @@
             android:text="Name :  " />
         <TextView
             android:id="@+id/textViewForNAmeOfSTU"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:textColor="@android:color/holo_orange_dark"
@@ -36,11 +36,10 @@
             android:id="@+id/imageViewMessage"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
-            android:layout_marginLeft="150dp"
             app:srcCompat="@drawable/email"
-            tools:ignore="VectorDrawableCompat"
-            />
+            tools:ignore="VectorDrawableCompat" />
         <Button
             android:background="@drawable/ddd"
             android:layout_marginTop="7dp"

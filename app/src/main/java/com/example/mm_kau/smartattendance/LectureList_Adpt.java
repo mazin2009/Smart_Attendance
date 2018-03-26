@@ -65,9 +65,12 @@ public class LectureList_Adpt extends ArrayAdapter {
         if (LECture.get(position).getState().equals("upcoming")) {
             ActionBTN.setText("Cancel");
 
-        }else {
+        }else if (LECture.get(position).getState().equals("Canceld")) {
             ActionBTN.setText("uncancel");
             ActionBTN.setBackgroundColor(ActionBTN.getResources().getColor(R.color.colorPrimaryDark));
+        } else {
+            ActionBTN.setText("Cancel");
+
         }
 
 
@@ -77,8 +80,10 @@ public class LectureList_Adpt extends ArrayAdapter {
 
                 if (LECture.get(position).getState().equals("upcoming")) {
                     STUTUS = "Canceld";
-                }else {
+                }else if (LECture.get(position).getState().equals("Canceld")) {
                     STUTUS = "upcoming";
+                } else {
+                    STUTUS = "Canceld";
                 }
 
 
