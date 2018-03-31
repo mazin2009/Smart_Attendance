@@ -3,6 +3,7 @@ package com.example.mm_kau.smartattendance;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +32,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 public class course_info_for_teacher extends AppCompatActivity implements Designable {
 
@@ -147,7 +153,7 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
                                         if (status.equals("yes")) {
 
                                             progressDialog.dismiss();
-
+                                            SendAnnouncment(Body.getText().toString(),C_id.getText().toString(),Title.getText().toString());
                                             Toast.makeText(getBaseContext(), "The Message Sent", Toast.LENGTH_LONG).show();
                                             Intent intent = new Intent(getBaseContext(), Teacher_HomePage.class);
                                             startActivity(intent);
@@ -554,6 +560,44 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
 
         Intent intent = new Intent(getBaseContext(), Teacher_HomePage.class);
         startActivity(intent);
+
+    }
+
+
+
+    public void SendAnnouncment(final String Msg , final String Topic , final String Title)  {
+
+        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        new AsyncTask<Void,Void,Void>(){
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                OkHttpClient client = new OkHttpClient();
+                JSONObject json = new JSONObject();
+                JSONObject jsonData = new JSONObject();
+                try {
+                    jsonData.put("body",Msg);
+                    jsonData.put("title","New Announcment : "+Title);
+                    json.put("notification",jsonData);
+                    json.put("to","/topics/"+Topic);
+
+                    RequestBody body = RequestBody.create(JSON,json.toString());
+                    okhttp3.Request request = new okhttp3.Request.Builder()
+                            .header("Authorization","key=AAAAjjSURVI:APA91bFYLZHZHRXlCr7bh1VHZf3ZDbu1d8ioyfIuzCR40hJks4ILEYLE1UaNqqAj7ECKbToUnEA1FL1ysGRTnD6v87g4_9iQ_81iAwhcKmAgz49G6pY8_87IkdISX899j_bQ_q6JnfCB")
+                            .url("https://fcm.googleapis.com/fcm/send")
+                            .post(body)
+                            .build();
+
+                    okhttp3.Response response = client.newCall(request).execute();
+                    String finalResponse = response.body().string();
+                    // Toast.makeText(MainActivity.this, finalResponse,Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(course_info_for_teacher.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                return  null;
+            }
+        }.execute();
 
     }
 

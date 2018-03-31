@@ -256,10 +256,10 @@
         android:text="Make Attendance" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button2OFLectureInfo_inST"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="Attendance Inforamtion" />
 
 
 </LinearLayout>

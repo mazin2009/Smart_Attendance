@@ -5,11 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -40,13 +42,17 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+
 public class course_Info_for_student extends AppCompatActivity  implements Designable{
 
     TextView C_id , C_name ,Teacher_name , C_CR , STL , ETL , STA, ETA , No_absent;
     Button ViewAttendanceInfo_BTN , MakeAttendance_BTN ;
     private SharedPreferences sharedPreferences;
     private ProgressDialog progressDialog;
-    private ListView listview_attendance_info ;
+    private ListView  listview_of_attendance_info;
     private ArrayList<String> list_attendance_info;
     private ArrayList<String> BeaconID;
     private Boolean IsInsideTheClassroom = false;
@@ -73,6 +79,7 @@ public class course_Info_for_student extends AppCompatActivity  implements Desig
         sharedPreferences = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
         this.progressDialog = new ProgressDialog(course_Info_for_student.this);
         MakeAttendance_BTN = findViewById(R.id.buttonOfMakaAttendANCE);
+        ViewAttendanceInfo_BTN = findViewById(R.id.button2OFLectureInfo_inST);
         C_id = findViewById(R.id.textViewForCRS_ID_st);
         C_id.setText(getIntent().getStringExtra("course_ID"));
         C_name = findViewById(R.id.textViewForCRS_Name_st);
@@ -118,12 +125,82 @@ Desing();
     @Override
     public void HandleAction() {
 
-        MakeAttendance_BTN.setOnClickListener(new View.OnClickListener() {
+
+        ViewAttendanceInfo_BTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.list_of_lecture_for_st, null, false);
+                setContentView(v);
+
+                list_attendance_info = new ArrayList<>();
+                listview_of_attendance_info = v.findViewById(R.id.listTheLectureOfStu);
 
 
+                StringRequest  request = new StringRequest(Request.Method.POST, Constants.GetLecture_forStudent, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                            JSONArray jsonArray = new JSONArray(response);
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+
+                                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                String AttendanceInfo ;
+                                String Date = jsonObject.getString("Date");
+                                String State = jsonObject.getString("state");
+                                AttendanceInfo = Date+","+State+","+sharedPreferences.getString(Constants.StudentID," ")+","+C_id.getText().toString()+","+getIntent().getStringExtra("T_ID")+","+sharedPreferences.getString(Constants.s_Fname,"") + " "+sharedPreferences.getString(Constants.s_Lname,"");
+
+                                list_attendance_info.add(AttendanceInfo);
+                            }
+
+
+
+                            if (list_attendance_info.size() == 0) {
+
+                                Toast.makeText(getBaseContext(), "There is no Lecture", Toast.LENGTH_LONG).show();
+                            } else {
+
+                                LictureAdpt_OfLecture_inST adapter = new LictureAdpt_OfLecture_inST(getBaseContext(), list_attendance_info);
+                                listview_of_attendance_info.setAdapter(adapter);
+
+
+                            }
+                        } catch (JSONException e) {
+
+                            Toast.makeText(getBaseContext(), "There is no Attendance Inforamtion", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getBaseContext(), "هنالك مشكلة في الخادم الرجاء المحاولة مرة اخرى", Toast.LENGTH_LONG).show();
+                    }
+                }) {
+
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        HashMap<String, String> map = new HashMap<String, String>();
+                        map.put("CR_ID",C_id.getText().toString());
+                        map.put("ST_ID",sharedPreferences.getString(Constants.StudentID," "));
+                        return map;
+                    }
+                };
+                Singleton_Queue.getInstance(getBaseContext()).Add(request);
+
+            }
+        });
+
+
+
+
+
+        MakeAttendance_BTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
                 if(C_CR.getText().toString().equals("undefined")) {
 
@@ -186,6 +263,7 @@ Desing();
 
                                                               if(!jsonObject.isNull("mac_State")) {
 
+                                                                  SendAnnouncmentWhenNewMac_occure(getIntent().getStringExtra("T_ID"),sharedPreferences.getString(Constants.s_Fname," ")+" "+sharedPreferences.getString(Constants.s_Lname,""));
                                                                   Toast.makeText(getBaseContext(), "present with new mac", Toast.LENGTH_SHORT).show();
 
                                                               }
@@ -194,7 +272,7 @@ Desing();
                                                     } else if (status.equals("no")) {
 
                                                         if(!jsonObject.isNull("mac_State")) {
-
+                                                            SendAnnouncmentWhenrejectStudents(getIntent().getStringExtra("T_ID"),sharedPreferences.getString(Constants.s_Fname," ")+" "+sharedPreferences.getString(Constants.s_Lname,""));
                                                             Toast.makeText(getBaseContext(), "absent with  mac belong to another", Toast.LENGTH_SHORT).show();
 
                                                         }
@@ -391,6 +469,79 @@ Desing();
 
             }
         };
+    }
+
+    public void SendAnnouncmentWhenNewMac_occure(final String Topic , final String StudentName)  {
+
+        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        new AsyncTask<Void,Void,Void>(){
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                OkHttpClient client = new OkHttpClient();
+                JSONObject json = new JSONObject();
+                JSONObject jsonData = new JSONObject();
+                try {
+                    jsonData.put("body",StudentName+"has make attendace with new Device");
+                    jsonData.put("title","Student with device");
+                    json.put("notification",jsonData);
+                    json.put("to","/topics/"+Topic);
+
+                    RequestBody body = RequestBody.create(JSON,json.toString());
+                    okhttp3.Request request = new okhttp3.Request.Builder()
+                            .header("Authorization","key=AAAAjjSURVI:APA91bFYLZHZHRXlCr7bh1VHZf3ZDbu1d8ioyfIuzCR40hJks4ILEYLE1UaNqqAj7ECKbToUnEA1FL1ysGRTnD6v87g4_9iQ_81iAwhcKmAgz49G6pY8_87IkdISX899j_bQ_q6JnfCB")
+                            .url("https://fcm.googleapis.com/fcm/send")
+                            .post(body)
+                            .build();
+
+                    okhttp3.Response response = client.newCall(request).execute();
+                    String finalResponse = response.body().string();
+                    // Toast.makeText(MainActivity.this, finalResponse,Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(course_Info_for_student.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                return  null;
+            }
+        }.execute();
+
+    }
+
+
+    public void SendAnnouncmentWhenrejectStudents(final String Topic , final String StudentName)  {
+
+        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        new AsyncTask<Void,Void,Void>(){
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                OkHttpClient client = new OkHttpClient();
+                JSONObject json = new JSONObject();
+                JSONObject jsonData = new JSONObject();
+                try {
+                    jsonData.put("body",StudentName+" try to make attendance with device belongs to another student");
+                    jsonData.put("title","Reject Attendance");
+                    json.put("notification",jsonData);
+                    json.put("to","/topics/"+Topic);
+
+                    RequestBody body = RequestBody.create(JSON,json.toString());
+                    okhttp3.Request request = new okhttp3.Request.Builder()
+                            .header("Authorization","key=AAAAjjSURVI:APA91bFYLZHZHRXlCr7bh1VHZf3ZDbu1d8ioyfIuzCR40hJks4ILEYLE1UaNqqAj7ECKbToUnEA1FL1ysGRTnD6v87g4_9iQ_81iAwhcKmAgz49G6pY8_87IkdISX899j_bQ_q6JnfCB")
+                            .url("https://fcm.googleapis.com/fcm/send")
+                            .post(body)
+                            .build();
+
+                    okhttp3.Response response = client.newCall(request).execute();
+                    String finalResponse = response.body().string();
+                    // Toast.makeText(MainActivity.this, finalResponse,Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(course_Info_for_student.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+                return  null;
+            }
+        }.execute();
+
     }
 
 

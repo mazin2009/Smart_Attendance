@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:padding="5dp"
+        android:text="New Request Excuse :" />
+
+    <ListView
+        android:id="@+id/listExcuse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:divider="@android:color/white"
+        android:dividerHeight="3dp"
+        android:scrollbars="none"
+        android:layout_marginBottom="80dp"
+        android:layout_margin="10dp"
+        ></ListView>
+
+
+</LinearLayout>

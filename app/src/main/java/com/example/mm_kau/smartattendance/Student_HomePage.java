@@ -20,6 +20,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,12 +36,11 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
     private ArrayList<course> list_course;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditer;
-    ImageView MsgBTN ;
     private ArrayList<Message> List_MSG;
     ListView ListViewMSG;
     Button LogOUT;
+    ImageView MsgBTN ;
     TextView Name;
-
 
 
     @Override
@@ -104,15 +104,16 @@ InitializeView();
                             Course.setRoom_ID(CourseObject.getString("room_ID"));
                         }
 
+                        FirebaseMessaging.getInstance().subscribeToTopic(Course.getCourse_id());
                         list_course.add(Course);
                     }
-
 
 
                     if (list_course.size() == 0) {
                         //       No_courses.setText("There is no clases ");
                     } else {
 
+                        Constants.list_course_of_Student = list_course;
 
                         MyCoursAdpt adapter = new MyCoursAdpt(getBaseContext(), list_course);
                         listView_course.setAdapter(adapter);
@@ -127,13 +128,13 @@ InitializeView();
                                 intent.putExtra("course_ID",list_course.get(i).getCourse_id());
                                 intent.putExtra("name",list_course.get(i).getCourse_Name());
                                 intent.putExtra("T_name",list_course.get(i).getTeacher_name());
+                                intent.putExtra("T_ID",list_course.get(i).getTeacher_ID());
                                 intent.putExtra("Room_ID",list_course.get(i).getRoom_ID());
                                 intent.putExtra("STL",list_course.get(i).getSTL());
                                 intent.putExtra("ETL",list_course.get(i).getETL());
                                 intent.putExtra("STA",list_course.get(i).getSTA());
                                 intent.putExtra("ETA",list_course.get(i).getETA());
                                 startActivity(intent);
-
 
                             }
                         });
@@ -201,6 +202,16 @@ InitializeView();
                             Toast.makeText(getBaseContext(), "no connection", Toast.LENGTH_LONG).show();
                         } else {
 
+                            for (int i = 0 ; i<Constants.list_course_of_Student.size() ; i++){
+
+                                FirebaseMessaging.getInstance().unsubscribeFromTopic(Constants.list_course_of_Student.get(i).getCourse_id());
+                                Toast.makeText(getBaseContext(), "no connection"+Constants.list_course_of_Student.get(i).getCourse_id(), Toast.LENGTH_LONG).show();
+
+
+                            }
+
+
+
                             sharedPreferencesEditer.putBoolean(Constants.UserIsLoggedIn, false);
                             sharedPreferencesEditer.commit();
                             Intent intent = new Intent(getBaseContext(), LoginPage.class);
@@ -263,7 +274,7 @@ InitializeView();
 
                             if (List_MSG.size() == 0) {
 
-                            Toast.makeText(getBaseContext(), "There isf no Message", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getBaseContext(), "There is no Message", Toast.LENGTH_LONG).show();
 
                             } else {
                                 Collections.reverse(List_MSG);

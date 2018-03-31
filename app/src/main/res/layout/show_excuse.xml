@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="7dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageViewForShowExcueInTeacher"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
+        />
+
+    <Button
+        android:id="@+id/buttonOfFullImage"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Show Full Image" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@android:color/black"
+        android:text="Message :" />
+
+    <TextView
+        android:id="@+id/textView15OfMessageOfExcuse"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+         />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button2Aprrove"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:background="@android:color/holo_green_light"
+            android:text="approve" />
+
+        <Button
+            android:layout_margin="5dp"
+            android:id="@+id/button3Reject"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/holo_red_dark"
+            android:text="reject" />
+    </LinearLayout>
+
+
+</LinearLayout>
