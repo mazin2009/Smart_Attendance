@@ -38,7 +38,7 @@
             app:srcCompat="@drawable/email"
             tools:ignore="VectorDrawableCompat" />
         <Button
-            android:background="@drawable/ddd"
+            android:background="@drawable/logout"
             android:layout_marginTop="7dp"
             android:id="@+id/buttonLogOUT_Teacher"
             android:layout_width="45dp"

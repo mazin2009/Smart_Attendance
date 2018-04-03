@@ -21,20 +21,41 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <TextView
-            android:id="@+id/textView_NameOfAdmin"
+        <LinearLayout
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="30sp" />
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/textView_NameOfAdmin"
+                android:layout_width="290dp"
+                android:layout_gravity="center"
+                android:layout_height="wrap_content"
+                android:textColor="#0B614B"
+                android:textSize="25sp" />
+
+            <Button
+                android:layout_marginTop="7dp"
+                android:id="@+id/button_Log_OUT"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="right"
+                android:background="@drawable/logout"
+                android:textColor="@android:color/background_light"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
 
         <Button
+            android:layout_marginTop="20dp"
             android:id="@+id/buttonOfAddCourse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add New Course"
-            android:background="@drawable/steps_off"
+            android:textColor="@android:color/white"
+            android:background="@drawable/my_button"
             />
 
         <Button
@@ -42,60 +63,63 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add New Teacher"
-            android:background="@drawable/steps_off"/>
+            android:layout_marginTop="7dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/my_button"/>
 
         <Button
             android:id="@+id/button3ForAddStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add New Student"
-            android:background="@drawable/steps_off"/>
+            android:layout_marginTop="7dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/my_button"/>
 
         <Button
             android:id="@+id/buttonOfAddClassroom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add New Classroom"
-            android:background="@drawable/steps_off"/>
+            android:layout_marginTop="7dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/my_button"/>
 
         <Button
             android:id="@+id/button4MangeCourse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Manage Course"
-            android:background="@drawable/steps_off"/>
+            android:layout_marginTop="7dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/my_button"/>
 
         <Button
             android:id="@+id/button5ManageTeacher"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Manage Teacher"
-            android:background="@drawable/steps_off"/>
+            android:layout_marginTop="7dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/my_button"/>
 
         <Button
             android:id="@+id/button6ManageStudent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Manage Student"
-            android:background="@drawable/steps_off"/>
+            android:layout_marginTop="7dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/my_button"/>
 
         <Button
             android:id="@+id/button11M_C_R"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Manage Class room"
-            android:background="@drawable/steps_off"/>
-
-        <Button
-            android:id="@+id/button_Log_OUT"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/holo_red_dark"
-            android:text="Log out"
-            android:textColor="@android:color/background_light"
-            android:textStyle="bold"/>
-
-
+            android:layout_marginTop="7dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/my_button"/>
 
 
 

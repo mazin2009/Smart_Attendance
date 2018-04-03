@@ -54,6 +54,10 @@ public class Constants {
     public static final String getListOfExcuse = "http://"+IP+"/SA_Project/GetListOfExcuse.php";
     public static final String approveExcue = "http://"+IP+"/SA_Project/approveExcuse.php";
     public static final String rejectExcuse = "http://"+IP+"/SA_Project/RejectExcuse.php";
+    public static final String getRandomST = "http://"+IP+"/SA_Project/GetRandom.php";
+    public static final String forgotPass = "http://"+IP+"/SA_Project/forgotPass.php";
+
+
 
 
     // for all user (admin , teacher and student)

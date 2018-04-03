@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="7dp"
+    android:orientation="vertical">
+
+
+    <EditText
+        android:layout_marginTop="100dp"
+        android:id="@+id/editTextRestPass1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:paddingLeft="7dp"
+        android:hint=" Enter new password"
+        android:background="@drawable/steps_off"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:paddingLeft="7dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/editText2RestPass2"
+        android:background="@drawable/steps_off"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:hint="verify new pasword"
+        android:inputType="textPassword" />
+
+    <Button
+        android:layout_marginTop="50dp"
+        android:id="@+id/button2ResetPass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:background="@drawable/my_button"
+        android:text="reset" />
+
+</LinearLayout>

@@ -27,6 +27,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="2dp"
             android:orientation="vertical">
 
             <TextView
@@ -34,7 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Course Information"
-                android:textColor="@color/colorAccent"
+                android:textColor="#0B614B"
+                android:gravity="center"
                android:layout_marginBottom="10dp"
                 android:textSize="30dp" />
 
@@ -43,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Course ID :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20sp"
 
                 />
@@ -53,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:textColor="#0B614B"
                 android:inputType="number" />
 
             <TextView
@@ -60,13 +63,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Course Name :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/editTextForCourseName"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:textColor="#0B614B"
                 android:ems="10"
                 android:inputType="textPersonName" />
 
@@ -75,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Teacher ID:"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <EditText
@@ -83,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:textColor="#0B614B"
                 android:hint="can be empty"
                 android:inputType="number" />
 
@@ -91,7 +96,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Class room :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <EditText
@@ -99,6 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:textColor="#0B614B"
                 android:hint="can be empty"
                 android:inputType="number" />
 
@@ -107,7 +113,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Start Time of Lecture :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp"
 
                 />
@@ -117,6 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:textColor="#0B614B"
                 android:hint="format must be like this : 00:00:00"
                 android:inputType="time" />
 
@@ -125,7 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="End Time of Lecture :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <EditText
@@ -133,6 +140,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:textColor="#0B614B"
                 android:hint="format must be like this : 00:00:00"
                 android:inputType="time" />
 
@@ -141,7 +149,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Start Time Of Attendace :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <EditText
@@ -149,6 +157,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:textColor="#0B614B"
                 android:hint="format must be like this : 00:00:00"
                 android:inputType="time" />
 
@@ -157,7 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="End Time Of Attendance :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
 
@@ -166,6 +175,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:textColor="#0B614B"
                 android:hint="format must be like this : 00:00:00"
                 android:inputType="time" />
 
@@ -175,7 +185,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Lecture Information"
-                android:textColor="@color/colorAccent"
+                android:textColor="#0B614B"
                 android:layout_marginBottom="10dp"
                 android:textSize="30dp" />
 
@@ -186,7 +196,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Number of week ?"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
 
@@ -195,6 +205,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:textColor="#0B614B"
                 android:hint=""
                 android:inputType="number" />
 
@@ -206,7 +217,7 @@
                 android:layout_height="wrap_content"
                 android:text="Date Of First day in First week :
 (Must be Sunday)"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:layout_marginBottom="10dp"
                 android:textSize="20dp" />
 
@@ -222,7 +233,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="day of lecture per week :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:layout_marginBottom="10dp"
                 android:textSize="20dp" />
 
@@ -275,6 +286,9 @@
                 android:id="@+id/AddCourseBTN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/my_button"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
                 android:text="Add" />
 
         </LinearLayout>

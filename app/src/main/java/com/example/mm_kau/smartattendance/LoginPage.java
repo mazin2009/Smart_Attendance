@@ -1,7 +1,9 @@
 package com.example.mm_kau.smartattendance;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Parcelable;
@@ -9,8 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,12 +46,15 @@ public class LoginPage extends Activity implements Designable {
 
 
 
-    private Button LoginBTN ;
+    private Button LoginBTN , SendPass ;
     private ProgressDialog progressDialog;
-    private EditText id, password;
+    AlertDialog alertDialog;
+    private EditText id, password , email;
     private SharedPreferences userfile;
     private SharedPreferences.Editor userfileEditer;
+    private CheckBox RemaindMe;
     private admin admin ;
+    TextView forgetPass ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +72,13 @@ public class LoginPage extends Activity implements Designable {
         this.admin = new admin();
         this.userfile=getSharedPreferences(Constants.UserFile,MODE_PRIVATE);
         this.userfileEditer=userfile.edit();
-
+        RemaindMe = findViewById(R.id.checkBoxKeepLogIn);
         this.LoginBTN =  findViewById(R.id.button_log_in);
         this.id =  findViewById(R.id.editTextOfusername);
         this.password =  findViewById(R.id.editTextOfpassword);
         this.progressDialog=new ProgressDialog(LoginPage.this);
+        alertDialog = new AlertDialog.Builder(LoginPage.this).create();
+        this.forgetPass = findViewById(R.id.forget_password);
 
         Desing();
     }
@@ -94,6 +103,98 @@ public class LoginPage extends Activity implements Designable {
     @Override
     public void HandleAction() {
 
+
+        forgetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.forgot_pass, null, false);
+                setContentView(v);
+
+                email = v.findViewById(R.id.editTextEmailToSendNewPass);
+                SendPass = v.findViewById(R.id.button2SendNewPass);
+
+                SendPass.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.setTitle("Attention");
+
+                       if(email.getText().toString().equals("")) {
+
+                        show_msg("Please fill in The Email");
+
+                       }else if (!IsEmailValid(email.getText().toString())) {
+
+                           show_msg("Please Enter Valid Email");
+
+                       } else {
+                           progressDialog.setMessage("Plase Wait ...");
+                           progressDialog.show();
+                           StringRequest request=new StringRequest(Request.Method.POST,Constants.forgotPass, new Response.Listener<String>() {
+                               @Override
+                               public void onResponse(String response) {
+
+                                   try {
+
+                                       JSONObject jsonObject = new JSONObject(response);
+
+                                       String status =jsonObject.getString("state");
+
+                                       if(status.equals("yes")){
+
+                                           alertDialog.setMessage("The new password has been sent to the email");
+                                           alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                                               public void onClick(DialogInterface dialog, int which) {
+                                                   Intent intent = new Intent(getBaseContext(), LoginPage.class);
+                                                   startActivity(intent);
+                                               }
+                                           });
+
+                                           alertDialog.show();
+
+
+                                       }else{
+                                           progressDialog.dismiss();
+                                            show_msg("Email does not exist");
+                                       }
+                                   } catch (JSONException e) {
+
+                                   }
+
+                               }
+                           }, new Response.ErrorListener() {
+                               @Override
+                               public void onErrorResponse(VolleyError error) {
+                                   progressDialog.dismiss();
+                                   Toast.makeText(getBaseContext(),"Error"+error.getMessage(),Toast.LENGTH_SHORT).show();
+                               }
+                           }){
+                               @Override
+                               protected Map<String, String> getParams() throws AuthFailureError {
+                                   /*** Here you put the HTTP request parameters **/
+
+                                   HashMap<String,String> map=new HashMap<>();
+                                   map.put("email",email.getText().toString());
+                                   return map;
+                               }
+                           };
+
+                           Singleton_Queue.getInstance(getBaseContext()).Add(request);
+
+
+                       }
+
+
+                    }
+                });
+
+
+
+
+
+            }
+        });
 
      if(userfile.getBoolean(Constants.UserIsLoggedIn,false)){
             
@@ -167,7 +268,9 @@ public class LoginPage extends Activity implements Designable {
                                        userfileEditer.putString(Constants.adminID,ADminID);
                                        userfileEditer.putString(Constants.adminName,AdminName);
                                        userfileEditer.putString(Constants.adminpass,password);
-                                       userfileEditer.putBoolean(Constants.UserIsLoggedIn,true);
+                                       if(RemaindMe.isChecked()){
+                                           userfileEditer.putBoolean(Constants.UserIsLoggedIn,true);
+                                       }
                                        userfileEditer.putString(Constants.UserType , "admin");
                                        userfileEditer.commit();
 
@@ -189,7 +292,9 @@ public class LoginPage extends Activity implements Designable {
                                        userfileEditer.putString(Constants.T_Lname,T_Lname);
                                        userfileEditer.putString(Constants.T_Pass,T_Pass);
                                        userfileEditer.putString(Constants.T_email,T_Email);
-                                       userfileEditer.putBoolean(Constants.UserIsLoggedIn,true);
+                                       if(RemaindMe.isChecked()) {
+                                           userfileEditer.putBoolean(Constants.UserIsLoggedIn, true);
+                                       }
                                        userfileEditer.putString(Constants.UserType , "teacher");
                                        userfileEditer.commit();
 
@@ -213,8 +318,9 @@ public class LoginPage extends Activity implements Designable {
                                        userfileEditer.putString(Constants.s_Lname,s_Lname);
                                        userfileEditer.putString(Constants.s_Pass,s_Pass);
                                        userfileEditer.putString(Constants.s_email,s_Email);
-
-                                       userfileEditer.putBoolean(Constants.UserIsLoggedIn,true);
+                                       if(RemaindMe.isChecked()) {
+                                           userfileEditer.putBoolean(Constants.UserIsLoggedIn, true);
+                                       }
                                        userfileEditer.putString(Constants.UserType , "student");
                                        userfileEditer.commit();
 
@@ -262,5 +368,28 @@ public class LoginPage extends Activity implements Designable {
         });
 
     }
+
+    void show_msg(String msg) {
+        alertDialog.setMessage(msg);
+
+        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+
+            }
+        });
+
+        alertDialog.show();    }
+
+    public Boolean IsEmailValid(String Email) {
+
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+        if (Email.matches(emailPattern)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
 }

@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="أضافة استاذ جديد"
+        android:textColor="#0B614B"
+        android:text="Add New Teacher"
         android:textSize="30dp"
 
 
@@ -31,10 +32,12 @@
 
             android:id="@+id/editTextOfTeacherID_inT"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:ems="10"
+            android:background="@drawable/steps_off"
             android:inputType="number"
-           android:hint="  الرقم الجامعي"
+            android:paddingLeft="7dp"
+           android:hint="Enter ID"
             android:layout_gravity="center"
             />
     </LinearLayout>
@@ -48,21 +51,25 @@
             android:layout_marginRight="5dp"
             android:id="@+id/editTextFor_T_Fname"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
+            android:background="@drawable/steps_off"
+            android:paddingLeft="7dp"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="الأسم الأخير" />
+            android:hint="First name" />
 
         <EditText
             android:layout_marginLeft="5dp"
             android:id="@+id/editTextFor_T_Lname"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:ems="10"
+            android:background="@drawable/steps_off"
+            android:paddingLeft="7dp"
             android:inputType="textPersonName"
-            android:hint=" الأسم الأول"/>
+            android:hint="Last name"/>
     </LinearLayout>
 
     <LinearLayout
@@ -74,27 +81,33 @@
         <EditText
             android:id="@+id/editText_T_Pass"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:ems="10"
-            android:hint=" كلمة المرور"
-            android:gravity="right"
+            android:background="@drawable/steps_off"
+            android:paddingLeft="7dp"
+            android:hint="Password"
             android:inputType="textPassword" />
 
         <EditText
             android:layout_marginTop="35dp"
             android:id="@+id/editText_T_Email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:ems="10"
-            android:hint=" البريد الألكتروني"
+            android:paddingLeft="7dp"
+            android:background="@drawable/steps_off"
+            android:hint="Email"
             android:inputType="textEmailAddress" />
 
         <Button
             android:id="@+id/buttonOfAddNewTeacher"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="60dp"
-            android:text="أضافة" />
+            android:layout_height="50dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="@drawable/my_button"
+            android:layout_marginTop="100dp"
+            android:text="Add" />
 
     </LinearLayout>
 
