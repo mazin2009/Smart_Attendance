@@ -1,17 +1,27 @@
 package com.example.mm_kau.smartattendance;
 
+import android.*;
+import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +31,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.kontakt.sdk.android.ble.connection.OnServiceReadyListener;
+import com.kontakt.sdk.android.ble.manager.ProximityManager;
+import com.kontakt.sdk.android.ble.manager.ProximityManagerFactory;
+import com.kontakt.sdk.android.ble.manager.listeners.EddystoneListener;
+import com.kontakt.sdk.android.ble.manager.listeners.simple.SimpleEddystoneListener;
+import com.kontakt.sdk.android.common.KontaktSDK;
+import com.kontakt.sdk.android.common.profile.IEddystoneDevice;
+import com.kontakt.sdk.android.common.profile.IEddystoneNamespace;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,34 +49,37 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.mm_kau.smartattendance.course_Info_for_student.REQUEST_CODE_PERMISSIONS;
+
 public class Student_HomePage extends AppCompatActivity implements Designable {
     private ListView listView_course  ;
     private ArrayList<course> list_course;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditer;
     private ArrayList<Message> List_MSG;
+    public static ArrayList<String> BeaconID;
     ListView ListViewMSG;
     Button LogOUT;
-    ImageView MsgBTN ;
+    ImageView MsgBTN , SettingBTN;
     TextView Name;
+    EditText newPass1 , newPass2 , prevPass;
+    private ProgressDialog progressDialog;
+    private ProximityManager proximityManager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student__home_page);
-
-
-
-
-InitializeView();
+        setTitle("Student Home Page");
+        InitializeView();
 
     }
 
     @Override
     public void InitializeView() {
-
-
+        BeaconID =  new ArrayList<>();
+        this.progressDialog = new ProgressDialog(Student_HomePage.this);
         this.sharedPreferences=getSharedPreferences(Constants.UserFile,MODE_PRIVATE);
         this.sharedPreferencesEditer=sharedPreferences.edit();
         Name = findViewById(R.id.textViewForNAmeOfSTU);
@@ -66,11 +87,16 @@ InitializeView();
 
         MsgBTN = findViewById(R.id.imageViewMessage);
         LogOUT = findViewById(R.id.buttonLogOUT_ST);
+        SettingBTN = findViewById(R.id.imageViewSetting);
 
         listView_course = findViewById(R.id.listCoursesInStudent);
         list_course = new ArrayList<>();
 
-
+        KontaktSDK.initialize("wAJUXvCsDfWLqhkwYIiixyaNqeyBikIo");
+        proximityManager = ProximityManagerFactory.create(this);
+        proximityManager.setEddystoneListener(createEddystoneListener());
+        checkPermissions();
+        startScanning();
 
         StringRequest request = new StringRequest(Request.Method.POST, Constants.GetCoursesForStudent, new Response.Listener<String>() {
             @Override
@@ -183,7 +209,117 @@ InitializeView();
     @Override
     public void HandleAction() {
 
+        SettingBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.setting, null, false);
+                setContentView(v);
+                setTitle("Setting");
+
+                Button ChangePass = v.findViewById(R.id.button2ChangePass);
+
+                ChangePass.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.change_pass, null, false);
+                        setContentView(v);
+                        setTitle("Change Password");
+                        newPass1 = v.findViewById(R.id.editTextRestPass1);
+                        newPass2 = v.findViewById(R.id.editText2RestPass2);
+                        prevPass = v.findViewById(R.id.editText2PrevPass);
+
+                        Button Send_ResetPass = v.findViewById(R.id.button2ResetPass);
+
+                        Send_ResetPass.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+
+                                if (newPass1.getText().toString().trim().isEmpty() || newPass2.getText().toString().trim().isEmpty() || prevPass.getText().toString().trim().isEmpty()) {
+                                    Toast.makeText(getBaseContext(), "؛please fill in all fild", Toast.LENGTH_LONG).show();
+                                } else if (Network.isConnected(getBaseContext()) == false) {
+                                    Toast.makeText(getBaseContext(), "No Internet", Toast.LENGTH_LONG).show();
+                                } else if (!newPass1.getText().toString().equals(newPass2.getText().toString())) {
+                                    Toast.makeText(getBaseContext(), "Two passwords are not the same", Toast.LENGTH_LONG).show();
+                                } else {
+
+                                    progressDialog.setMessage("please wait ...");
+                                    progressDialog.show();
+
+                                    StringRequest request = new StringRequest(Request.Method.POST, Constants.changePass, new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+
+
+                                            try {
+
+
+                                                JSONObject jsonObject = new JSONObject(response);
+                                                String status = jsonObject.getString("state");
+
+                                                if (status.equals("yes")) {
+
+                                                    progressDialog.dismiss();
+
+                                                    Toast.makeText(getBaseContext(), "the password has been changed", Toast.LENGTH_LONG).show();
+                                                    sharedPreferencesEditer.putBoolean(Constants.UserIsLoggedIn, false);
+                                                    sharedPreferencesEditer.commit();
+                                                    for (int i = 0 ; i<Constants.list_course_of_Student.size() ; i++){
+                                                        FirebaseMessaging.getInstance().unsubscribeFromTopic(Constants.list_course_of_Student.get(i).getCourse_id());
+                                                    }
+
+                                                    Intent intent = new Intent(getBaseContext(), LoginPage.class);
+                                                    startActivity(intent);
+
+                                                } else {
+                                                    progressDialog.dismiss();
+                                                    Toast.makeText(getBaseContext(), "The previous Password is incorrect ", Toast.LENGTH_LONG).show();
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }) {
+                                        @Override
+                                        protected Map<String, String> getParams() throws AuthFailureError {
+                                            /*** Here you put the HTTP request parameters **/
+
+                                            HashMap<String, String> map = new HashMap<>();
+                                            map.put("ID", sharedPreferences.getString(Constants.StudentID," "));
+                                            map.put("prevPass", prevPass.getText().toString());
+                                            map.put("password", newPass1.getText().toString());
+                                            map.put("UserType", sharedPreferences.getString(Constants.UserType," "));
+                                            return map;
+                                        }
+                                    };
+                                    Singleton_Queue.getInstance(getBaseContext()).Add(request);
+                                }
+
+
+
+                            }
+                        });
+
+
+                    }
+                });
+
+
+
+
+
+
+            }
+        });
 
         LogOUT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,9 +341,6 @@ InitializeView();
                             for (int i = 0 ; i<Constants.list_course_of_Student.size() ; i++){
 
                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(Constants.list_course_of_Student.get(i).getCourse_id());
-                                Toast.makeText(getBaseContext(), "no connection"+Constants.list_course_of_Student.get(i).getCourse_id(), Toast.LENGTH_LONG).show();
-
-
                             }
 
 
@@ -236,7 +369,7 @@ InitializeView();
 
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.msg_list, null, false);
                 setContentView(v);
-
+                setTitle("Message box");
 
                 List_MSG = new ArrayList<>();
                 ListViewMSG = v.findViewById(R.id.listMsg);
@@ -341,6 +474,41 @@ InitializeView();
 
     }
 
+    private void startScanning() {
+        proximityManager.connect(new OnServiceReadyListener() {
+            @Override
+            public void onServiceReady() {
+                Toast.makeText(getBaseContext(), "Start Scan: ", Toast.LENGTH_SHORT).show();
+                proximityManager.startScanning();
+            }
+        });
+    }
+
+    private void checkPermissions() {
+        int checkSelfPermissionResult = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
+        if (PackageManager.PERMISSION_GRANTED != checkSelfPermissionResult) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_PERMISSIONS);
+        }
+    }
+
+    private EddystoneListener createEddystoneListener() {
+        return new SimpleEddystoneListener() {
+            @Override
+            public void onEddystoneDiscovered(IEddystoneDevice eddystone, IEddystoneNamespace namespace) {
+             BeaconID.add(eddystone.getInstanceId());
+                Toast.makeText(getBaseContext(), "Add: "+eddystone.getInstanceId(), Toast.LENGTH_SHORT).show();
+
+            }
+
+
+            @Override
+            public void onEddystoneLost(IEddystoneDevice eddystone, IEddystoneNamespace namespace) {
+                BeaconID.remove(eddystone.getInstanceId());
+                Toast.makeText(getBaseContext(), "Remove: "+eddystone.getInstanceId(), Toast.LENGTH_SHORT).show();
+
+            }
+        };
+    }
 
 
 }

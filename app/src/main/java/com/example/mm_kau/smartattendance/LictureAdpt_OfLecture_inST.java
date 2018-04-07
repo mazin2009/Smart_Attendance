@@ -73,7 +73,6 @@ public class LictureAdpt_OfLecture_inST extends ArrayAdapter {
             @Override
             public void onClick(View view) {
 
-
                 Intent intent=new Intent(getContext(),send_Excuse.class);
                 intent.putExtra("Teacher_ID",Info[4]);
                 intent.putExtra("studentID",Info[2]);

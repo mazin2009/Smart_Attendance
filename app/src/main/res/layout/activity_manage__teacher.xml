@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Teacher ID :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20sp"
 
                 />
@@ -54,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="First Name"
                 android:inputType="textPersonName"
                 />
 
@@ -64,6 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:hint="Last Name"
                 android:inputType="textPersonName"
               />
         </LinearLayout>
@@ -79,7 +81,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Email :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20sp"
                 />
 
@@ -97,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Set New Password :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20sp"
                 />
 
@@ -115,14 +117,18 @@
                 android:id="@+id/buttonOfUpdateTeacher"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/my_button"
+                android:textColor="@android:color/white"
                 android:text="Update" />
 
             <Button
                 android:id="@+id/buttonOfDeleteTeacher"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-
+                android:layout_marginTop="7dp"
+                android:background="@drawable/my_button_orange"
+                android:textColor="@android:color/black"
                 android:text="Delete" />
 
 

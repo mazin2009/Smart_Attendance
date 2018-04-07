@@ -8,6 +8,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
+    android:padding="7dp"
     tools:context="com.example.mm_kau.smartattendance.Student_HomePage">
 
 
@@ -32,12 +33,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
+                android:textStyle="bold"
                 android:textColor="@android:color/black"
-                android:text="Name :  " />
+                android:text="Student Name   " />
 
             <TextView
                 android:id="@+id/textViewForNAmeOfSTU"
-                android:layout_width="150dp"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:gravity="top"
@@ -52,8 +54,8 @@
             android:id="@+id/imageViewMessage"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="17dp"
-            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="4dp"
             app:srcCompat="@drawable/email"
             tools:ignore="VectorDrawableCompat" />
 
@@ -64,6 +66,7 @@
             android:id="@+id/imageViewSetting"
             android:layout_width="40dp"
             android:layout_height="50dp"
+            android:layout_marginRight="5dp"
             app:srcCompat="@drawable/setting"
             tools:ignore="VectorDrawableCompat" />
 
@@ -89,10 +92,7 @@
         android:divider="@android:color/white"
         android:dividerHeight="3dp"
         android:scrollbars="none"
-        android:layout_marginBottom="80dp"
-        android:layout_margin="10dp"
         >
-
     </ListView>
 
 

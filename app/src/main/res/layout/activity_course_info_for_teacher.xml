@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="5dp"
+    android:padding="7dp"
     tools:context="com.example.mm_kau.smartattendance.course_info_for_teacher">
 
     <TextView
@@ -215,16 +215,20 @@
     </TableLayout>
 
     <Button
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="7dp"
         android:id="@+id/button_UP_Ch_Attend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/my_button_orange"
         android:text="Change attendance time" />
 
     <Button
         android:id="@+id/button2ViewAttendInfo_InTeacher"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/my_button"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="7dp"
         android:text="View attendance information" />
 
     <LinearLayout
@@ -234,16 +238,21 @@
 
         <Button
             android:id="@+id/button3ForViweingLecture"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:background="@drawable/my_button"
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/white"
             android:text="View lecture" />
 
         <Button
             android:id="@+id/button4ForSendAnnouncment"
-            android:layout_width="wrap_content"
+            android:layout_width="178dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/my_button"
+            android:textColor="@android:color/white"
             android:text="Send announcment" />
     </LinearLayout>
 

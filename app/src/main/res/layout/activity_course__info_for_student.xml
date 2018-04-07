@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="7dp"
     tools:context="com.example.mm_kau.smartattendance.course_Info_for_student">
 
 
@@ -247,18 +248,20 @@
     </TableLayout>
 
     <Button
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/buttonOfMakaAttendANCE"
-        android:background="@android:color/holo_orange_light"
+        android:background="@drawable/my_button_orange"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_height="50dp"
         android:text="Make Attendance" />
 
     <Button
         android:id="@+id/button2OFLectureInfo_inST"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@android:color/white"
+        android:background="@drawable/my_button"
         android:text="Attendance Inforamtion" />
 
 

@@ -127,7 +127,7 @@ Desing();
 
     @Override
     public void Desing() {
-
+        setTitle("Lecture Attendance Information ");
 
         HandleAction();
     }

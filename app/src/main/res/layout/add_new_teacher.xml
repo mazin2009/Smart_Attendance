@@ -17,7 +17,7 @@
         android:gravity="center"
         android:textColor="#0B614B"
         android:text="Add New Teacher"
-        android:textSize="30dp"
+        android:textSize="25dp"
 
 
         />
@@ -34,7 +34,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
-            android:background="@drawable/steps_off"
             android:inputType="number"
             android:paddingLeft="7dp"
            android:hint="Enter ID"
@@ -53,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:background="@drawable/steps_off"
+
             android:paddingLeft="7dp"
             android:ems="10"
             android:inputType="textPersonName"
@@ -66,7 +65,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:ems="10"
-            android:background="@drawable/steps_off"
+
             android:paddingLeft="7dp"
             android:inputType="textPersonName"
             android:hint="Last name"/>
@@ -83,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:ems="10"
-            android:background="@drawable/steps_off"
+
             android:paddingLeft="7dp"
             android:hint="Password"
             android:inputType="textPassword" />
@@ -95,7 +94,7 @@
             android:layout_height="50dp"
             android:ems="10"
             android:paddingLeft="7dp"
-            android:background="@drawable/steps_off"
+
             android:hint="Email"
             android:inputType="textEmailAddress" />
 
@@ -106,7 +105,7 @@
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:background="@drawable/my_button"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="150dp"
             android:text="Add" />
 
     </LinearLayout>

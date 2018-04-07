@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Class Room ID :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp"
 
                 />
@@ -51,7 +51,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Class Room Name :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <EditText
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Capacity:"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <EditText
@@ -81,13 +81,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Beacons :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/editTextForBeacons_InManage"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="140dp"
                 android:ems="10"
                 android:inputType="textMultiLine" />
 
@@ -96,11 +96,16 @@
                 android:id="@+id/UpdateClassRoomBTN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/my_button"
+                android:textColor="@android:color/white"
                 android:text="update" />
             <Button
                 android:id="@+id/DeleteClassRoomBTN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/my_button_orange"
+                android:textColor="@android:color/black"
                 android:text="delete" />
 
 

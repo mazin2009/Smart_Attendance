@@ -16,6 +16,7 @@
         android:id="@+id/buttonOfFullImage"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:background="@drawable/my_button_orange"
         android:text="Show Full Image" />
 
     <TextView
@@ -30,6 +31,7 @@
         android:id="@+id/textView15OfMessageOfExcuse"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:textColor="@android:color/white"
          />
 
     <LinearLayout
@@ -43,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:background="@android:color/holo_green_light"
+            android:textColor="@android:color/white"
+            android:background="@drawable/my_button"
             android:text="approve" />
 
         <Button
@@ -52,6 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@android:color/white"
             android:background="@android:color/holo_red_dark"
             android:text="reject" />
     </LinearLayout>

@@ -56,6 +56,7 @@ public class Constants {
     public static final String rejectExcuse = "http://"+IP+"/SA_Project/RejectExcuse.php";
     public static final String getRandomST = "http://"+IP+"/SA_Project/GetRandom.php";
     public static final String forgotPass = "http://"+IP+"/SA_Project/forgotPass.php";
+    public static final String changePass = "http://"+IP+"/SA_Project/changePass.php";
 
 
 

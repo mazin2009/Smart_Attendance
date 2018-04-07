@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="7dp"
     android:orientation="vertical">
 
 
@@ -13,8 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
+        android:textColor="#0B614B"
         android:text="Add New Classroom"
-        android:textSize="30dp"
+        android:textSize="25dp"
 
 
         />
@@ -81,17 +83,17 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:layout_marginTop="30dp"
-            android:hint="BeaconID (Sprate by , )"
+            android:hint="BeaconID (Separate by , )"
             android:inputType="text"
             android:maxLength="500"/>
-
-
 
         <Button
             android:id="@+id/buttonOfAddNewclassRoom"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_marginTop="70dp"
+            android:background="@drawable/my_button"
+            android:textColor="@android:color/white"
             android:text="Add" />
 
     </LinearLayout>

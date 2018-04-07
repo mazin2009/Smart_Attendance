@@ -54,7 +54,7 @@ public class course_Info_for_student extends AppCompatActivity  implements Desig
     private ProgressDialog progressDialog;
     private ListView  listview_of_attendance_info;
     private ArrayList<String> list_attendance_info;
-    private ArrayList<String> BeaconID;
+
     private Boolean IsInsideTheClassroom = false;
     private ProximityManager proximityManager;
     public static final int REQUEST_CODE_PERMISSIONS = 100;
@@ -69,13 +69,14 @@ public class course_Info_for_student extends AppCompatActivity  implements Desig
         proximityManager.setEddystoneListener(createEddystoneListener());
         checkPermissions();
         startScanning();
+        setTitle("Course Information : "+getIntent().getStringExtra("name"));
         InitializeView();
 
     }
 
     @Override
     public void InitializeView() {
-        BeaconID =  new ArrayList<>();
+
         sharedPreferences = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
         this.progressDialog = new ProgressDialog(course_Info_for_student.this);
         MakeAttendance_BTN = findViewById(R.id.buttonOfMakaAttendANCE);
@@ -132,10 +133,9 @@ Desing();
 
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.list_of_lecture_for_st, null, false);
                 setContentView(v);
-
+                setTitle("Attendance Information");
                 list_attendance_info = new ArrayList<>();
                 listview_of_attendance_info = v.findViewById(R.id.listTheLectureOfStu);
-
 
                 StringRequest  request = new StringRequest(Request.Method.POST, Constants.GetLecture_forStudent, new Response.Listener<String>() {
                     @Override
@@ -205,7 +205,7 @@ Desing();
                 if(C_CR.getText().toString().equals("undefined")) {
 
                     Toast.makeText(getBaseContext(), "you cannot make attendance beacuse the classroom undefined", Toast.LENGTH_LONG).show();
-                }else if (BeaconID.size()==0) {
+                }else if (Student_HomePage.BeaconID.size()==0) {
                         Toast.makeText(getBaseContext(), "Please make sure you are inside the classroom number : "+C_CR.getText().toString()+" and Try agine", Toast.LENGTH_LONG).show();
 
                     }else {
@@ -220,10 +220,10 @@ Desing();
                                     JSONArray jsonArray = new JSONArray(response);
 
 
-                                    for (int i = 0; i < BeaconID.size(); i++) {
+                                    for (int i = 0; i < Student_HomePage.BeaconID.size(); i++) {
                                         for (int k = 0; k < jsonArray.length(); k++) {
                                             String B = jsonArray.getString(k);
-                                            if(BeaconID.get(i).equals(B)) {
+                                            if(Student_HomePage.BeaconID.get(i).equals(B)) {
                                                 IsInsideTheClassroom = true;
                                                 break;
                                             }
@@ -458,13 +458,13 @@ Desing();
         return new SimpleEddystoneListener() {
             @Override
             public void onEddystoneDiscovered(IEddystoneDevice eddystone, IEddystoneNamespace namespace) {
-                BeaconID.add(eddystone.getInstanceId());
+                Student_HomePage.BeaconID.add(eddystone.getInstanceId());
             }
 
             
             @Override
             public void onEddystoneLost(IEddystoneDevice eddystone, IEddystoneNamespace namespace) {
-                BeaconID.remove(eddystone.getInstanceId());
+                Student_HomePage.BeaconID.remove(eddystone.getInstanceId());
                 Toast.makeText(getBaseContext(), "renove: "+eddystone.getInstanceId(), Toast.LENGTH_SHORT).show();
 
             }

@@ -5,19 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="3dp"
+    android:padding="7dp"
     tools:context="com.example.mm_kau.smartattendance.send_Excuse">
 
-
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:textColor="@android:color/black"
-        android:textSize="30dp"
-        android:text="Send Excuse " />
 
     <TextView
         android:id="@+id/textView18"
@@ -33,6 +23,8 @@
         android:id="@+id/IMGVIEW"
         android:layout_width="match_parent"
         android:layout_height="240dp"
+        android:background="@drawable/steps_off"
+android:padding="5dp"
        />
 
     <Button
@@ -42,7 +34,7 @@
         android:layout_height="30dp"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="7dp"
-        android:background="@android:color/darker_gray"
+        android:background="@drawable/my_button_orange"
         android:text="Upload image " />
 
     <TextView
@@ -50,9 +42,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
-        android:textSize="15dp"
+        android:textSize="18dp"
         android:textColor="@android:color/black"
-        android:text=" Text : " />
+        android:text="Text : " />
 
     <EditText
         android:id="@+id/editText4OfTextOfExcuse"
@@ -61,13 +53,18 @@
         android:ems="10"
         android:padding="5dp"
         android:gravity="top"
+        android:background="@drawable/steps_off"
         android:inputType="textMultiLine" />
 
     <Button
 
         android:id="@+id/button5_SendExcuse"
+        android:layout_marginTop="18dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:textColor="@android:color/white"
+        android:background="@drawable/my_button"
         android:text="Send" />
 
 </LinearLayout>

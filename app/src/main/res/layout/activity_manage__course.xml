@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="7dp"
     tools:context="com.example.mm_kau.smartattendance.Manage_Course">
 
 
@@ -27,7 +28,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="2dp"
             >
 
             <TextView
@@ -35,7 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Course Information"
-                android:textColor="@color/colorAccent"
+                android:gravity="center"
+                android:textColor="#0B614B"
                 android:layout_marginBottom="10dp"
                 android:textSize="30dp" />
 
@@ -44,7 +45,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Course ID :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20sp"
 
                 />
@@ -53,7 +54,7 @@
                 android:id="@+id/editTextForViewCourseID"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:textColor="@android:color/black"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
 
@@ -62,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Course Name :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <EditText
@@ -77,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Teacher ID:"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <EditText
@@ -93,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Class room :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <EditText
@@ -109,7 +110,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Start Time of Lecture :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp"
 
                 />
@@ -127,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="End Time of Lecture :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <TimePicker
@@ -141,7 +142,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Start Time Of Attendace :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
             <TimePicker
@@ -155,7 +156,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="End Time Of Attendance :"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="#0B614B"
                 android:textSize="20dp" />
 
 
@@ -170,12 +171,17 @@
                 android:id="@+id/UpdateCourseBTN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/my_button"
+                android:textColor="@android:color/white"
                 android:text="Update" />
 
             <Button
                 android:id="@+id/DeleteCourseBTN"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/my_button"
+                android:textColor="@android:color/white"
                 android:text="Delete" />
 
         </LinearLayout>

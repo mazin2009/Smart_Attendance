@@ -41,8 +41,7 @@ public class send_Excuse extends AppCompatActivity implements Designable {
 
     private Button Upload , Send ;
     private Bitmap ImageBitmap;
-    private String Encode_img , filePath ;
-    private File tempFile;
+    private String Encode_img  ;
     private ByteArrayOutputStream img_bytes;
     ImageView IMGVIEW ;
     TextView Text;
@@ -53,8 +52,7 @@ public class send_Excuse extends AppCompatActivity implements Designable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send__excuse);
-
-
+        setTitle("Send New Excuse");
         InitializeView();
     }
 
@@ -203,6 +201,16 @@ public class send_Excuse extends AppCompatActivity implements Designable {
 
 
     }
+
+
+    @Override
+    public void onBackPressed() {
+
+        Intent intent = new Intent(getBaseContext(), Student_HomePage.class);
+        startActivity(intent);
+
+    }
+
 
 
     public void SendAnnouncment(final String Topic , final String StudentName)  {

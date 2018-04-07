@@ -1,5 +1,6 @@
 package com.example.mm_kau.smartattendance;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,24 +43,30 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
     private TextView Name;
     private Bitmap decodedByte;
     private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor editor;
-    Button LogOUT;
-    ImageView requestExcuse_BTN ;
+    private SharedPreferences.Editor sharedPreferencesEditer;
+    Button LogOUT ;
+    ImageView requestExcuse_BTN , SettingBTN ;
     private ArrayList<excuse> List_Excuse;
+    EditText newPass1 , newPass2 , prevPass;
     ListView ListViewExcuse;
+
+    private ProgressDialog progressDialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher__home_page);
+        setTitle("Teacher Home Page");
         InitializeView();
     }
 
     @Override
     public void InitializeView() {
+        SettingBTN = findViewById(R.id.imageViewSetting);
+        this.progressDialog = new ProgressDialog(Teacher_HomePage.this);
         sharedPreferences = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        sharedPreferencesEditer = sharedPreferences.edit();
         requestExcuse_BTN = findViewById(R.id.imageViewNewRequesttExcuse);
         LogOUT = findViewById(R.id.buttonLogOUT_Teacher);
         listView_course = findViewById(R.id.listCourseForStudent);
@@ -169,6 +177,114 @@ Desing();
     @Override
     public void HandleAction() {
 
+        SettingBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.setting, null, false);
+                setContentView(v);
+                setTitle("Setting");
+
+                Button ChangePass = v.findViewById(R.id.button2ChangePass);
+
+                ChangePass.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.change_pass, null, false);
+                        setContentView(v);
+                        setTitle("Change Password");
+                        newPass1 = v.findViewById(R.id.editTextRestPass1);
+                        newPass2 = v.findViewById(R.id.editText2RestPass2);
+                        prevPass = v.findViewById(R.id.editText2PrevPass);
+
+                        Button Send_ResetPass = v.findViewById(R.id.button2ResetPass);
+
+                        Send_ResetPass.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+
+                                if (newPass1.getText().toString().trim().isEmpty() || newPass2.getText().toString().trim().isEmpty() || prevPass.getText().toString().trim().isEmpty()) {
+                                    Toast.makeText(getBaseContext(), "؛please fill in all fild", Toast.LENGTH_LONG).show();
+                                } else if (Network.isConnected(getBaseContext()) == false) {
+                                    Toast.makeText(getBaseContext(), "No Internet", Toast.LENGTH_LONG).show();
+                                } else if (!newPass1.getText().toString().equals(newPass2.getText().toString())) {
+                                    Toast.makeText(getBaseContext(), "Two passwords are not the same", Toast.LENGTH_LONG).show();
+                                } else {
+
+                                    progressDialog.setMessage("please wait ...");
+                                    progressDialog.show();
+
+                                    StringRequest request = new StringRequest(Request.Method.POST, Constants.changePass, new Response.Listener<String>() {
+                                        @Override
+                                        public void onResponse(String response) {
+
+
+                                            try {
+
+
+                                                JSONObject jsonObject = new JSONObject(response);
+                                                String status = jsonObject.getString("state");
+
+                                                if (status.equals("yes")) {
+
+                                                    progressDialog.dismiss();
+
+                                                    Toast.makeText(getBaseContext(), "the password has been changed", Toast.LENGTH_LONG).show();
+                                                    sharedPreferencesEditer.putBoolean(Constants.UserIsLoggedIn, false);
+                                                    sharedPreferencesEditer.commit();
+                                                    FirebaseMessaging.getInstance().unsubscribeFromTopic(sharedPreferences.getString(Constants.TeacherID,""));
+                                                    Intent intent = new Intent(getBaseContext(), LoginPage.class);
+                                                    startActivity(intent);
+
+                                                } else {
+                                                    progressDialog.dismiss();
+                                                    Toast.makeText(getBaseContext(), "The previous Password is incorrect ", Toast.LENGTH_LONG).show();
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
+
+                                        }
+                                    }, new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }) {
+                                        @Override
+                                        protected Map<String, String> getParams() throws AuthFailureError {
+                                            /*** Here you put the HTTP request parameters **/
+
+                                            HashMap<String, String> map = new HashMap<>();
+                                            map.put("ID", sharedPreferences.getString(Constants.TeacherID," "));
+                                            map.put("prevPass", prevPass.getText().toString());
+                                            map.put("password", newPass1.getText().toString());
+                                            map.put("UserType", sharedPreferences.getString(Constants.UserType," "));
+                                            return map;
+                                        }
+                                    };
+                                    Singleton_Queue.getInstance(getBaseContext()).Add(request);
+                                }
+
+
+
+                            }
+                        });
+
+
+                    }
+                });
+
+
+
+
+
+
+            }
+        });
 
 
         LogOUT.setOnClickListener(new View.OnClickListener() {
@@ -189,8 +305,8 @@ Desing();
                             Toast.makeText(getBaseContext(), "no connection", Toast.LENGTH_LONG).show();
                         } else {
                             FirebaseMessaging.getInstance().unsubscribeFromTopic(sharedPreferences.getString(Constants.TeacherID,""));
-                            editor.putBoolean(Constants.UserIsLoggedIn, false);
-                            editor.commit();
+                            sharedPreferencesEditer.putBoolean(Constants.UserIsLoggedIn, false);
+                            sharedPreferencesEditer.commit();
                             Intent intent = new Intent(getBaseContext(), LoginPage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -215,10 +331,11 @@ requestExcuse_BTN.setOnClickListener(new View.OnClickListener() {
 
         View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.excuse_list, null, false);
         setContentView(v);
-
+        setTitle("List Of Excuse ");
         List_Excuse = new ArrayList<>();
         ListViewExcuse = v.findViewById(R.id.listExcuse);
-
+        progressDialog.setMessage("Please wait ...");
+        progressDialog.show();
 
         StringRequest request = new StringRequest(Request.Method.POST, Constants.getListOfExcuse, new Response.Listener<String>() {
             @Override
@@ -256,7 +373,7 @@ requestExcuse_BTN.setOnClickListener(new View.OnClickListener() {
 
 
                     if (List_Excuse.size() == 0) {
-
+                        progressDialog.dismiss();
                         Toast.makeText(getBaseContext(), "There is no Excuse requset", Toast.LENGTH_LONG).show();
 
                     } else {
@@ -264,6 +381,7 @@ requestExcuse_BTN.setOnClickListener(new View.OnClickListener() {
                         Collections.reverse(List_Excuse);
                         Excuse_apdt adapter = new Excuse_apdt(getBaseContext(), List_Excuse);
                         ListViewExcuse.setAdapter(adapter);
+                        progressDialog.dismiss();
 
                         ListViewExcuse.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
@@ -277,6 +395,7 @@ requestExcuse_BTN.setOnClickListener(new View.OnClickListener() {
 
                                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.show_excuse, null, false);
                                 setContentView(v);
+                                setTitle("Excuse from :  "+List_Excuse.get(i).getStudent_name());
 
                             ImageView IMG_View = v.findViewById(R.id.imageViewForShowExcueInTeacher);
 
@@ -470,7 +589,7 @@ requestExcuse_BTN.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onBackPressed() {
 
-        Intent intent = new Intent(getBaseContext(), LoginPage.class);
+        Intent intent = new Intent(getBaseContext(), Teacher_HomePage.class);
         startActivity(intent);
 
     }

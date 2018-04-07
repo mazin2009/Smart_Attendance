@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="7dp"
     android:orientation="vertical">
 
 
@@ -10,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_marginTop="15dp"
-        android:text="        ID                     Name             Absent"
+        android:text="        ID                Name                Absent"
         android:textColor="@android:color/black"
         android:textSize="20dp"
    />
@@ -24,7 +25,6 @@
         android:divider="@android:color/white"
         android:dividerHeight="3dp"
         android:scrollbars="none"
-        android:layout_margin="10dp"
         ></ListView>
 
 

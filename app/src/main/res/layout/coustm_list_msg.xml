@@ -8,8 +8,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:padding="5dp"
-        android:background="@android:color/holo_green_light"
+        android:padding="7dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/my_button"
         android:orientation="vertical">
 
 
@@ -27,7 +28,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Title  :"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     android:textSize="18dp" />
 
                 <TextView
@@ -37,7 +39,7 @@
                     android:paddingRight="10dp"
                     android:text="123456789"
                     android:layout_marginLeft="10dp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="18dp" />
             </TableRow>
             <TableRow
@@ -50,7 +52,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Course  :"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     android:textSize="18dp" />
 
                 <TextView
@@ -60,7 +63,7 @@
                     android:paddingRight="10dp"
                     android:text="123456789"
                     android:layout_marginLeft="10dp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="18dp" />
             </TableRow>
             <TableRow
@@ -73,7 +76,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Teacher  :"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     android:textSize="18dp" />
 
                 <TextView
@@ -83,7 +87,7 @@
                     android:paddingRight="10dp"
                     android:text="123456789"
                     android:layout_marginLeft="10dp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="18dp" />
             </TableRow>
             <TableRow
@@ -96,7 +100,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Date :"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
                     android:textSize="18dp" />
 
                 <TextView
@@ -106,7 +111,7 @@
                     android:paddingRight="10dp"
                     android:text="123456789"
                     android:layout_marginLeft="10dp"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="18dp" />
             </TableRow>
         </TableLayout>

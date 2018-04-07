@@ -10,11 +10,14 @@
         android:id="@+id/textView15"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="17dp"
+        android:textSize="25dp"
+        android:gravity="center"
+        android:textColor="#0B614B"
+        android:layout_marginTop="80dp"
         android:text="Forgot Password" />
 
     <EditText
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="100dp"
         android:id="@+id/editTextEmailToSendNewPass"
         android:layout_width="match_parent"
         android:layout_height="50dp"

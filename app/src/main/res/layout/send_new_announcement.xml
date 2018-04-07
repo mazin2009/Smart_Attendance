@@ -59,7 +59,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Send"
-
+        android:background="@drawable/my_button"
+        android:textColor="@android:color/white"
         />
 
 </LinearLayout>

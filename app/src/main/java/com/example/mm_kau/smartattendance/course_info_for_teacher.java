@@ -29,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -108,6 +109,9 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
 
     @Override
     public void Desing() {
+
+
+        setTitle("Course Infornation : "+C_name.getText().toString());
 
         HandleAction();
     }
@@ -215,7 +219,7 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
 
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.lecture_list_for_course_in_teacher, null, false);
                 setContentView(v);
-
+                setTitle("Lecture List");
                 list_lecture = new ArrayList<>();
                 listview_of_lecture = v.findViewById(R.id.listTheLectureOfCourseInTeacher);
 
@@ -251,6 +255,8 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
 
 
 
+
+                                Collections.reverse(list_lecture);
 
                                 LectureList_Adpt adapter = new LectureList_Adpt(getBaseContext(), list_lecture);
                                 listview_of_lecture.setAdapter(adapter);
@@ -309,6 +315,7 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
 
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.attendance_info_for_teacher, null, false);
                 setContentView(v);
+                setTitle(" Attendance Information");
 
                 list_attendance_info = new ArrayList<>();
                 listview_attendance_info = v.findViewById(R.id.listAttendance_INFO);
@@ -406,6 +413,7 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
                 }
 
                 setContentView(v);
+                setTitle("Change Attendance Time");
 
                 update_TimeOfAttendance = v.findViewById(R.id.buttonUpdateTimeofAttend_inTeacher);
                 update_TimeOfAttendance.setOnClickListener(new View.OnClickListener() {
