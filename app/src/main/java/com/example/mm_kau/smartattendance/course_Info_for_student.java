@@ -114,11 +114,11 @@ public class course_Info_for_student extends AppCompatActivity  implements Desig
         STA.setText(getIntent().getStringExtra("STA"));
         ETA.setText(getIntent().getStringExtra("ETA"));
 
-Desing();
+Design();
     }
 
     @Override
-    public void Desing() {
+    public void Design() {
 
         HandleAction();
     }

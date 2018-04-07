@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -121,12 +120,12 @@ public class listOfAttenanceInfo_forEachLecture extends AppCompatActivity implem
 
 
 
-Desing();
+Design();
 
     }
 
     @Override
-    public void Desing() {
+    public void Design() {
         setTitle("Lecture Attendance Information ");
 
         HandleAction();

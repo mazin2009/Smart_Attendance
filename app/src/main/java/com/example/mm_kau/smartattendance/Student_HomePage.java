@@ -1,19 +1,15 @@
 package com.example.mm_kau.smartattendance;
 
-import android.*;
-import android.app.ActionBar;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +17,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -195,12 +190,12 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
 
 
 
-        Desing();
+        Design();
 
     }
 
     @Override
-    public void Desing() {
+    public void Design() {
 
 
         HandleAction();
@@ -328,8 +323,8 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
 
                 AlertDialog.Builder ConfirmationDialog = new AlertDialog.Builder(Student_HomePage.this);
                 ConfirmationDialog.setCancelable(false);
-                ConfirmationDialog.setMessage("Do you want to logout ?");
-                ConfirmationDialog.setTitle("sure");
+                ConfirmationDialog.setMessage("Do you want log out ?");
+                ConfirmationDialog.setTitle("Confirm");
                 ConfirmationDialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -344,7 +339,6 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                             }
 
 
-
                             sharedPreferencesEditer.putBoolean(Constants.UserIsLoggedIn, false);
                             sharedPreferencesEditer.commit();
                             Intent intent = new Intent(getBaseContext(), LoginPage.class);
@@ -354,7 +348,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                         }
                     }
                 });
-                ConfirmationDialog.setNegativeButton("لا", null);
+                ConfirmationDialog.setNegativeButton("No", null);
                 ConfirmationDialog.show();
 
 

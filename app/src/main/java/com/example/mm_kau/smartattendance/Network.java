@@ -3,6 +3,7 @@ package com.example.mm_kau.smartattendance;
 /**
  * Created by Mez on 29/01/18.
  */
+
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;

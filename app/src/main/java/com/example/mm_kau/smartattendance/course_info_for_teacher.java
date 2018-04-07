@@ -22,7 +22,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +29,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -100,7 +98,7 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
         SendAnnouncment = findViewById(R.id.button4ForSendAnnouncment);
 
 
-        Desing();
+        Design();
     }
 
 
@@ -108,7 +106,7 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
 
 
     @Override
-    public void Desing() {
+    public void Design() {
 
 
         setTitle("Course Infornation : "+C_name.getText().toString());

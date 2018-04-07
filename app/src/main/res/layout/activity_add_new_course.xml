@@ -118,14 +118,11 @@
 
                 />
 
-            <EditText
-                android:id="@+id/editTextForSTL"
+            <TimePicker
+                android:id="@+id/TimePicker_STL_AD"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:ems="10"
-                android:textColor="#0B614B"
-                android:hint="format must be like this : 00:00:00"
-                android:inputType="time" />
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner" />
 
             <TextView
                 android:id="@+id/textView55"
@@ -135,14 +132,11 @@
                 android:textColor="#0B614B"
                 android:textSize="20dp" />
 
-            <EditText
-                android:id="@+id/editTextForETL"
+            <TimePicker
+                android:id="@+id/TimePicker_ETL_AD"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:ems="10"
-                android:textColor="#0B614B"
-                android:hint="format must be like this : 00:00:00"
-                android:inputType="time" />
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -152,14 +146,11 @@
                 android:textColor="#0B614B"
                 android:textSize="20dp" />
 
-            <EditText
-                android:id="@+id/editText2ForSTA"
+            <TimePicker
+                android:id="@+id/TimePicker_STA_AD"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:ems="10"
-                android:textColor="#0B614B"
-                android:hint="format must be like this : 00:00:00"
-                android:inputType="time" />
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner" />
 
             <TextView
                 android:id="@+id/textView89"
@@ -170,14 +161,11 @@
                 android:textSize="20dp" />
 
 
-            <EditText
-                android:id="@+id/editTextForETA"
+            <TimePicker
+                android:id="@+id/TimePicker_ETA_AD"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:ems="10"
-                android:textColor="#0B614B"
-                android:hint="format must be like this : 00:00:00"
-                android:inputType="time" />
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner" />
 
 
             <TextView

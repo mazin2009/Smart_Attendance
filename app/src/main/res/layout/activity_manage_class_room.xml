@@ -80,7 +80,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Beacons :"
+                android:text="Beacons (split bt line):"
                 android:textColor="#0B614B"
                 android:textSize="20dp" />
 
@@ -98,15 +98,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/my_button"
                 android:textColor="@android:color/white"
+                android:layout_marginTop="70dp"
                 android:text="update" />
-            <Button
-                android:id="@+id/DeleteClassRoomBTN"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/my_button_orange"
-                android:textColor="@android:color/black"
-                android:text="delete" />
 
 
 

@@ -1,14 +1,10 @@
 package com.example.mm_kau.smartattendance;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -28,7 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,11 +58,11 @@ public class send_Excuse extends AppCompatActivity implements Designable {
         IMGVIEW = findViewById(R.id.IMGVIEW);
         Send = findViewById(R.id.button5_SendExcuse);
         Text = findViewById(R.id.editText4OfTextOfExcuse);
-        Desing();
+        Design();
     }
 
     @Override
-    public void Desing() {
+    public void Design() {
 
         HandleAction();
     }

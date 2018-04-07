@@ -23,7 +23,7 @@ public class MystudentAdpt extends ArrayAdapter {
 
 
     public MystudentAdpt(Context context, ArrayList<student> students) {
-        super(context, R.layout.costum_list, R.id.TextView_INcostum, students);
+        super(context, R.layout.costum_list, students);
         this.context = context;
         this.students = students;
 

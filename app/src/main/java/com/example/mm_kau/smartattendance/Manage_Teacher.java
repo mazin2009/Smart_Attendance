@@ -2,7 +2,6 @@ package com.example.mm_kau.smartattendance;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +29,7 @@ public class Manage_Teacher extends AppCompatActivity implements Designable {
     private TextView T_ID;
     private Button Update , DLT ;
     private ProgressDialog progressDialog;
-    String PS ;
+    private String PASSWORD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +43,7 @@ public class Manage_Teacher extends AppCompatActivity implements Designable {
     public void InitializeView() {
 
         this.progressDialog = new ProgressDialog(Manage_Teacher.this);
+
         this.Update = findViewById(R.id.buttonOfUpdateTeacher);
         this.DLT =  findViewById(R.id.buttonOfDeleteTeacher);
 
@@ -60,14 +60,14 @@ public class Manage_Teacher extends AppCompatActivity implements Designable {
         this.T_email.setText(getIntent().getStringExtra("Email"));
 
         this.Pass = findViewById(R.id.editText_T_Pass);
-        PS = getIntent().getStringExtra("Pass");
+        PASSWORD = getIntent().getStringExtra("Pass");
 
 
-Desing();
+        Design();
     }
 
     @Override
-    public void Desing() {
+    public void Design() {
 
         HandleAction();
     }
@@ -87,39 +87,41 @@ Desing();
                      Toast.makeText(getBaseContext(), "No connection with Internet", Toast.LENGTH_LONG).show();
                  } else {
 
+                     // if admin did not add new password , here we set the old password as a new.
+                     if (!Pass.getText().toString().trim().isEmpty()) {
+                         PASSWORD = Pass.getText().toString();
+                     }
+
                      progressDialog.setMessage("Please wait ...");
                      progressDialog.show();
 
 
-                     if (!Pass.getText().toString().trim().isEmpty()) {
-                         PS = Pass.getText().toString();
-                     }
+                     // call server to update teacher info.
                      StringRequest request = new StringRequest(Request.Method.POST, Constants.updateTeacher, new Response.Listener<String>() {
                          @Override
                          public void onResponse(String response) {
 
                              try {
 
-                                 Toast.makeText(getBaseContext(), response, Toast.LENGTH_LONG).show();
-
                                  JSONObject jsonObject = new JSONObject(response);
                                  String status = jsonObject.getString("state");
-                                 if (status.equals("yes")) {
 
+                                 if (status.equals("yes")) {
                                      progressDialog.dismiss();
                                      Toast.makeText(getBaseContext(), " Teacher Updated.", Toast.LENGTH_LONG).show();
                                      Intent intent = new Intent(getBaseContext(), adminHome.class);
                                      startActivity(intent);
 
                                  } else {
-                                     progressDialog.dismiss();
 
-                                      Toast.makeText(getBaseContext(), " Tehre is problem , try agine ", Toast.LENGTH_LONG).show();
+                                     progressDialog.dismiss();
+                                     Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                                  }
                              } catch (JSONException e) {
 
-                                 e.printStackTrace();
+                                 progressDialog.dismiss();
+                                 Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                              }
 
@@ -129,47 +131,46 @@ Desing();
                          public void onErrorResponse(VolleyError error) {
                              progressDialog.dismiss();
                              Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
-                             Toast.makeText(getBaseContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                          }
                      }) {
                          @Override
                          protected Map<String, String> getParams() throws AuthFailureError {
-                             /*** Here you put the HTTP request parameters **/
 
+                             // HTTP request parameters
                              HashMap<String, String> map = new HashMap<>();
 
                              map.put("T_id", T_ID.getText().toString());
                              map.put("T_Fname",T_F_name.getText().toString());
                              map.put("T_Lname", T_L_name.getText().toString());
                              map.put("T_Email", T_email.getText().toString());
-                             map.put("t_pass", PS);
+                             map.put("t_pass", PASSWORD);
                              return map;
                          }
                      };
+
+
+                     // Add The volly request to the Singleton Queue.
                      Singleton_Queue.getInstance(getBaseContext()).Add(request);
+                     // End of Volly http request
+
                  }
 
 
              } catch (Exception e) {
-
-                 Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-
+                 progressDialog.dismiss();
+                 Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
              }
-
-
-
-
 
          }
      });
 
-
+        // call server to delete this student.
      DLT.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
 
-
-
+             progressDialog.setMessage("Please wait ...");
+             progressDialog.show();
 
              StringRequest request = new StringRequest(Request.Method.POST, Constants.DeleteTecherByID, new Response.Listener<String>() {
                  @Override
@@ -189,13 +190,13 @@ Desing();
 
                          } else {
                              progressDialog.dismiss();
-
-                             Toast.makeText(getBaseContext(), " Tehre is problem , try agine ", Toast.LENGTH_LONG).show();
+                             Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                          }
                      } catch (JSONException e) {
 
-                         e.printStackTrace();
+                         progressDialog.dismiss();
+                         Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                      }
 
@@ -209,24 +210,25 @@ Desing();
              }) {
                  @Override
                  protected Map<String, String> getParams() throws AuthFailureError {
-                     /*** Here you put the HTTP request parameters **/
 
+                     // HTTP request parameters
                      HashMap<String, String> map = new HashMap<>();
                      map.put("TE_id",T_ID.getText().toString());
                      return map;
                  }
              };
+
+             // Add The volly request to the Singleton Queue.
              Singleton_Queue.getInstance(getBaseContext()).Add(request);
-
-
-
-
+            // End of Volly http request
 
          }
      });
 
 
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -235,7 +237,5 @@ Desing();
         startActivity(intent);
 
     }
-
-
 
 }

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -22,10 +21,6 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,15 +32,13 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
     private TimePicker STL , ETL , STA ,ETA;
     private Button UpdateBTN , DeleteBTN ;
     private ProgressDialog progressDialog;
-    String TeacherID , ClassroomID , STL_ad , ETL_ad , STA_ad ,ETA_ad;
-
+    private String TeacherID , ClassroomID , STL_ad , ETL_ad , STA_ad ,ETA_ad;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage__course);
-
         InitializeView();
 
     }
@@ -57,6 +50,7 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
 
         this.UpdateBTN = findViewById(R.id.UpdateCourseBTN);
         this.DeleteBTN = findViewById(R.id.DeleteCourseBTN);
+
         this.CourseID_AD = findViewById(R.id.editTextForViewCourseID);
         this.CourseID_AD.setText(getIntent().getStringExtra("course_ID"));
 
@@ -65,32 +59,37 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
 
         this.TeacherID_AD = findViewById(R.id.editTextForTeacherIdOfCourse_mng);
 
+        // check if the course has teacher or not yet.
         if (getIntent().getStringExtra("TeacherID").equals("null")) {
             TeacherID_AD.setHint("undefined");
         }else {
             this.TeacherID_AD.setText(  getIntent().getStringExtra("TeacherID"));
         }
 
+        // check if the course has  classroom or not yet.
         this.ClassRommID_AD = findViewById(R.id.editTextForCLassRoomOfCourse_mng);
         if (getIntent().getStringExtra("Room_ID").equals("null")) {
-    ClassRommID_AD.setHint("undefined");
-}else {
+            this.ClassRommID_AD.setHint("undefined"); }else {
+            this.ClassRommID_AD.setText(  getIntent().getStringExtra("Room_ID"));
+                }
 
-    this.ClassRommID_AD.setText(  getIntent().getStringExtra("Room_ID"));
-}
+
 
 
         this.STL = findViewById(R.id.TimePicker_STL);
         this.ETL = findViewById(R.id.TimePicker_ETL);
         this.STA = findViewById(R.id.TimePicker_STA);
         this.ETA = findViewById(R.id.TimePicker_ETA);
+        // Make the time picker as 24 hour view
         STL.setIs24HourView(true);
         ETL.setIs24HourView(true);
         STA.setIs24HourView(true);
         ETA.setIs24HourView(true);
 
+        // check version
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
+            // get the time from intent and put it in time picker
             STL.setHour(Integer.parseInt(getIntent().getStringExtra("STL").split(":")[0]));
             STL.setMinute(Integer.parseInt(getIntent().getStringExtra("STL").split(":")[1]));
 
@@ -108,12 +107,12 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
         }
 
 
-Desing();
+        Design();
 
     }
 
     @Override
-    public void Desing() {
+    public void Design() {
 
         HandleAction();
     }
@@ -122,12 +121,18 @@ Desing();
     public void HandleAction() {
 
 
-
+        // delete this course.
         DeleteBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
+
+
+                progressDialog.setMessage("Please wait ...");
+                progressDialog.show();
+
+                //  call server to delete this course.
                 StringRequest request = new StringRequest(Request.Method.POST, Constants.DeleteCourseByID, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -136,6 +141,7 @@ Desing();
 
 
                             JSONObject jsonObject = new JSONObject(response);
+
                             String status = jsonObject.getString("state");
                             if (status.equals("yes")) {
 
@@ -146,13 +152,12 @@ Desing();
 
                             } else {
                                 progressDialog.dismiss();
-
-                                Toast.makeText(getBaseContext(), " Tehre is problem , try agine ", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                             }
                         } catch (JSONException e) {
-
-                            e.printStackTrace();
+                            progressDialog.dismiss();
+                            Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -166,27 +171,29 @@ Desing();
                 }) {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
-                        /*** Here you put the HTTP request parameters **/
+
+// HTTP request parameters
 
                         HashMap<String, String> map = new HashMap<>();
-
                         map.put("course_id", CourseID_AD.getText().toString());
 
                         return map;
                     }
                 };
-                Singleton_Queue.getInstance(getBaseContext()).Add(request);
 
+                // Add The volly request to the Singleton Queue.
+                Singleton_Queue.getInstance(getBaseContext()).Add(request);
+                // End of Volly http request
 
 
             }
         });
 
 
+
         UpdateBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
 
                 try {
@@ -200,17 +207,16 @@ Desing();
                         progressDialog.setMessage("Please wait ...");
                         progressDialog.show();
 
-
+                        // if admin did not set the teacher we will make it null.
                         if (TeacherID_AD.getText().length() == 0) {
                             TeacherID = "NULL";
 
                         } else {
                             TeacherID = TeacherID_AD.getText().toString();
                         }
-
+                        // if admin did not set the classroom we will make it null.
                         if (ClassRommID_AD.getText().length() == 0) {
                             ClassroomID = "NULL";
-
                         } else {
                             ClassroomID = ClassRommID_AD.getText().toString();
                         }
@@ -218,15 +224,13 @@ Desing();
 
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
+                            // get the time from time picker to update it.
+                            // make the format hh:mm:ss a
                             STL_ad = String.valueOf(STL.getHour())+":"+String.valueOf(STL.getMinute())+":00";
                             ETL_ad = String.valueOf(ETL.getHour())+":"+String.valueOf(ETL.getMinute())+":00";
                             STA_ad = String.valueOf(STA.getHour())+":"+String.valueOf(STA.getMinute())+":00";
                             ETA_ad = String.valueOf(ETA.getHour())+":"+String.valueOf(ETA.getMinute())+":00";
-
                         }
-
-
 
 
                         StringRequest request = new StringRequest(Request.Method.POST, Constants.updateCourse, new Response.Listener<String>() {
@@ -238,8 +242,8 @@ Desing();
 
                                     JSONObject jsonObject = new JSONObject(response);
                                     String status = jsonObject.getString("state");
-                                    if (status.equals("yes")) {
 
+                                    if (status.equals("yes")) {
                                         progressDialog.dismiss();
                                         Toast.makeText(getBaseContext(), " Course Updated.", Toast.LENGTH_LONG).show();
                                         Intent intent = new Intent(getBaseContext(), adminHome.class);
@@ -247,13 +251,12 @@ Desing();
 
                                     } else {
                                         progressDialog.dismiss();
-
-                                        Toast.makeText(getBaseContext(), " Tehre is problem , try agine ", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                                     }
                                 } catch (JSONException e) {
-
-                               e.printStackTrace();
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                                 }
 
@@ -267,10 +270,10 @@ Desing();
                         }) {
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
-                                /*** Here you put the HTTP request parameters **/
+
+                                // HTTP request parameters
 
                                 HashMap<String, String> map = new HashMap<>();
-
                                 map.put("course_id", CourseID_AD.getText().toString());
                                 map.put("course_name", CourseName_AD.getText().toString());
                                 map.put("teacherID", TeacherID);
@@ -282,16 +285,21 @@ Desing();
                                 return map;
                             }
                         };
+
+                        // Add The volly request to the Singleton Queue.
                         Singleton_Queue.getInstance(getBaseContext()).Add(request);
+                        // End of Volly http request
+
                     }
 
 
                 } catch (Exception e) {
 
-                    Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                    Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+
 
                 }
-
 
 
             }

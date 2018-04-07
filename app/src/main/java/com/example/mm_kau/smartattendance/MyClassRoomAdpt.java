@@ -23,10 +23,9 @@ public class MyClassRoomAdpt extends ArrayAdapter {
 
 
     public MyClassRoomAdpt(Context context, ArrayList<classroom> CRS) {
-        super(context, R.layout.costum_list, R.id.TextView_INcostum, CRS);
+        super(context, R.layout.costum_list, CRS);
         this.context = context;
         this.CRS = CRS;
-
     }
 
     public classroom getItem(int position){
@@ -39,9 +38,7 @@ public class MyClassRoomAdpt extends ArrayAdapter {
         final View view = LayoutInflater.from(getContext()).inflate(R.layout.costum_list, parent, false);
 
         TextView textView = (TextView) view.findViewById(R.id.TextView_INcostum);
-        textView.setText("Class room ID : : "+CRS.get(position).getID() +"\n Class Room Name : "+CRS.get(position).getName());
-
-
+        textView.setText("Class room ID : "+CRS.get(position).getID() +"\nClass Room Name : "+CRS.get(position).getName());
         return view;
     }
 

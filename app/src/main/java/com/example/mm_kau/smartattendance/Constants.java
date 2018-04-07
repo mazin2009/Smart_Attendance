@@ -59,9 +59,7 @@ public class Constants {
     public static final String changePass = "http://"+IP+"/SA_Project/changePass.php";
 
 
-
-
-    // for all user (admin , teacher and student)
+    // cach file for all user (admin , teacher and student)
     public static final String UserFile = "Userfile";
     public static final String UserIsLoggedIn = "isLoggedIn";
     public static final String UserType = "UserType";
@@ -87,8 +85,9 @@ public class Constants {
     public static final String s_email = "s_email";
 
 
+    // store the list of course of student to use it when student logout.
+    // to unsubscribe From Topic
     public static  ArrayList<course> list_course_of_Student = new ArrayList<>();
-
 
 
 }

@@ -6,8 +6,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -20,25 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Serializable;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,12 +35,12 @@ public class LoginPage extends Activity implements Designable {
 
     private Button LoginBTN , SendPass ;
     private ProgressDialog progressDialog;
-    AlertDialog alertDialog;
+    private AlertDialog alertDialog;
     private EditText id, password , email;
     private SharedPreferences userfile;
     private SharedPreferences.Editor userfileEditer;
     private CheckBox RemaindMe;
-    TextView forgetPass ;
+    private TextView forgetPass ;
 
 
 
@@ -87,11 +74,11 @@ public class LoginPage extends Activity implements Designable {
         alertDialog = new AlertDialog.Builder(LoginPage.this).create();
 
         //Call Design Function
-        Desing();
+        Design();
     }
 
     @Override
-    public void Desing() {
+    public void Design() {
 
         // make (forget password textview) underline
         String FP="Forgot Password";
@@ -221,7 +208,7 @@ public class LoginPage extends Activity implements Designable {
                                @Override
                                public void onErrorResponse(VolleyError error) {
                                    progressDialog.dismiss();
-                                   Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                                   Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
                                }
                            }){
                                @Override
@@ -378,7 +365,7 @@ public class LoginPage extends Activity implements Designable {
                        @Override
                        public void onErrorResponse(VolleyError error) {
                            progressDialog.dismiss();
-                           Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                           Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
                        }
                    }){
                        @Override
@@ -402,17 +389,6 @@ public class LoginPage extends Activity implements Designable {
                     // End Login Button Click Event Listener
     }
 
-    void show_msg(String msg) {
-        alertDialog.setMessage(msg);
-
-        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-
-            }
-        });
-
-        alertDialog.show();    }
 
     public Boolean IsEmailValid(String Email) {
 

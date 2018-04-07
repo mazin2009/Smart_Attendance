@@ -26,13 +26,11 @@ import java.util.Map;
 public class Manage_Student extends AppCompatActivity implements Designable {
 
 
-    private EditText S_F_name , S_L_name , S_email , Pass;
+    private EditText S_F_name , S_L_name , S_email , Pass , CRS_ID;
     private TextView S_ID;
     private Button Update , DLT , AddCRS , AddNewCourse4ST ;
     private ProgressDialog progressDialog;
-    String PS ;
-
-    EditText CRS_ID;
+    private String PASSWORD;
 
 
     @Override
@@ -40,14 +38,16 @@ public class Manage_Student extends AppCompatActivity implements Designable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manage__student);
 
-
         InitializeView();
     }
 
     @Override
     public void InitializeView() {
 
+
+
         this.progressDialog = new ProgressDialog(Manage_Student.this);
+
         this.Update = findViewById(R.id.buttonOfUpdateStudent);
         this.DLT =  findViewById(R.id.buttonOfDeleteStudent);
         this.AddCRS = findViewById(R.id.buttonOfAddNewCourseForStudent);
@@ -65,13 +65,13 @@ public class Manage_Student extends AppCompatActivity implements Designable {
         this.S_email.setText(getIntent().getStringExtra("Email"));
 
         this.Pass = findViewById(R.id.editText_S_Pass);
-        PS = getIntent().getStringExtra("Pass");
+        PASSWORD = getIntent().getStringExtra("Pass");
 
-        Desing();
+        Design();
     }
 
     @Override
-    public void Desing() {
+    public void Design() {
 
         HandleAction();
 
@@ -86,16 +86,20 @@ public class Manage_Student extends AppCompatActivity implements Designable {
             public void onClick(View view) {
 
 
+                progressDialog.setMessage("Please wait ...");
+                progressDialog.show();
+                // call server to delete this student.
 
                 StringRequest request = new StringRequest(Request.Method.POST, Constants.DeleteStByID, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(getBaseContext(), response, Toast.LENGTH_LONG).show();
 
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
                             String status = jsonObject.getString("state");
+
+
                             if (status.equals("yes")) {
 
                                 progressDialog.dismiss();
@@ -105,13 +109,12 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
                             } else {
                                 progressDialog.dismiss();
-
-                                Toast.makeText(getBaseContext(), " Tehre is problem , try agine ", Toast.LENGTH_LONG).show();
-
+                                Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
 
-                            e.printStackTrace();
+                            progressDialog.dismiss();
+                            Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -125,15 +128,18 @@ public class Manage_Student extends AppCompatActivity implements Designable {
                 }) {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
-                        /*** Here you put the HTTP request parameters **/
 
+                        // HTTP request parameters
                         HashMap<String, String> map = new HashMap<>();
                         map.put("st_id",S_ID.getText().toString());
                         return map;
                     }
                 };
-                Singleton_Queue.getInstance(getBaseContext()).Add(request);
 
+                // Add The volly request to the Singleton Queue.
+
+                Singleton_Queue.getInstance(getBaseContext()).Add(request);
+                // End of Volly http request
 
             }
         });
@@ -152,23 +158,27 @@ public class Manage_Student extends AppCompatActivity implements Designable {
                         Toast.makeText(getBaseContext(), "No connection with Internet", Toast.LENGTH_LONG).show();
                     } else {
 
+
+
+                  // if admin did not add new password , here we set the old password as a new.
+                        if (!Pass.getText().toString().trim().isEmpty()) {
+                            PASSWORD = Pass.getText().toString();
+                        }
+
                         progressDialog.setMessage("Please wait ...");
                         progressDialog.show();
 
 
-                        if (!Pass.getText().toString().trim().isEmpty()) {
-                            PS = Pass.getText().toString();
-                        }
+                        // call server to update student info.
                         StringRequest request = new StringRequest(Request.Method.POST, Constants.UpdateStudent, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
 
                                 try {
 
-                                    Toast.makeText(getBaseContext(), response, Toast.LENGTH_LONG).show();
-
                                     JSONObject jsonObject = new JSONObject(response);
                                     String status = jsonObject.getString("state");
+
                                     if (status.equals("yes")) {
 
                                         progressDialog.dismiss();
@@ -178,13 +188,13 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
                                     } else {
                                         progressDialog.dismiss();
-                                        Toast.makeText(getBaseContext(), response, Toast.LENGTH_LONG).show();
-                                        Toast.makeText(getBaseContext(), " Tehre is problem , try agine ", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                                     }
                                 } catch (JSONException e) {
 
-                                    e.printStackTrace();
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                                 }
 
@@ -194,31 +204,36 @@ public class Manage_Student extends AppCompatActivity implements Designable {
                             public void onErrorResponse(VolleyError error) {
                                 progressDialog.dismiss();
                                 Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
-                                Toast.makeText(getBaseContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                             }
+
                         }) {
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
-                                /*** Here you put the HTTP request parameters **/
+
+                                // HTTP request parameters
 
                                 HashMap<String, String> map = new HashMap<>();
-
                                 map.put("S_id", S_ID.getText().toString());
                                 map.put("S_Fname",S_F_name.getText().toString());
                                 map.put("S_Lname", S_L_name.getText().toString());
                                 map.put("S_Email", S_email.getText().toString());
-                                map.put("S_pass", PS);
+                                map.put("S_pass", PASSWORD);
                                 return map;
+
                             }
                         };
+
+                        // Add The volly request to the Singleton Queue.
                         Singleton_Queue.getInstance(getBaseContext()).Add(request);
+                        // End of Volly http request
+
+
                     }
 
 
                 } catch (Exception e) {
-
-                    Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
-
+                    progressDialog.dismiss();
+                    Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -227,12 +242,18 @@ public class Manage_Student extends AppCompatActivity implements Designable {
             }
         });
 
+
+
+
         AddCRS.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.add_course_for_student, null, false);
                 setContentView(v);
+
+
                 CRS_ID = v.findViewById(R.id.editTextForCRSid4ST);
                 AddNewCourse4ST = v.findViewById(R.id.buttonAddCrs4ST);
 
@@ -243,11 +264,12 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
 
                         if(CRS_ID.getText().toString().trim().isEmpty()) {
-                            Toast.makeText(getBaseContext(), "Please Enter The Course ID. .", Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(getBaseContext(), "Please Enter The Course ID.", Toast.LENGTH_SHORT).show();
 
                         }else{
 
+                            progressDialog.setMessage("Please wait ...");
+                            progressDialog.show();
 
                             StringRequest request = new StringRequest(Request.Method.POST, Constants.ADD_CRS4ST, new Response.Listener<String>() {
                                 @Override
@@ -258,6 +280,7 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
                                         JSONObject jsonObject = new JSONObject(response);
                                         String status = jsonObject.getString("state");
+
                                         if (status.equals("yes")) {
 
                                             progressDialog.dismiss();
@@ -267,12 +290,12 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
                                         } else {
                                             progressDialog.dismiss();
-                                            Toast.makeText(getBaseContext(), " Tehre is problem , try agine ", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getBaseContext(),"Course ID incorrect",Toast.LENGTH_SHORT).show();
 
                                         }
                                     } catch (JSONException e) {
-
-                                        e.printStackTrace();
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                                     }
 
@@ -286,33 +309,31 @@ public class Manage_Student extends AppCompatActivity implements Designable {
                             }) {
                                 @Override
                                 protected Map<String, String> getParams() throws AuthFailureError {
-                                    /*** Here you put the HTTP request parameters **/
 
+                                    // HTTP request parameters
                                     HashMap<String, String> map = new HashMap<>();
                                     map.put("CRS_ID",CRS_ID.getText().toString());
                                     map.put("ST_ID",S_ID.getText().toString());
                                     return map;
                                 }
                             };
-                            Singleton_Queue.getInstance(getBaseContext()).Add(request);
 
+
+                            // Add The volly request to the Singleton Queue.
+                            Singleton_Queue.getInstance(getBaseContext()).Add(request);
+                            // End of Volly http request
 
                         }
 
-
-
                     }
                 });
-
-
-
+                // End Of final add course button.
 
             }
         });
+        // End Of first add course button .
 
-
-
-    }
+    } // End Of Handle action
 
     @Override
     public void onBackPressed() {
@@ -321,8 +342,5 @@ public class Manage_Student extends AppCompatActivity implements Designable {
         startActivity(intent);
 
     }
-
-
-
 
 }

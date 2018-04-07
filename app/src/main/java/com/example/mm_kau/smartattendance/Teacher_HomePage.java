@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -163,13 +162,13 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
         Singleton_Queue.getInstance(getBaseContext()).Add(request);
 
 
-Desing();
+Design();
 
 
     }
 
     @Override
-    public void Desing() {
+    public void Design() {
 
         HandleAction();
     }
