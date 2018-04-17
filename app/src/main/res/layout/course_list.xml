@@ -19,17 +19,6 @@
         android:scrollbars="none"></ListView>
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:id="@+id/no_Courses"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="@android:color/holo_red_dark"
-        />
-
 
     <Button
         android:id="@+id/button3ForDeleteAllCourses"

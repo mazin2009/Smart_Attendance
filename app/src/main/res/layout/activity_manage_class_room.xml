@@ -80,7 +80,7 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Beacons (split bt line):"
+                android:text="Beacons (split by line):"
                 android:textColor="#0B614B"
                 android:textSize="20dp" />
 

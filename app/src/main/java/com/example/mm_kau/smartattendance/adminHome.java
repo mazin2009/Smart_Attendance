@@ -47,8 +47,9 @@ public class adminHome extends AppCompatActivity implements Designable {
     private ArrayList<teacher> list_teacher;
     private ArrayList<student> list_student;
     private ArrayList<classroom> list_classroom;
-    private TextView welcomeTextView;
+    private TextView welcomeTextView  ;
     private ProgressDialog progressDialog;
+    private android.app.AlertDialog alertDialog;
     private SharedPreferences userfile;
     private SharedPreferences.Editor userfileEditer;
 
@@ -92,6 +93,7 @@ public class adminHome extends AppCompatActivity implements Designable {
         this.userfile = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
         this.userfileEditer = userfile.edit();
         this.progressDialog = new ProgressDialog(adminHome.this);
+        alertDialog = new android.app.AlertDialog.Builder(adminHome.this).create();
         this.welcomeTextView = findViewById(R.id.textView_NameOfAdmin);
 
         this.LogOutBTN = findViewById(R.id.button_Log_OUT);
@@ -114,6 +116,8 @@ public class adminHome extends AppCompatActivity implements Designable {
 
 
         String NAMEOfADD = "Name :" + userfile.getString(Constants.adminName, "");
+
+
         welcomeTextView.setText(NAMEOfADD);
 
 
@@ -163,7 +167,14 @@ public class adminHome extends AppCompatActivity implements Designable {
 
                             if (list_classroom.size() == 0) {
                                 progressDialog.dismiss();
-                                Toast.makeText(getBaseContext(), "There is no any classroom.", Toast.LENGTH_LONG).show();
+                                alertDialog.setMessage("There is no any classroom.");
+                                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(getBaseContext(), adminHome.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                                alertDialog.show();
 
                             } else {
 
@@ -257,7 +268,14 @@ public class adminHome extends AppCompatActivity implements Designable {
                             if (list_student.size() == 0) {
 
                                 progressDialog.dismiss();
-                                Toast.makeText(getBaseContext(), "There Is no Any Student", Toast.LENGTH_LONG).show();
+                                alertDialog.setMessage("There is no any Student.");
+                                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(getBaseContext(), adminHome.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                                alertDialog.show();
 
                             } else {
 
@@ -353,8 +371,14 @@ public class adminHome extends AppCompatActivity implements Designable {
 
                             if (list_teacher.size() == 0) {
                                 progressDialog.dismiss();
-                                Toast.makeText(getBaseContext(), "There Is no Any Teacher", Toast.LENGTH_LONG).show();
-
+                                alertDialog.setMessage("There is no any Teacher.");
+                                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(getBaseContext(), adminHome.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                                alertDialog.show();
                             } else {
 
 
@@ -463,7 +487,15 @@ public class adminHome extends AppCompatActivity implements Designable {
 
                             if (list_course.size() == 0) {
                                 progressDialog.dismiss();
-                                Toast.makeText(getBaseContext(), "There is no any course.", Toast.LENGTH_SHORT).show();
+                                alertDialog.setMessage("There is no any course.");
+                                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(getBaseContext(), adminHome.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                                alertDialog.show();
+
                             } else {
 
 
@@ -941,7 +973,6 @@ public class adminHome extends AppCompatActivity implements Designable {
 
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.activity_add_new_course, null, false);
                 setContentView(v);
-
 
                 Add_NewCourse_BTN = v.findViewById(R.id.AddCourseBTN);
 

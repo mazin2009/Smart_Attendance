@@ -24,16 +24,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage message) {
         sendMyNotification(message.getNotification().getTitle() , message.getNotification().getBody());
-
     }
-
 
     private void sendMyNotification(String title , String Body) {
 
         //On click of notification it redirect to this Activity
 
         Intent intent = new Intent(this, LoginPage.class);
-
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);

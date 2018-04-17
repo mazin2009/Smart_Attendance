@@ -1,9 +1,11 @@
 package com.example.mm_kau.smartattendance;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -29,11 +31,12 @@ import java.util.Map;
 public class listOfAttenanceInfo_forEachLecture extends AppCompatActivity implements Designable {
 
 
-    private TextView CourseName , Date , State , St1 , St2 , St3, St4 ,St5;
+    private TextView CourseName, Date, State, St1, St2, St3, St4, St5;
     private ArrayList<String> list_attendance_info_ofLect;
     private ArrayList<String> ListOfPresentStudents;
-    ListView listview_attendance_info_ofLec;
-    Button getRandom;
+    private ListView listview_attendance_info_ofLec;
+    private Button getRandom;
+    private ProgressDialog progressDialog;
 
 
     @Override
@@ -47,22 +50,26 @@ public class listOfAttenanceInfo_forEachLecture extends AppCompatActivity implem
     @Override
     public void InitializeView() {
 
-
-
-
-        CourseName = findViewById(R.id.textViewForCourseNAmeINLectureInfo);
+        this.progressDialog = new ProgressDialog(listOfAttenanceInfo_forEachLecture.this);
+        this.CourseName = findViewById(R.id.textViewForCourseNAmeINLectureInfo);
         this.CourseName.setText(getIntent().getStringExtra("Course_name"));
-        Date = findViewById(R.id.textViewForDateOfLecture);
+        this.Date = findViewById(R.id.textViewForDateOfLecture);
         this.Date.setText(getIntent().getStringExtra("DATE"));
-        State = findViewById(R.id.textViewForStateOflecture);
+        this.State = findViewById(R.id.textViewForStateOflecture);
         this.State.setText(getIntent().getStringExtra("state"));
-        getRandom = findViewById(R.id.button2GetRandom);
+        this.getRandom = findViewById(R.id.button2GetRandom);
 
-        list_attendance_info_ofLect = new ArrayList<>();
-        ListOfPresentStudents = new ArrayList<>();
-        listview_attendance_info_ofLec = findViewById(R.id.listAttendacInfo_forLecture);
+        this.list_attendance_info_ofLect = new ArrayList<>();
+        // list for put the random PresentStudents
+        this.ListOfPresentStudents = new ArrayList<>();
+
+        this.listview_attendance_info_ofLec = findViewById(R.id.listAttendacInfo_forLecture);
 
 
+        progressDialog.setMessage("Please wait ...");
+        progressDialog.show();
+
+        // call server to get all attendance information for this lecture.
         StringRequest request = new StringRequest(Request.Method.POST, Constants.GetAttendInfoForEachLec, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -74,53 +81,57 @@ public class listOfAttenanceInfo_forEachLecture extends AppCompatActivity implem
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        String StudentInfo ;
+                        String StudentInfo;
 
                         String ID = jsonObject.getString("ID");
                         String name = jsonObject.getString("name");
                         String State = jsonObject.getString("State");
-                        StudentInfo = ID+","+name+","+State+","+Date.getText().toString()+","+getIntent().getStringExtra("Course_ID");
+                        StudentInfo = ID + "," + name + "," + State + "," + Date.getText().toString() + "," + getIntent().getStringExtra("Course_ID");
                         list_attendance_info_ofLect.add(StudentInfo);
-                    }
 
+                    }
 
 
                     if (list_attendance_info_ofLect.size() == 0) {
-
+                        progressDialog.dismiss();
                         Toast.makeText(getBaseContext(), "There is no students", Toast.LENGTH_LONG).show();
-                    } else {
 
+                    } else {
+                        progressDialog.dismiss();
                         Attend_Info_eache_Lec_Adpt adapter = new Attend_Info_eache_Lec_Adpt(getBaseContext(), list_attendance_info_ofLect);
                         listview_attendance_info_ofLec.setAdapter(adapter);
 
-
                     }
                 } catch (JSONException e) {
-
-                    Toast.makeText(getBaseContext(), "There is no students", Toast.LENGTH_LONG).show();
+                    progressDialog.dismiss();
+                    Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
 
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getBaseContext(), "هنالك مشكلة في الخادم الرجاء المحاولة مرة اخرى", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
+                Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
             }
         }) {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("ID",getIntent().getStringExtra("Course_ID"));
-                map.put("Date",getIntent().getStringExtra("DATE"));
+                // HTTP request parameters
+                map.put("ID", getIntent().getStringExtra("Course_ID"));
+                map.put("Date", getIntent().getStringExtra("DATE"));
                 return map;
             }
         };
+
+        // Add The volly request to the Singleton Queue.
         Singleton_Queue.getInstance(getBaseContext()).Add(request);
+        // End of Volly http request
 
 
-
-Design();
+        Design();
 
     }
 
@@ -134,12 +145,15 @@ Design();
     @Override
     public void HandleAction() {
 
+
         getRandom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                progressDialog.setMessage("Please wait ...");
+                progressDialog.show();
 
-
+                //call server to get 5 random of student.
                 StringRequest request = new StringRequest(Request.Method.POST, Constants.getRandomST, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -148,22 +162,25 @@ Design();
 
                             JSONArray jsonArray = new JSONArray(response);
 
-                            if (jsonArray.length()<5) {
-
+                            if (jsonArray.length() < 5) {
+                                progressDialog.dismiss();
                                 Toast.makeText(getBaseContext(), "Must be the number of student more than 5", Toast.LENGTH_LONG).show();
-
-                            }else {
+                            } else {
+                                progressDialog.dismiss();
+                                // clear array list
+                                ListOfPresentStudents.clear();
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject ST = jsonArray.getJSONObject(i);
                                     ListOfPresentStudents.add(ST.getString("name"));
                                 }
 
-                                Collections.shuffle(ListOfPresentStudents);
+                                Collections.shuffle(ListOfPresentStudents); // shuffle all students.
 
                                 AlertDialog.Builder dialog = new AlertDialog.Builder(listOfAttenanceInfo_forEachLecture.this);
                                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.show_random_student_dailog, null, false);
 
+                                // get the first 5 students in array list after shuffle
                                 St1 = v.findViewById(R.id.Student1);
                                 St1.setText(ListOfPresentStudents.get(0));
                                 St2 = v.findViewById(R.id.Student2);
@@ -174,7 +191,6 @@ Design();
                                 St4.setText(ListOfPresentStudents.get(3));
                                 St5 = v.findViewById(R.id.Student5);
                                 St5.setText(ListOfPresentStudents.get(4));
-
                                 dialog.setView(v);
                                 dialog.setCancelable(true);
                                 dialog.show();
@@ -182,31 +198,32 @@ Design();
                             }
 
                         } catch (JSONException e) {
-
-                            Toast.makeText(getBaseContext(), "There is no students"+e.getMessage(), Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
+                            Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
 
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getBaseContext(), "هنالك مشكلة في الخادم الرجاء المحاولة مرة اخرى", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
                     }
                 }) {
 
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("Cr_ID",getIntent().getStringExtra("Course_ID"));
-                        map.put("Date",getIntent().getStringExtra("DATE"));
+                        // HTTP request parameters
+                        map.put("Cr_ID", getIntent().getStringExtra("Course_ID"));
+                        map.put("Date", getIntent().getStringExtra("DATE"));
                         return map;
                     }
                 };
+
+                // Add The volly request to the Singleton Queue.
                 Singleton_Queue.getInstance(getBaseContext()).Add(request);
-
-
-
-
+                // End of Volly http request
 
             }
         });
@@ -219,8 +236,6 @@ Design();
         startActivity(intent);
 
     }
-
-
 
 }
 

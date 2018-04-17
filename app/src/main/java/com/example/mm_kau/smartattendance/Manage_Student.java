@@ -276,7 +276,6 @@ public class Manage_Student extends AppCompatActivity implements Designable {
                                 public void onResponse(String response) {
 
                                     try {
-                                        Toast.makeText(getBaseContext(), response, Toast.LENGTH_LONG).show();
 
                                         JSONObject jsonObject = new JSONObject(response);
                                         String status = jsonObject.getString("state");

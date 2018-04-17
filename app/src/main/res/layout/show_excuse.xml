@@ -31,7 +31,7 @@
         android:id="@+id/textView15OfMessageOfExcuse"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:textColor="@android:color/white"
+        android:textColor="@android:color/black"
          />
 
     <LinearLayout

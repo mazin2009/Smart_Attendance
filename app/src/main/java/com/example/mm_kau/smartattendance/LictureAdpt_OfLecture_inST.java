@@ -64,10 +64,12 @@ public class LictureAdpt_OfLecture_inST extends ArrayAdapter {
 
         Button SendExcuse =  view.findViewById(R.id.buttonForSendExcuse);
 
+        // if student present make the button of send Excuse disable.
         if (Info[1].equals("present")) {
             SendExcuse.setEnabled(false);
             SendExcuse.setTextColor(Color.parseColor("#bdbdbd"));
         }
+
 
         SendExcuse.setOnClickListener(new View.OnClickListener() {
             @Override

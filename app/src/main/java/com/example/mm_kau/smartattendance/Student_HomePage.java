@@ -44,21 +44,20 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.mm_kau.smartattendance.course_Info_for_student.REQUEST_CODE_PERMISSIONS;
-
 public class Student_HomePage extends AppCompatActivity implements Designable {
-    private ListView listView_course  ;
+    private ListView listView_course, ListViewMSG;
     private ArrayList<course> list_course;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor sharedPreferencesEditer;
     private ArrayList<Message> List_MSG;
     public static ArrayList<String> BeaconID;
-    ListView ListViewMSG;
-    Button LogOUT;
-    ImageView MsgBTN , SettingBTN;
-    TextView Name;
-    EditText newPass1 , newPass2 , prevPass;
+    private Button LogOUT;
+    private ImageView MsgBTN, SettingBTN;
+    private TextView Name;
+    private EditText newPass1, newPass2, prevPass;
     private ProgressDialog progressDialog;
+    private android.app.AlertDialog alertDialog;
+    // create proximityManager to manage the connection with Beacons.
     private ProximityManager proximityManager;
 
 
@@ -66,19 +65,22 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student__home_page);
-        setTitle("Student Home Page");
+
         InitializeView();
 
     }
 
     @Override
     public void InitializeView() {
-        BeaconID =  new ArrayList<>();
+
+        // make new BeaconID arraylist object to state scan and save (or unsave) the connection beacons devices.
+        BeaconID = new ArrayList<>();
+        alertDialog = new android.app.AlertDialog.Builder(Student_HomePage.this).create();
         this.progressDialog = new ProgressDialog(Student_HomePage.this);
-        this.sharedPreferences=getSharedPreferences(Constants.UserFile,MODE_PRIVATE);
-        this.sharedPreferencesEditer=sharedPreferences.edit();
+        this.sharedPreferences = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
+        this.sharedPreferencesEditer = sharedPreferences.edit();
+
         Name = findViewById(R.id.textViewForNAmeOfSTU);
-        Name.setText(sharedPreferences.getString(Constants.s_Fname,"") +" "+ sharedPreferences.getString(Constants.s_Lname,""));
 
         MsgBTN = findViewById(R.id.imageViewMessage);
         LogOUT = findViewById(R.id.buttonLogOUT_ST);
@@ -87,20 +89,24 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
         listView_course = findViewById(R.id.listCoursesInStudent);
         list_course = new ArrayList<>();
 
-        KontaktSDK.initialize("wAJUXvCsDfWLqhkwYIiixyaNqeyBikIo");
-        proximityManager = ProximityManagerFactory.create(this);
-        proximityManager.setEddystoneListener(createEddystoneListener());
-        checkPermissions();
-        startScanning();
+        // configuration of proximityManager
+        KontaktSDK.initialize("wAJUXvCsDfWLqhkwYIiixyaNqeyBikIo"); // Server API Key
+        proximityManager = ProximityManagerFactory.create(this); // create new proximityManager
+        proximityManager.setEddystoneListener(createEddystoneListener()); // set Listener to discover the beacons
+        checkPermissions(); // check Permissions of bluetooth.
+        startScanning(); // start scan for beacon device
 
+
+        progressDialog.setMessage("Please wait ...");
+        progressDialog.show();
+
+        // call server to get all courses belong to this student.
         StringRequest request = new StringRequest(Request.Method.POST, Constants.GetCoursesForStudent, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 try {
-
                     JSONArray jsonArray = new JSONArray(response);
-
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -121,7 +127,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                             Course.setTeacher_ID(CourseObject.getString("Teacher_ID"));
                             Course.setTeacher_name(TeacherName);
                         }
-                        if (!CourseObject.getString(	"room_ID").isEmpty()) {
+                        if (!CourseObject.getString("room_ID").isEmpty()) {
                             Course.setRoom_ID(CourseObject.getString("room_ID"));
                         }
 
@@ -131,64 +137,75 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
 
 
                     if (list_course.size() == 0) {
-                        //       No_courses.setText("There is no clases ");
+                        progressDialog.dismiss();
+                        alertDialog.setMessage("There is no any course.");
+                        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        });
+                        alertDialog.show();
+
                     } else {
-
+                        progressDialog.dismiss();
+                        // put the list of courses of student in Constants class to use it for unsubscribe From Topic when student log out.
                         Constants.list_course_of_Student = list_course;
-
                         MyCoursAdpt adapter = new MyCoursAdpt(getBaseContext(), list_course);
                         listView_course.setAdapter(adapter);
 
+
+                        // on click listener for items in the list view
                         listView_course.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                             @Override
                             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                                Intent intent=new Intent(getBaseContext(),course_Info_for_student.class);
+                                Intent intent = new Intent(getBaseContext(), course_Info_for_student.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                intent.putExtra("course_ID",list_course.get(i).getCourse_id());
-                                intent.putExtra("name",list_course.get(i).getCourse_Name());
-                                intent.putExtra("T_name",list_course.get(i).getTeacher_name());
-                                intent.putExtra("T_ID",list_course.get(i).getTeacher_ID());
-                                intent.putExtra("Room_ID",list_course.get(i).getRoom_ID());
-                                intent.putExtra("STL",list_course.get(i).getSTL());
-                                intent.putExtra("ETL",list_course.get(i).getETL());
-                                intent.putExtra("STA",list_course.get(i).getSTA());
-                                intent.putExtra("ETA",list_course.get(i).getETA());
+                                intent.putExtra("course_ID", list_course.get(i).getCourse_id());
+                                intent.putExtra("name", list_course.get(i).getCourse_Name());
+                                intent.putExtra("T_name", list_course.get(i).getTeacher_name());
+                                intent.putExtra("T_ID", list_course.get(i).getTeacher_ID());
+                                intent.putExtra("Room_ID", list_course.get(i).getRoom_ID());
+                                intent.putExtra("STL", list_course.get(i).getSTL());
+                                intent.putExtra("ETL", list_course.get(i).getETL());
+                                intent.putExtra("STA", list_course.get(i).getSTA());
+                                intent.putExtra("ETA", list_course.get(i).getETA());
                                 startActivity(intent);
 
                             }
                         });
 
 
-
-
                     }
                 } catch (JSONException e) {
 
-
+                    progressDialog.dismiss();
+                    Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                // progressBar.setVisibility(View.INVISIBLE);
-                Toast.makeText(getBaseContext(), error.getMessage(), Toast.LENGTH_LONG).show();
-                Toast.makeText(getBaseContext(), "هنالك مشكلة في الخادم الرجاء المحاولة مرة اخرى", Toast.LENGTH_LONG).show();
+                progressDialog.dismiss();
+                Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
             }
         }) {
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
+
+                // HTTP request parameters
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("ID",sharedPreferences.getString(Constants.StudentID," "));
+                map.put("ID", sharedPreferences.getString(Constants.StudentID, " "));
                 return map;
             }
         };
+
+        // Add The volly request to the Singleton Queue.
         Singleton_Queue.getInstance(getBaseContext()).Add(request);
-
-
-
+        // End of Volly http request
 
         Design();
 
@@ -197,12 +214,14 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
     @Override
     public void Design() {
 
-
+        setTitle("Student Home Page");
+        Name.setText(sharedPreferences.getString(Constants.s_Fname, "") + " " + sharedPreferences.getString(Constants.s_Lname, ""));
         HandleAction();
     }
 
     @Override
     public void HandleAction() {
+
 
         SettingBTN.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -210,6 +229,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
 
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.setting, null, false);
                 setContentView(v);
+
                 setTitle("Setting");
 
                 Button ChangePass = v.findViewById(R.id.button2ChangePass);
@@ -221,6 +241,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                         View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.change_pass, null, false);
                         setContentView(v);
                         setTitle("Change Password");
+
                         newPass1 = v.findViewById(R.id.editTextRestPass1);
                         newPass2 = v.findViewById(R.id.editText2RestPass2);
                         prevPass = v.findViewById(R.id.editText2PrevPass);
@@ -242,14 +263,13 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
 
                                     progressDialog.setMessage("please wait ...");
                                     progressDialog.show();
-
+                                    // call server to change the password
                                     StringRequest request = new StringRequest(Request.Method.POST, Constants.changePass, new Response.Listener<String>() {
                                         @Override
                                         public void onResponse(String response) {
 
 
                                             try {
-
 
                                                 JSONObject jsonObject = new JSONObject(response);
                                                 String status = jsonObject.getString("state");
@@ -261,7 +281,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                                                     Toast.makeText(getBaseContext(), "the password has been changed", Toast.LENGTH_LONG).show();
                                                     sharedPreferencesEditer.putBoolean(Constants.UserIsLoggedIn, false);
                                                     sharedPreferencesEditer.commit();
-                                                    for (int i = 0 ; i<Constants.list_course_of_Student.size() ; i++){
+                                                    for (int i = 0; i < Constants.list_course_of_Student.size(); i++) {
                                                         FirebaseMessaging.getInstance().unsubscribeFromTopic(Constants.list_course_of_Student.get(i).getCourse_id());
                                                     }
 
@@ -273,7 +293,9 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                                                     Toast.makeText(getBaseContext(), "The previous Password is incorrect ", Toast.LENGTH_LONG).show();
                                                 }
                                             } catch (JSONException e) {
-                                                e.printStackTrace();
+                                                progressDialog.dismiss();
+                                                Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
+
                                             }
 
 
@@ -281,24 +303,29 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                                     }, new Response.ErrorListener() {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
+                                            progressDialog.dismiss();
                                             Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
                                         }
                                     }) {
                                         @Override
                                         protected Map<String, String> getParams() throws AuthFailureError {
-                                            /*** Here you put the HTTP request parameters **/
 
+
+                                            // HTTP request parameters
                                             HashMap<String, String> map = new HashMap<>();
-                                            map.put("ID", sharedPreferences.getString(Constants.StudentID," "));
+                                            map.put("ID", sharedPreferences.getString(Constants.StudentID, " "));
                                             map.put("prevPass", prevPass.getText().toString());
                                             map.put("password", newPass1.getText().toString());
-                                            map.put("UserType", sharedPreferences.getString(Constants.UserType," "));
+                                            map.put("UserType", sharedPreferences.getString(Constants.UserType, " "));
                                             return map;
                                         }
                                     };
-                                    Singleton_Queue.getInstance(getBaseContext()).Add(request);
-                                }
 
+                                    // Add The volly request to the Singleton Queue.
+                                    Singleton_Queue.getInstance(getBaseContext()).Add(request);
+                                    // End of Volly http request
+
+                                }
 
 
                             }
@@ -309,12 +336,9 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                 });
 
 
-
-
-
-
             }
         });
+
 
         LogOUT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -323,7 +347,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
 
                 AlertDialog.Builder ConfirmationDialog = new AlertDialog.Builder(Student_HomePage.this);
                 ConfirmationDialog.setCancelable(false);
-                ConfirmationDialog.setMessage("Do you want log out ?");
+                ConfirmationDialog.setMessage("Do you want to logout ?");
                 ConfirmationDialog.setTitle("Confirm");
                 ConfirmationDialog.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     @Override
@@ -333,12 +357,12 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                             Toast.makeText(getBaseContext(), "no connection", Toast.LENGTH_LONG).show();
                         } else {
 
-                            for (int i = 0 ; i<Constants.list_course_of_Student.size() ; i++){
-
+                             // unsubscribe From Topic (Topic is the all courses ID student study it. )
+                            for (int i = 0; i < Constants.list_course_of_Student.size(); i++) {
                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(Constants.list_course_of_Student.get(i).getCourse_id());
                             }
 
-
+                            // logout teacher in cach file.
                             sharedPreferencesEditer.putBoolean(Constants.UserIsLoggedIn, false);
                             sharedPreferencesEditer.commit();
                             Intent intent = new Intent(getBaseContext(), LoginPage.class);
@@ -348,6 +372,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                         }
                     }
                 });
+
                 ConfirmationDialog.setNegativeButton("No", null);
                 ConfirmationDialog.show();
 
@@ -360,15 +385,19 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
             @Override
             public void onClick(View view) {
 
-
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.msg_list, null, false);
                 setContentView(v);
+
+                // set title of action bar.
                 setTitle("Message box");
 
                 List_MSG = new ArrayList<>();
                 ListViewMSG = v.findViewById(R.id.listMsg);
 
+                progressDialog.setMessage("Please wait ...");
+                progressDialog.show();
 
+                // call server to get all message
                 StringRequest request = new StringRequest(Request.Method.POST, Constants.GetMSG, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -379,12 +408,9 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 Message MsgInfo = new Message();
-
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-
                                 JSONObject MsgObject = jsonObject.getJSONObject("Msg");
                                 String TeacherName = jsonObject.getString("TeacherName");
-
                                 MsgInfo.setM_ID(MsgObject.getString("ID"));
                                 MsgInfo.setTeacherID(MsgObject.getString("Teacher_ID"));
                                 MsgInfo.setTeacheName(TeacherName);
@@ -398,61 +424,72 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                             }
 
 
-
                             if (List_MSG.size() == 0) {
 
-                            Toast.makeText(getBaseContext(), "There is no Message", Toast.LENGTH_LONG).show();
+                                progressDialog.dismiss();
+                                alertDialog.setMessage("There is no any Message.");
+                                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(getBaseContext(), Student_HomePage.class);
+                                        startActivity(intent);
+                                    }
+                                });
+
+                                alertDialog.show();
+
 
                             } else {
-                                Collections.reverse(List_MSG);
+
+                                progressDialog.dismiss();
+                                Collections.reverse(List_MSG); // reverse the Message to put the new one first.
+
                                 Msg_Adpt adapter = new Msg_Adpt(getBaseContext(), List_MSG);
                                 ListViewMSG.setAdapter(adapter);
 
+
+                                // on click listener for items in the list view
                                 ListViewMSG.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                     @Override
                                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-
                                         View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.body_msg, null, false);
                                         setContentView(v);
-
                                         TextView Body = v.findViewById(R.id.editTextForBodymsg);
                                         Body.setText(List_MSG.get(i).getBody());
-
 
                                     }
                                 });
 
 
-
-
-
-
                             }
                         } catch (JSONException e) {
-
-                            Toast.makeText(getBaseContext(), "There is no students"+e.getMessage(), Toast.LENGTH_LONG).show();
+                            progressDialog.dismiss();
+                            Toast.makeText(getBaseContext(), " There is problem , try agine ", Toast.LENGTH_LONG).show();
 
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getBaseContext(), "هنالك مشكلة في الخادم الرجاء المحاولة مرة اخرى", Toast.LENGTH_LONG).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(getBaseContext(), "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
                     }
                 }) {
 
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
+
+                        // HTTP request parameters
+
                         HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("ID",sharedPreferences.getString(Constants.StudentID,""));
+                        map.put("ID", sharedPreferences.getString(Constants.StudentID, ""));
                         return map;
                     }
                 };
+
+                // Add The volly request to the Singleton Queue.
                 Singleton_Queue.getInstance(getBaseContext()).Add(request);
-
-
-
+                // End of Volly http request
 
 
             }
@@ -462,44 +499,41 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
 
     @Override
     public void onBackPressed() {
-
         Intent intent = new Intent(getBaseContext(), Student_HomePage.class);
         startActivity(intent);
-
     }
 
     private void startScanning() {
         proximityManager.connect(new OnServiceReadyListener() {
             @Override
             public void onServiceReady() {
-                Toast.makeText(getBaseContext(), "Start Scan: ", Toast.LENGTH_SHORT).show();
                 proximityManager.startScanning();
             }
         });
     }
 
+
     private void checkPermissions() {
         int checkSelfPermissionResult = ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION);
         if (PackageManager.PERMISSION_GRANTED != checkSelfPermissionResult) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE_PERMISSIONS);
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 100);
         }
     }
+
 
     private EddystoneListener createEddystoneListener() {
         return new SimpleEddystoneListener() {
             @Override
             public void onEddystoneDiscovered(IEddystoneDevice eddystone, IEddystoneNamespace namespace) {
-             BeaconID.add(eddystone.getInstanceId());
-                Toast.makeText(getBaseContext(), "Add: "+eddystone.getInstanceId(), Toast.LENGTH_SHORT).show();
-
+               // when discover new Beacon device will add it to the beacon array list
+                BeaconID.add(eddystone.getInstanceId());
             }
 
 
             @Override
             public void onEddystoneLost(IEddystoneDevice eddystone, IEddystoneNamespace namespace) {
+                // when Lose Beacon device will delete it from beacon array list
                 BeaconID.remove(eddystone.getInstanceId());
-                Toast.makeText(getBaseContext(), "Remove: "+eddystone.getInstanceId(), Toast.LENGTH_SHORT).show();
-
             }
         };
     }

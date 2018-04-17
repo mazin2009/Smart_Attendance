@@ -1,5 +1,6 @@
 package com.example.mm_kau.smartattendance;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -34,21 +35,22 @@ import java.util.Map;
 public class Attend_Info_eache_Lec_Adpt extends ArrayAdapter {
 
 
-
     private Context context;
     private ArrayList<String> students;
-    Switch MySwitch ;
+    Switch MySwitch;
     String Stat;
+
 
 
     public Attend_Info_eache_Lec_Adpt(Context context, ArrayList<String> students) {
 
-        super(context, R.layout.coustomlist_atten_info_lec,students);
+        super(context, R.layout.coustomlist_atten_info_lec, students);
         this.context = context;
         this.students = students;
+
     }
 
-    public String getItem(int position){
+    public String getItem(int position) {
         return students.get(position);
     }
 
@@ -57,7 +59,7 @@ public class Attend_Info_eache_Lec_Adpt extends ArrayAdapter {
 
         final View view = LayoutInflater.from(getContext()).inflate(R.layout.coustomlist_atten_info_lec, parent, false);
 
-        final String Info [] = students.get(position).split(",");
+        final String Info[] = students.get(position).split(",");
 
 
         TextView ID = (TextView) view.findViewById(R.id.TextView_IDofSTU_inlec);
@@ -66,49 +68,47 @@ public class Attend_Info_eache_Lec_Adpt extends ArrayAdapter {
         TextView name = (TextView) view.findViewById(R.id.TextView_NameofSTU_iclec);
         name.setText(Info[1]);
 
-          MySwitch =  view.findViewById(R.id.switch1ForAttendance);
+        MySwitch = view.findViewById(R.id.switch1ForAttendance);
+        // check the state of student in this lecture , if he present or absent.
+        if (Info[2].equals("present")) {
+            MySwitch.setChecked(true);
+        } else {
+            MySwitch.setChecked(false);
+        }
 
-
-if (Info[2].equals("present")) {
-    MySwitch.setChecked(true);
-}else {
-
-    MySwitch.setChecked(false);
-
-}
 
         MySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-
+                // to determine to make student present or absent.
                 if (isChecked) {
-
-                 Stat = "present";
-
-                }else {
+                    Stat = "present";
+                } else {
                     Stat = "absent";
-
                 }
 
 
-                StringRequest request=new StringRequest(Request.Method.POST,Constants.ChangeAttendaceForSTudent, new Response.Listener<String>() {
+                StringRequest request = new StringRequest(Request.Method.POST, Constants.ChangeAttendaceForSTudent, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         try {
 
                             JSONObject jsonObject = new JSONObject(response);
-                            String status =jsonObject.getString("state");
+                            String status = jsonObject.getString("state");
 
-                            if(status.equals("yes")){
-                                Toast.makeText(context,"The state of Student has changed To "+Stat,Toast.LENGTH_LONG).show();
+                            if (status.equals("yes")) {
 
-                            }else{
+                                Toast.makeText(context, "The state of Student has changed To " + Stat, Toast.LENGTH_LONG).show();
 
-                                Toast.makeText(context,"There is problem try agine.",Toast.LENGTH_LONG).show();
+                            } else {
+
+                                Toast.makeText(context, "There is problem try agine.", Toast.LENGTH_LONG).show();
+
                             }
                         } catch (JSONException e) {
 
+                            Toast.makeText(context, "There is problem try agine.", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -116,33 +116,29 @@ if (Info[2].equals("present")) {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        Toast.makeText(context,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "There is an error at connecting to server .", Toast.LENGTH_SHORT).show();
                     }
-                }){
+                }) {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
-                        /*** Here you put the HTTP request parameters **/
-
-                        HashMap<String,String> map=new HashMap<>();
-                        map.put("Date",Info[3]);
-                        map.put("CRs_id",Info[4]);
-                        map.put("Stu_id",Info[0]);
-                        map.put("Stat",Stat);
+                        // HTTP request parameters
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put("Date", Info[3]);
+                        map.put("CRs_id", Info[4]);
+                        map.put("Stu_id", Info[0]);
+                        map.put("Stat", Stat);
                         return map;
                     }
                 };
-
+                // Add The volly request to the Singleton Queue.
                 Singleton_Queue.getInstance(context).Add(request);
-
+// End of Volly http request
 
             }
         });
 
         return view;
     }
-
-
-
 
 
 }

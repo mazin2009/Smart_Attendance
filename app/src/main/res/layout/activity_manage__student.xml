@@ -120,7 +120,7 @@ android:padding="7dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="7dp"
-            android:text="Add New Course"
+            android:text="join New Course"
             android:background="@drawable/my_button"
             android:textColor="@android:color/white"
             />
