@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -75,22 +74,16 @@ public class listOfAttenanceInfo_forEachLecture extends AppCompatActivity implem
             public void onResponse(String response) {
 
                 try {
-
                     JSONArray jsonArray = new JSONArray(response);
-
                     for (int i = 0; i < jsonArray.length(); i++) {
-
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String StudentInfo;
-
                         String ID = jsonObject.getString("ID");
                         String name = jsonObject.getString("name");
                         String State = jsonObject.getString("State");
                         StudentInfo = ID + "," + name + "," + State + "," + Date.getText().toString() + "," + getIntent().getStringExtra("Course_ID");
                         list_attendance_info_ofLect.add(StudentInfo);
-
                     }
-
 
                     if (list_attendance_info_ofLect.size() == 0) {
                         progressDialog.dismiss();
@@ -98,7 +91,7 @@ public class listOfAttenanceInfo_forEachLecture extends AppCompatActivity implem
 
                     } else {
                         progressDialog.dismiss();
-                        Attend_Info_eache_Lec_Adpt adapter = new Attend_Info_eache_Lec_Adpt(getBaseContext(), list_attendance_info_ofLect);
+                        Adapter_AttendanceInfo_InEcahLecture adapter = new Adapter_AttendanceInfo_InEcahLecture(getBaseContext(), list_attendance_info_ofLect);
                         listview_attendance_info_ofLec.setAdapter(adapter);
 
                     }
@@ -199,7 +192,7 @@ public class listOfAttenanceInfo_forEachLecture extends AppCompatActivity implem
 
                         } catch (JSONException e) {
                             progressDialog.dismiss();
-                            Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
 
                         }
                     }

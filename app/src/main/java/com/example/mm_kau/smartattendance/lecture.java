@@ -6,9 +6,9 @@ package com.example.mm_kau.smartattendance;
 
 public class lecture {
 
-private String Date;
-private String State;
-private String CourseID;
+    private String Date;
+    private String State;
+    private String CourseID;
 
 
     public void setDate(String date) {

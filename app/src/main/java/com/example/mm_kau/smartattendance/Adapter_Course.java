@@ -12,24 +12,25 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by Mez on 24/02/18.
+ * Created by Mez on 11/02/18.
  */
 
-public class MyClassRoomAdpt extends ArrayAdapter {
+public class Adapter_Course extends ArrayAdapter {
 
 
     private Context context;
-    private ArrayList<classroom> CRS;
+    private ArrayList<course> courses;
 
 
-    public MyClassRoomAdpt(Context context, ArrayList<classroom> CRS) {
-        super(context, R.layout.costum_list, CRS);
+    public Adapter_Course(Context context, ArrayList<course> courses) {
+        super(context, R.layout.costum_list, R.id.TextView_INcostum, courses);
         this.context = context;
-        this.CRS = CRS;
+        this.courses = courses;
+
     }
 
-    public classroom getItem(int position){
-        return CRS.get(position);
+    public course getItem(int position) {
+        return courses.get(position);
     }
 
     @Override
@@ -38,7 +39,8 @@ public class MyClassRoomAdpt extends ArrayAdapter {
         final View view = LayoutInflater.from(getContext()).inflate(R.layout.costum_list, parent, false);
 
         TextView textView = (TextView) view.findViewById(R.id.TextView_INcostum);
-        textView.setText("Class room ID : "+CRS.get(position).getID() +"\nClass Room Name : "+CRS.get(position).getName());
+        textView.setText("Course Name : " + courses.get(position).getCourse_Name() + "\nCourse ID : " + courses.get(position).getCourse_id());
+
         return view;
     }
 

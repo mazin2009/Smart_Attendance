@@ -47,8 +47,8 @@ import java.util.Map;
 public class Student_HomePage extends AppCompatActivity implements Designable {
     private ListView listView_course, ListViewMSG;
     private ArrayList<course> list_course;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor sharedPreferencesEditer;
+    private SharedPreferences userfile;
+    private SharedPreferences.Editor userfileEditer;
     private ArrayList<Message> List_MSG;
     public static ArrayList<String> BeaconID;
     private Button LogOUT;
@@ -77,8 +77,8 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
         BeaconID = new ArrayList<>();
         alertDialog = new android.app.AlertDialog.Builder(Student_HomePage.this).create();
         this.progressDialog = new ProgressDialog(Student_HomePage.this);
-        this.sharedPreferences = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
-        this.sharedPreferencesEditer = sharedPreferences.edit();
+        this.userfile = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
+        this.userfileEditer = userfile.edit();
 
         Name = findViewById(R.id.textViewForNAmeOfSTU);
 
@@ -151,7 +151,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                         progressDialog.dismiss();
                         // put the list of courses of student in Constants class to use it for unsubscribe From Topic when student log out.
                         Constants.list_course_of_Student = list_course;
-                        MyCoursAdpt adapter = new MyCoursAdpt(getBaseContext(), list_course);
+                        Adapter_Course adapter = new Adapter_Course(getBaseContext(), list_course);
                         listView_course.setAdapter(adapter);
 
 
@@ -198,7 +198,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
 
                 // HTTP request parameters
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put("ID", sharedPreferences.getString(Constants.StudentID, " "));
+                map.put("ID", userfile.getString(Constants.StudentID, " "));
                 return map;
             }
         };
@@ -215,7 +215,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
     public void Design() {
 
         setTitle("Student Home Page");
-        Name.setText(sharedPreferences.getString(Constants.s_Fname, "") + " " + sharedPreferences.getString(Constants.s_Lname, ""));
+        Name.setText(userfile.getString(Constants.s_Fname, "") + " " + userfile.getString(Constants.s_Lname, ""));
         HandleAction();
     }
 
@@ -279,8 +279,8 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                                                     progressDialog.dismiss();
 
                                                     Toast.makeText(getBaseContext(), "the password has been changed", Toast.LENGTH_LONG).show();
-                                                    sharedPreferencesEditer.putBoolean(Constants.UserIsLoggedIn, false);
-                                                    sharedPreferencesEditer.commit();
+                                                    userfileEditer.putBoolean(Constants.UserIsLoggedIn, false);
+                                                    userfileEditer.commit();
                                                     for (int i = 0; i < Constants.list_course_of_Student.size(); i++) {
                                                         FirebaseMessaging.getInstance().unsubscribeFromTopic(Constants.list_course_of_Student.get(i).getCourse_id());
                                                     }
@@ -313,10 +313,10 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
 
                                             // HTTP request parameters
                                             HashMap<String, String> map = new HashMap<>();
-                                            map.put("ID", sharedPreferences.getString(Constants.StudentID, " "));
+                                            map.put("ID", userfile.getString(Constants.StudentID, " "));
                                             map.put("prevPass", prevPass.getText().toString());
                                             map.put("password", newPass1.getText().toString());
-                                            map.put("UserType", sharedPreferences.getString(Constants.UserType, " "));
+                                            map.put("UserType", userfile.getString(Constants.UserType, " "));
                                             return map;
                                         }
                                     };
@@ -357,14 +357,14 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                             Toast.makeText(getBaseContext(), "no connection", Toast.LENGTH_LONG).show();
                         } else {
 
-                             // unsubscribe From Topic (Topic is the all courses ID student study it. )
+                            // unsubscribe From Topic (Topic is the all courses ID student study it. )
                             for (int i = 0; i < Constants.list_course_of_Student.size(); i++) {
                                 FirebaseMessaging.getInstance().unsubscribeFromTopic(Constants.list_course_of_Student.get(i).getCourse_id());
                             }
 
                             // logout teacher in cach file.
-                            sharedPreferencesEditer.putBoolean(Constants.UserIsLoggedIn, false);
-                            sharedPreferencesEditer.commit();
+                            userfileEditer.putBoolean(Constants.UserIsLoggedIn, false);
+                            userfileEditer.commit();
                             Intent intent = new Intent(getBaseContext(), LoginPage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -443,7 +443,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                                 progressDialog.dismiss();
                                 Collections.reverse(List_MSG); // reverse the Message to put the new one first.
 
-                                Msg_Adpt adapter = new Msg_Adpt(getBaseContext(), List_MSG);
+                                Adapter_Message adapter = new Adapter_Message(getBaseContext(), List_MSG);
                                 ListViewMSG.setAdapter(adapter);
 
 
@@ -482,7 +482,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
                         // HTTP request parameters
 
                         HashMap<String, String> map = new HashMap<String, String>();
-                        map.put("ID", sharedPreferences.getString(Constants.StudentID, ""));
+                        map.put("ID", userfile.getString(Constants.StudentID, ""));
                         return map;
                     }
                 };
@@ -525,7 +525,7 @@ public class Student_HomePage extends AppCompatActivity implements Designable {
         return new SimpleEddystoneListener() {
             @Override
             public void onEddystoneDiscovered(IEddystoneDevice eddystone, IEddystoneNamespace namespace) {
-               // when discover new Beacon device will add it to the beacon array list
+                // when discover new Beacon device will add it to the beacon array list
                 BeaconID.add(eddystone.getInstanceId());
             }
 

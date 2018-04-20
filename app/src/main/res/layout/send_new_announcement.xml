@@ -32,6 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:maxLength="100"
         android:inputType="textPersonName"
          />
 
@@ -49,6 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="240dp"
         android:ems="10"
+        android:maxLength="500"
         android:inputType="textMultiLine"
         android:gravity="top"
 

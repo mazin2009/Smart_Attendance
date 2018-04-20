@@ -55,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:maxLength="10"
                 android:textColor="#0B614B"
                 android:inputType="number" />
 
@@ -72,6 +73,7 @@
                 android:layout_height="40dp"
                 android:textColor="#0B614B"
                 android:ems="10"
+                android:maxLength="20"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -87,6 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:maxLength="10"
                 android:textColor="#0B614B"
                 android:hint="can be empty"
                 android:inputType="number" />
@@ -95,7 +98,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Class room :"
+                android:text="Class room ID:"
                 android:textColor="#0B614B"
                 android:textSize="20dp" />
 
@@ -104,6 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:maxLength="10"
                 android:textColor="#0B614B"
                 android:hint="can be empty"
                 android:inputType="number" />
@@ -193,10 +197,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:maxLength="3"
                 android:textColor="#0B614B"
                 android:hint=""
                 android:inputType="number" />
-
 
 
             <TextView
@@ -213,8 +217,6 @@
                 android:id="@+id/FirstDayonFirstWeek"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-
 
             <TextView
                 android:id="@+id/textViewjs9"

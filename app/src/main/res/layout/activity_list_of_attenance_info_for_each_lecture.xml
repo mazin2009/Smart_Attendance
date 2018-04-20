@@ -40,7 +40,7 @@ android:padding="7dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:paddingRight="10dp"
-                android:text="123456789"
+                android:text="undefined"
                 android:textColor="@android:color/black"
                 android:textSize="18dp" />
         </TableRow>
@@ -65,7 +65,7 @@ android:padding="7dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:paddingRight="10dp"
-                android:text="123456789"
+                android:text="undefined"
                 android:textColor="@android:color/black"
                 android:textSize="18dp" />
         </TableRow>
@@ -89,7 +89,7 @@ android:padding="7dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:paddingRight="10dp"
-                android:text="123456789"
+                android:text="undefined"
                 android:textColor="@android:color/black"
                 android:textSize="18dp" />
         </TableRow>

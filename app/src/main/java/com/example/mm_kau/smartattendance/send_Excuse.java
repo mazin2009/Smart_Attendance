@@ -71,6 +71,15 @@ public class send_Excuse extends AppCompatActivity implements Designable {
     @Override
     public void HandleAction() {
 
+
+        Upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                OpenGallery();
+            }
+        });
+
+
         Send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +108,6 @@ public class send_Excuse extends AppCompatActivity implements Designable {
 
                                     JSONObject jsonObject = new JSONObject(response);
                                     String status = jsonObject.getString("state");
-                                    Toast.makeText(getBaseContext(), response, Toast.LENGTH_SHORT).show();
 
                                     if (status.equals("yes")) {
                                         progressDialog.dismiss();
@@ -130,7 +138,6 @@ public class send_Excuse extends AppCompatActivity implements Designable {
                             }
 
                         }) {
-
                             @Override
                             protected Map<String, String> getParams() throws AuthFailureError {
                                 // HTTP request parameters
@@ -159,13 +166,6 @@ public class send_Excuse extends AppCompatActivity implements Designable {
             }
         });
 
-
-        Upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                OpenGallery();
-            }
-        });
 
     }
 

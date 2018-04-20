@@ -15,14 +15,14 @@ import java.util.ArrayList;
  * Created by Mez on 23/03/18.
  */
 
-public class Msg_Adpt extends ArrayAdapter {
+public class Adapter_Message extends ArrayAdapter {
 
 
     private Context context;
     private ArrayList<Message> MSG;
 
 
-    public Msg_Adpt(Context context, ArrayList<Message> MSG) {
+    public Adapter_Message(Context context, ArrayList<Message> MSG) {
         super(context, R.layout.costum_list, MSG);
         this.context = context;
         this.MSG = MSG;

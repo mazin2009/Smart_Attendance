@@ -47,7 +47,7 @@ public class adminHome extends AppCompatActivity implements Designable {
     private ArrayList<teacher> list_teacher;
     private ArrayList<student> list_student;
     private ArrayList<classroom> list_classroom;
-    private TextView welcomeTextView  ;
+    private TextView welcomeTextView;
     private ProgressDialog progressDialog;
     private android.app.AlertDialog alertDialog;
     private SharedPreferences userfile;
@@ -58,8 +58,6 @@ public class adminHome extends AppCompatActivity implements Designable {
     private EditText CourseID_AD, CourseName_AD, TeacherID_AD, ClassRommID_AD, NoOf_week;
     private TimePicker STL_AD, ETL_AD, STA_AD, ETA_AD;
     private String STL, ETL, STA, ETA;
-
-
     private CheckBox S, M, Tu, W, TH;
     private DatePicker StartDayinWeek;
     private String TeacherID, ClassroomID;
@@ -77,12 +75,10 @@ public class adminHome extends AppCompatActivity implements Designable {
     private EditText C_ClassRoomID, C_ClassRoomName, C_capacity, C_Beacons;
     private Button Add_NewClassRoom_BTN;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
-
 
         InitializeView();
     }
@@ -114,12 +110,9 @@ public class adminHome extends AppCompatActivity implements Designable {
     @Override
     public void Design() {
 
-
+        // set the name if admin in the admin home.
         String NAMEOfADD = "Name :" + userfile.getString(Constants.adminName, "");
-
-
         welcomeTextView.setText(NAMEOfADD);
-
 
         //Call HandleAction Function
         HandleAction();
@@ -129,11 +122,9 @@ public class adminHome extends AppCompatActivity implements Designable {
     public void HandleAction() {
 
         //Manage classroom  Button Click Event Listener
-
         ManageCRtBTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
 
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.classroom_list, null, false);
                 setContentView(v);
@@ -179,9 +170,8 @@ public class adminHome extends AppCompatActivity implements Designable {
                             } else {
 
                                 progressDialog.dismiss();
-
                                 // Generate custom adapter with arrayList of classrooms and put it in List view.
-                                MyClassRoomAdpt adapter = new MyClassRoomAdpt(getBaseContext(), list_classroom);
+                                Adapter_ClassRoom adapter = new Adapter_ClassRoom(getBaseContext(), list_classroom);
                                 listview_CR.setAdapter(adapter);
 
                                 // on click listener for items in the list view
@@ -282,7 +272,7 @@ public class adminHome extends AppCompatActivity implements Designable {
                                 progressDialog.dismiss();
 
                                 // send array list of student to the custom adapter.
-                                MystudentAdpt adapter = new MystudentAdpt(getBaseContext(), list_student);
+                                Adapter_Student adapter = new Adapter_Student(getBaseContext(), list_student);
                                 listview_student.setAdapter(adapter);
 
                                 // on click listener for items in the list view
@@ -320,7 +310,6 @@ public class adminHome extends AppCompatActivity implements Designable {
                     }
 
                 });
-
 
                 // Add The volly request to the Singleton Queue.
                 Singleton_Queue.getInstance(getBaseContext()).Add(request);
@@ -382,7 +371,7 @@ public class adminHome extends AppCompatActivity implements Designable {
                             } else {
 
 
-                                MyTeacherAdpt adapter = new MyTeacherAdpt(getBaseContext(), list_teacher);
+                                Adapter_Teacher adapter = new Adapter_Teacher(getBaseContext(), list_teacher);
                                 progressDialog.dismiss();
                                 listview_Teacher.setAdapter(adapter);
 
@@ -500,7 +489,7 @@ public class adminHome extends AppCompatActivity implements Designable {
 
 
                                 progressDialog.dismiss();
-                                MyCoursAdpt adapter = new MyCoursAdpt(getBaseContext(), list_course);
+                                Adapter_Course adapter = new Adapter_Course(getBaseContext(), list_course);
                                 listView_course.setAdapter(adapter);
 
 
@@ -625,7 +614,6 @@ public class adminHome extends AppCompatActivity implements Designable {
                     @Override
                     public void onClick(View view) {
                         try {
-
 
                             if (C_ClassRoomID.getText().toString().trim().isEmpty() || C_ClassRoomName.getText().toString().trim().isEmpty() || C_Beacons.getText().toString().trim().isEmpty() || C_capacity.getText().toString().trim().isEmpty()) {
                                 Toast.makeText(getBaseContext(), "Please fill up all fields", Toast.LENGTH_LONG).show();
@@ -1007,7 +995,7 @@ public class adminHome extends AppCompatActivity implements Designable {
                     public void onClick(View view) {
                         try {
 
-                            // Get The date of first day in Semester.
+                            // Get The name of first day in Semester.
                             SimpleDateFormat simpledateformat = new SimpleDateFormat("EEEE");
                             Date date = new Date(StartDayinWeek.getYear(), StartDayinWeek.getMonth(), StartDayinWeek.getDayOfMonth() - 1);
                             String dayOfWeek_ForCheek = simpledateformat.format(date);
@@ -1015,7 +1003,7 @@ public class adminHome extends AppCompatActivity implements Designable {
 
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                                 // get the time from time picker to add it.
-                                // make the format hh:mm:ss a
+                                // make the format hh:mm:ss
                                 STL = String.valueOf(STL_AD.getHour()) + ":" + String.valueOf(STL_AD.getMinute()) + ":00";
                                 ETL = String.valueOf(ETL_AD.getHour()) + ":" + String.valueOf(ETL_AD.getMinute()) + ":00";
                                 STA = String.valueOf(STA_AD.getHour()) + ":" + String.valueOf(STA_AD.getMinute()) + ":00";
@@ -1049,6 +1037,7 @@ public class adminHome extends AppCompatActivity implements Designable {
                                     ClassroomID = ClassRommID_AD.getText().toString();
                                 }
 
+
                                 // call server to add new course.
                                 StringRequest request = new StringRequest(Request.Method.POST, Constants.ADDnewCourse, new Response.Listener<String>() {
                                     @Override
@@ -1059,7 +1048,6 @@ public class adminHome extends AppCompatActivity implements Designable {
                                             JSONObject jsonObject = new JSONObject(response);
                                             String status = jsonObject.getString("state");
 
-
                                             if (status.equals("yes")) {
 
                                                 // make the date format as yyyy-mm-dd
@@ -1067,7 +1055,7 @@ public class adminHome extends AppCompatActivity implements Designable {
                                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                                 Calendar c = Calendar.getInstance();
                                                 c.setTime(sdf.parse(dt));
-                                                dt = sdf.format(c.getTime()); // dt now as yyy:mm:dd
+                                                dt = sdf.format(c.getTime()); // dt now as yyyy:mm:dd
 
                                                 // to add all lecture of course
                                                 // make for loop to make lecture for each week , as number of week the admin defined.
@@ -1121,7 +1109,7 @@ public class adminHome extends AppCompatActivity implements Designable {
                                                         AddLecture(CourseID_AD.getText().toString(), dtTH);
                                                     }
 
-                                                    // add 7 days to maove to next week
+                                                    // add 7 days to move to next week
 
                                                     c.setTime(sdf.parse(dt));
                                                     c.add(Calendar.DATE, 7);  // number of days to add (add 7)
@@ -1209,7 +1197,6 @@ public class adminHome extends AppCompatActivity implements Designable {
 
     public void AddLecture(final String CourseID, final String Date) {
 
-
         try {
 
             // call server to add new lecture for course.
@@ -1268,7 +1255,6 @@ public class adminHome extends AppCompatActivity implements Designable {
     }
 
     public Boolean IsEmailValid(String Email) {
-
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         if (Email.matches(emailPattern)) {
             return true;
@@ -1276,5 +1262,4 @@ public class adminHome extends AppCompatActivity implements Designable {
             return false;
         }
     }
-
 }

@@ -26,9 +26,9 @@ import java.util.Map;
 public class Manage_Student extends AppCompatActivity implements Designable {
 
 
-    private EditText S_F_name , S_L_name , S_email , Pass , CRS_ID;
+    private EditText S_F_name, S_L_name, S_email, Pass, CRS_ID;
     private TextView S_ID;
-    private Button Update , DLT , AddCRS , AddNewCourse4ST ;
+    private Button Update, DLT, AddCRS, AddNewCourse4ST;
     private ProgressDialog progressDialog;
     private String PASSWORD;
 
@@ -45,11 +45,10 @@ public class Manage_Student extends AppCompatActivity implements Designable {
     public void InitializeView() {
 
 
-
         this.progressDialog = new ProgressDialog(Manage_Student.this);
 
         this.Update = findViewById(R.id.buttonOfUpdateStudent);
-        this.DLT =  findViewById(R.id.buttonOfDeleteStudent);
+        this.DLT = findViewById(R.id.buttonOfDeleteStudent);
         this.AddCRS = findViewById(R.id.buttonOfAddNewCourseForStudent);
 
         this.S_ID = findViewById(R.id.TextForViewStudentID);
@@ -109,12 +108,12 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
                             } else {
                                 progressDialog.dismiss();
-                                Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
 
                             progressDialog.dismiss();
-                            Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -131,7 +130,7 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
                         // HTTP request parameters
                         HashMap<String, String> map = new HashMap<>();
-                        map.put("st_id",S_ID.getText().toString());
+                        map.put("st_id", S_ID.getText().toString());
                         return map;
                     }
                 };
@@ -143,7 +142,6 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
             }
         });
-
 
 
         Update.setOnClickListener(new View.OnClickListener() {
@@ -159,8 +157,7 @@ public class Manage_Student extends AppCompatActivity implements Designable {
                     } else {
 
 
-
-                  // if admin did not add new password , here we set the old password as a new.
+                        // if admin did not add new password , here we set the old password as a new.
                         if (!Pass.getText().toString().trim().isEmpty()) {
                             PASSWORD = Pass.getText().toString();
                         }
@@ -188,13 +185,13 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
                                     } else {
                                         progressDialog.dismiss();
-                                        Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
 
                                     }
                                 } catch (JSONException e) {
 
                                     progressDialog.dismiss();
-                                    Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
 
                                 }
 
@@ -214,7 +211,7 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
                                 HashMap<String, String> map = new HashMap<>();
                                 map.put("S_id", S_ID.getText().toString());
-                                map.put("S_Fname",S_F_name.getText().toString());
+                                map.put("S_Fname", S_F_name.getText().toString());
                                 map.put("S_Lname", S_L_name.getText().toString());
                                 map.put("S_Email", S_email.getText().toString());
                                 map.put("S_pass", PASSWORD);
@@ -233,16 +230,12 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
                 } catch (Exception e) {
                     progressDialog.dismiss();
-                    Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
                 }
-
-
 
 
             }
         });
-
-
 
 
         AddCRS.setOnClickListener(new View.OnClickListener() {
@@ -263,10 +256,10 @@ public class Manage_Student extends AppCompatActivity implements Designable {
                     public void onClick(View view) {
 
 
-                        if(CRS_ID.getText().toString().trim().isEmpty()) {
+                        if (CRS_ID.getText().toString().trim().isEmpty()) {
                             Toast.makeText(getBaseContext(), "Please Enter The Course ID.", Toast.LENGTH_SHORT).show();
 
-                        }else{
+                        } else {
 
                             progressDialog.setMessage("Please wait ...");
                             progressDialog.show();
@@ -289,12 +282,12 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
                                         } else {
                                             progressDialog.dismiss();
-                                            Toast.makeText(getBaseContext(),"Course ID incorrect",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getBaseContext(), "Course ID incorrect", Toast.LENGTH_SHORT).show();
 
                                         }
                                     } catch (JSONException e) {
                                         progressDialog.dismiss();
-                                        Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
 
                                     }
 
@@ -311,8 +304,8 @@ public class Manage_Student extends AppCompatActivity implements Designable {
 
                                     // HTTP request parameters
                                     HashMap<String, String> map = new HashMap<>();
-                                    map.put("CRS_ID",CRS_ID.getText().toString());
-                                    map.put("ST_ID",S_ID.getText().toString());
+                                    map.put("CRS_ID", CRS_ID.getText().toString());
+                                    map.put("ST_ID", S_ID.getText().toString());
                                     return map;
                                 }
                             };

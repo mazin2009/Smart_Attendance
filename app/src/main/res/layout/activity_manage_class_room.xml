@@ -43,6 +43,7 @@
                 android:id="@+id/editTextForClassRoomID_InManage"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
+                android:maxLength="10"
                 android:textColor="@android:color/black"
                 android:textSize="20dp" />
 
@@ -59,6 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:maxLength="30"
                 android:inputType="textPersonName" />
 
             <TextView
@@ -74,6 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:ems="10"
+                android:maxLength="10"
                 android:inputType="number" />
 
             <TextView
@@ -90,7 +93,6 @@
                 android:layout_height="140dp"
                 android:ems="10"
                 android:inputType="textMultiLine" />
-
 
             <Button
                 android:id="@+id/UpdateClassRoomBTN"

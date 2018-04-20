@@ -6,13 +6,13 @@ package com.example.mm_kau.smartattendance;
 
 public class Message {
 
-    String M_ID ;
+    String M_ID;
     String TeacherID;
     String TeacheName;
     String CourseID;
     String CourseNAme;
     String Date;
-    String Title ;
+    String Title;
     String Body;
 
     public void setM_ID(String m_ID) {

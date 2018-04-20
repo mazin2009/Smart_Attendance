@@ -36,6 +36,7 @@ public class EmailValid extends ActivityInstrumentationTestCase2<adminHome> {
             assertTrue(chek);
 
     }
+
     @Test
     public void testIsNotVailEmail() throws Exception {
         chek =  MyActivity.IsEmailValid("XXXXXX.com");

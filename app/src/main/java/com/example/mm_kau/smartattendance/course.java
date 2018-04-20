@@ -11,18 +11,18 @@ import java.util.Date;
 
 public class course {
 
-private String Course_id;
-private String Course_Name;
-private int NumberOfStudent;
-private String Teacher_ID;
-private String Teacher_name;
-private String Room_ID;
-private ArrayList<student> Students;
-private ArrayList<lecture> Lecture;
-private String STL;
-private String ETL;
-private String STA;
-private String ETA;
+    private String Course_id;
+    private String Course_Name;
+    private int NumberOfStudent;
+    private String Teacher_ID;
+    private String Teacher_name;
+    private String Room_ID;
+    private ArrayList<student> Students;
+    private ArrayList<lecture> Lecture;
+    private String STL;
+    private String ETL;
+    private String STA;
+    private String ETA;
 
     public void setCourse_id(String course_id) {
         Course_id = course_id;
@@ -54,9 +54,9 @@ private String ETA;
 
     public void setSTL(String STL) {
 
-        String [] T = STL.split(":");
+        String[] T = STL.split(":");
 
-        this.STL = T[0]+":"+T[1];
+        this.STL = T[0] + ":" + T[1];
     }
 
     public void setTeacher_name(String teacher_name) {
@@ -68,18 +68,18 @@ private String ETA;
     }
 
     public void setETL(String ETL) {
-        String [] T = ETL.split(":");
-        this.ETL = T[0]+":"+T[1];
+        String[] T = ETL.split(":");
+        this.ETL = T[0] + ":" + T[1];
     }
 
     public void setSTA(String STA) {
-        String [] T = STA.split(":");
-        this.STA = T[0]+":"+T[1];
+        String[] T = STA.split(":");
+        this.STA = T[0] + ":" + T[1];
     }
 
     public void setETA(String ETA) {
-        String [] T = ETA.split(":");
-        this.ETA = T[0]+":"+T[1];
+        String[] T = ETA.split(":");
+        this.ETA = T[0] + ":" + T[1];
     }
 
 

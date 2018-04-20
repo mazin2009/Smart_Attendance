@@ -179,7 +179,7 @@ public class LoginPage extends Activity implements Designable {
 
                                         if (status.equals("yes")) {
 
-                                            alertDialog.setMessage("The new password has been sent to the email");
+                                            alertDialog.setMessage("The new password has been sent to your email");
                                             alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                                                 public void onClick(DialogInterface dialog, int which) {
                                                     Intent intent = new Intent(getBaseContext(), LoginPage.class);
@@ -337,7 +337,7 @@ public class LoginPage extends Activity implements Designable {
 
                                 } else {
                                     progressDialog.dismiss();
-                                    Toast.makeText(getBaseContext(), "Please make sure you enter your email or password correctly", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getBaseContext(), "Please make sure you enter your ID or password correctly", Toast.LENGTH_LONG).show();
                                 }
 
                             } catch (JSONException e) {

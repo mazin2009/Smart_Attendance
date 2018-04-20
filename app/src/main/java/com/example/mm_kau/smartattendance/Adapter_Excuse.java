@@ -15,23 +15,21 @@ import java.util.ArrayList;
  * Created by Mez on 28/03/18.
  */
 
-public class Excuse_apdt extends ArrayAdapter {
-
-
+public class Adapter_Excuse extends ArrayAdapter {
 
 
     private Context context;
     private ArrayList<excuse> excuses;
 
 
-    public Excuse_apdt(Context context, ArrayList<excuse> excuses) {
+    public Adapter_Excuse(Context context, ArrayList<excuse> excuses) {
         super(context, R.layout.coustom_list_for_excuses, excuses);
         this.context = context;
         this.excuses = excuses;
 
     }
 
-    public excuse getItem(int position){
+    public excuse getItem(int position) {
         return excuses.get(position);
     }
 
@@ -51,7 +49,6 @@ public class Excuse_apdt extends ArrayAdapter {
 
         return view;
     }
-
 
 
 }

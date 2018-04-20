@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class Constants {
 
-
     public static final String IP = "192.168.1.9";
     public static final String LOGIN_URL = "http://"+IP+"/SA_Project/ChekLogin.php";
     public static final String ADDnewCourse = "http://"+IP+"/SA_Project/AddNewCourse.php";

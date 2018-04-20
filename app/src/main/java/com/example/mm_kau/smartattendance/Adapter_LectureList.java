@@ -32,14 +32,14 @@ import static android.graphics.Color.*;
  * Created by Mez on 20/03/18.
  */
 
-public class LectureList_Adpt extends ArrayAdapter {
+public class Adapter_LectureList extends ArrayAdapter {
 
     private Context context;
     private ArrayList<lecture> LECture;
     String STUTUS = ""; // state of lecture
 
 
-    public LectureList_Adpt(Context context, ArrayList<lecture> LECture) {
+    public Adapter_LectureList(Context context, ArrayList<lecture> LECture) {
 
         super(context, R.layout.custom_list_for_lecture, R.id.buttonForActionTheLecture, LECture);
         this.context = context;
@@ -68,7 +68,7 @@ public class LectureList_Adpt extends ArrayAdapter {
         if (LECture.get(position).getState().equals("upcoming")) {
             ActionBTN.setText("Cancel");
             // if the lecture in canceld state make the action button as uncancel button
-        } else if (LECture.get(position).getState().equals("Canceld")) {
+        } else if (LECture.get(position).getState().equals("Canceled")) {
             ActionBTN.setText("uncancel");
             ActionBTN.setBackgroundColor(ActionBTN.getResources().getColor(R.color.colorPrimaryDark));
         } else {
@@ -81,15 +81,13 @@ public class LectureList_Adpt extends ArrayAdapter {
             @Override
             public void onClick(View view) {
 
-
                 if (LECture.get(position).getState().equals("upcoming")) {
-                    STUTUS = "Canceld";
-                } else if (LECture.get(position).getState().equals("Canceld")) {
+                    STUTUS = "Canceled";
+                } else if (LECture.get(position).getState().equals("Canceled")) {
                     STUTUS = "upcoming";
                 } else {
-                    STUTUS = "Canceld";
+                    STUTUS = "Canceled";
                 }
-
 
 
                 StringRequest request = new StringRequest(Request.Method.POST, Constants.CancelLecByCourseID, new Response.Listener<String>() {

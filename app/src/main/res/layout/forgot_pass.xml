@@ -22,9 +22,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:ems="10"
+        android:maxLength="30"
         android:hint="Enter Your Email"
         android:paddingLeft="7dp"
-        android:background="@drawable/steps_off"
+        android:background="@drawable/mystyle"
         android:inputType="textEmailAddress" />
 
     <Button

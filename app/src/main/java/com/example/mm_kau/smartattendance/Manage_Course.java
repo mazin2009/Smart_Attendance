@@ -25,14 +25,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Manage_Course extends AppCompatActivity implements Designable  {
+public class Manage_Course extends AppCompatActivity implements Designable {
 
-    private EditText  CourseName_AD, TeacherID_AD, ClassRommID_AD;
+    private EditText CourseName_AD, TeacherID_AD, ClassRommID_AD;
     private TextView CourseID_AD;
-    private TimePicker STL , ETL , STA ,ETA;
-    private Button UpdateBTN , DeleteBTN ;
+    private TimePicker STL, ETL, STA, ETA;
+    private Button UpdateBTN, DeleteBTN;
     private ProgressDialog progressDialog;
-    private String TeacherID , ClassroomID , STL_ad , ETL_ad , STA_ad ,ETA_ad;
+    private String TeacherID, ClassroomID, STL_ad, ETL_ad, STA_ad, ETA_ad;
 
 
     @Override
@@ -55,25 +55,24 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
         this.CourseID_AD.setText(getIntent().getStringExtra("course_ID"));
 
         this.CourseName_AD = findViewById(R.id.editTextForViewCourseName);
-        this.CourseName_AD.setText(  getIntent().getStringExtra("name"));
+        this.CourseName_AD.setText(getIntent().getStringExtra("name"));
 
         this.TeacherID_AD = findViewById(R.id.editTextForTeacherIdOfCourse_mng);
 
         // check if the course has teacher or not yet.
         if (getIntent().getStringExtra("TeacherID").equals("null")) {
             TeacherID_AD.setHint("undefined");
-        }else {
-            this.TeacherID_AD.setText(  getIntent().getStringExtra("TeacherID"));
+        } else {
+            this.TeacherID_AD.setText(getIntent().getStringExtra("TeacherID"));
         }
 
         // check if the course has  classroom or not yet.
         this.ClassRommID_AD = findViewById(R.id.editTextForCLassRoomOfCourse_mng);
         if (getIntent().getStringExtra("Room_ID").equals("null")) {
-            this.ClassRommID_AD.setHint("undefined"); }else {
-            this.ClassRommID_AD.setText(  getIntent().getStringExtra("Room_ID"));
-                }
-
-
+            this.ClassRommID_AD.setHint("undefined");
+        } else {
+            this.ClassRommID_AD.setText(getIntent().getStringExtra("Room_ID"));
+        }
 
 
         this.STL = findViewById(R.id.TimePicker_STL);
@@ -127,8 +126,6 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
             public void onClick(View view) {
 
 
-
-
                 progressDialog.setMessage("Please wait ...");
                 progressDialog.show();
 
@@ -152,12 +149,12 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
 
                             } else {
                                 progressDialog.dismiss();
-                                Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
 
                             }
                         } catch (JSONException e) {
                             progressDialog.dismiss();
-                            Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
 
                         }
 
@@ -188,7 +185,6 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
 
             }
         });
-
 
 
         UpdateBTN.setOnClickListener(new View.OnClickListener() {
@@ -222,14 +218,13 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
                         }
 
 
-
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             // get the time from time picker to update it.
                             // make the format hh:mm:ss a
-                            STL_ad = String.valueOf(STL.getHour())+":"+String.valueOf(STL.getMinute())+":00";
-                            ETL_ad = String.valueOf(ETL.getHour())+":"+String.valueOf(ETL.getMinute())+":00";
-                            STA_ad = String.valueOf(STA.getHour())+":"+String.valueOf(STA.getMinute())+":00";
-                            ETA_ad = String.valueOf(ETA.getHour())+":"+String.valueOf(ETA.getMinute())+":00";
+                            STL_ad = String.valueOf(STL.getHour()) + ":" + String.valueOf(STL.getMinute()) + ":00";
+                            ETL_ad = String.valueOf(ETL.getHour()) + ":" + String.valueOf(ETL.getMinute()) + ":00";
+                            STA_ad = String.valueOf(STA.getHour()) + ":" + String.valueOf(STA.getMinute()) + ":00";
+                            ETA_ad = String.valueOf(ETA.getHour()) + ":" + String.valueOf(ETA.getMinute()) + ":00";
                         }
 
 
@@ -251,12 +246,12 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
 
                                     } else {
                                         progressDialog.dismiss();
-                                        Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
 
                                     }
                                 } catch (JSONException e) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
 
                                 }
 
@@ -296,7 +291,7 @@ public class Manage_Course extends AppCompatActivity implements Designable  {
                 } catch (Exception e) {
 
                     progressDialog.dismiss();
-                    Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
 
 
                 }

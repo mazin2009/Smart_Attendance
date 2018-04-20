@@ -32,17 +32,15 @@ import java.util.Map;
  * Created by Mez on 21/03/18.
  */
 
-public class Attend_Info_eache_Lec_Adpt extends ArrayAdapter {
-
+public class Adapter_AttendanceInfo_InEcahLecture extends ArrayAdapter {
 
     private Context context;
     private ArrayList<String> students;
-    Switch MySwitch;
-    String Stat;
+    private Switch MySwitch;
+    private String Stat;
 
 
-
-    public Attend_Info_eache_Lec_Adpt(Context context, ArrayList<String> students) {
+    public Adapter_AttendanceInfo_InEcahLecture(Context context, ArrayList<String> students) {
 
         super(context, R.layout.coustomlist_atten_info_lec, students);
         this.context = context;
@@ -61,11 +59,10 @@ public class Attend_Info_eache_Lec_Adpt extends ArrayAdapter {
 
         final String Info[] = students.get(position).split(",");
 
-
-        TextView ID = (TextView) view.findViewById(R.id.TextView_IDofSTU_inlec);
+        TextView ID = view.findViewById(R.id.TextView_IDofSTU_inlec);
         ID.setText(Info[0]);
 
-        TextView name = (TextView) view.findViewById(R.id.TextView_NameofSTU_iclec);
+        TextView name = view.findViewById(R.id.TextView_NameofSTU_iclec);
         name.setText(Info[1]);
 
         MySwitch = view.findViewById(R.id.switch1ForAttendance);

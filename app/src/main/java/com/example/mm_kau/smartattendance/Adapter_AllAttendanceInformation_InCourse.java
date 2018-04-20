@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Created by Mez on 19/03/18.
  */
 
-public class attendance_Info_adpt  extends ArrayAdapter {
+public class Adapter_AllAttendanceInformation_InCourse extends ArrayAdapter {
 
 
 
@@ -23,7 +23,7 @@ public class attendance_Info_adpt  extends ArrayAdapter {
     private ArrayList<String> students;
 
 
-    public attendance_Info_adpt(Context context, ArrayList<String> students) {
+    public Adapter_AllAttendanceInformation_InCourse(Context context, ArrayList<String> students) {
 
         super(context, R.layout.coutum_list_for_attend_info,students);
         this.context = context;

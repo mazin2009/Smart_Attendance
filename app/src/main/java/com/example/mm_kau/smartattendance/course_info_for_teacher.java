@@ -29,7 +29,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +40,7 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
 
     private TextView C_id, C_name, C_CR, STL, ETL, STA, ETA, No_ST;
     private Button change_AT, View_AttendInfo, viewLec, SendAnnouncment, update_TimeOfAttendance;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences userfile;
     private TimePicker STL_p, ETL_p, STA_p, ETA_p;
     private String STL_ad, ETL_ad, STA_ad, ETA_ad;
     private ProgressDialog progressDialog;
@@ -63,7 +62,7 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
     @Override
     public void InitializeView() {
 
-        sharedPreferences = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
+        userfile = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
         this.progressDialog = new ProgressDialog(course_info_for_teacher.this);
         alertDialog = new android.app.AlertDialog.Builder(course_info_for_teacher.this).create();
         C_id = findViewById(R.id.textViewForCRS_ID);
@@ -160,7 +159,6 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
                                         } else {
                                             progressDialog.dismiss();
                                             Toast.makeText(getBaseContext(), "  There is problem m try agine ", Toast.LENGTH_LONG).show();
-
                                         }
                                     } catch (JSONException e) {
                                         progressDialog.dismiss();
@@ -182,7 +180,7 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
                                     // HTTP request parameters
                                     HashMap<String, String> map = new HashMap<>();
 
-                                    map.put("TeacherID", sharedPreferences.getString(Constants.TeacherID, ""));
+                                    map.put("TeacherID", userfile.getString(Constants.TeacherID, ""));
                                     map.put("CourseID", C_id.getText().toString());
                                     map.put("Title", Title.getText().toString());
                                     map.put("Body", Body.getText().toString());
@@ -251,10 +249,10 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
                                 alertDialog.show();
                             } else {
 
-                              //  Collections.reverse(list_lecture); // reverse the Lectures to put the near one first.
+                                //  Collections.reverse(list_lecture); // reverse the Lectures to put the near one first.
 
                                 progressDialog.dismiss();
-                                LectureList_Adpt adapter = new LectureList_Adpt(getBaseContext(), list_lecture);
+                                Adapter_LectureList adapter = new Adapter_LectureList(getBaseContext(), list_lecture);
                                 listview_of_lecture.setAdapter(adapter);
 
                                 // on click listener for items in the list view
@@ -354,7 +352,7 @@ public class course_info_for_teacher extends AppCompatActivity implements Design
 
                             } else {
                                 progressDialog.dismiss();
-                                attendance_Info_adpt adapter = new attendance_Info_adpt(getBaseContext(), list_attendance_info);
+                                Adapter_AllAttendanceInformation_InCourse adapter = new Adapter_AllAttendanceInformation_InCourse(getBaseContext(), list_attendance_info);
                                 listview_attendance_info.setAdapter(adapter);
 
                             }

@@ -30,21 +30,21 @@ import java.util.Map;
  * Created by Mez on 26/03/18.
  */
 
-public class LictureAdpt_OfLecture_inST extends ArrayAdapter {
+public class Adapter_LictureList_InStudent extends ArrayAdapter {
 
 
     private Context context;
     private ArrayList<String> LECture;
-    String [] Info;
+    String[] Info;
 
-    public LictureAdpt_OfLecture_inST(Context context, ArrayList<String> LECture) {
+    public Adapter_LictureList_InStudent(Context context, ArrayList<String> LECture) {
 
-        super(context, R.layout.coustom_list_lecture_in_student,  LECture);
+        super(context, R.layout.coustom_list_lecture_in_student, LECture);
         this.context = context;
         this.LECture = LECture;
     }
 
-    public String getItem(int position){
+    public String getItem(int position) {
         return LECture.get(position);
     }
 
@@ -53,16 +53,16 @@ public class LictureAdpt_OfLecture_inST extends ArrayAdapter {
 
         final View view = LayoutInflater.from(getContext()).inflate(R.layout.coustom_list_lecture_in_student, parent, false);
 
-         Info = LECture.get(position).split(",");
+        Info = LECture.get(position).split(",");
 
 
-        TextView DATE =  view.findViewById(R.id.TextView_DateOfLecture_inST);
+        TextView DATE = view.findViewById(R.id.TextView_DateOfLecture_inST);
         DATE.setText(Info[0]);
 
-        TextView State =  view.findViewById(R.id.TextView_StateOfLec_INST);
+        TextView State = view.findViewById(R.id.TextView_StateOfLec_INST);
         State.setText(Info[1]);
 
-        Button SendExcuse =  view.findViewById(R.id.buttonForSendExcuse);
+        Button SendExcuse = view.findViewById(R.id.buttonForSendExcuse);
 
         // if student present make the button of send Excuse disable.
         if (Info[1].equals("present")) {
@@ -75,12 +75,12 @@ public class LictureAdpt_OfLecture_inST extends ArrayAdapter {
             @Override
             public void onClick(View view) {
 
-                Intent intent=new Intent(getContext(),send_Excuse.class);
-                intent.putExtra("Teacher_ID",Info[4]);
-                intent.putExtra("studentID",Info[2]);
-                intent.putExtra("Course_id",Info[3]);
-                intent.putExtra("Date",Info[0]);
-                intent.putExtra("st_name",Info[5]);
+                Intent intent = new Intent(getContext(), send_Excuse.class);
+                intent.putExtra("Teacher_ID", Info[4]);
+                intent.putExtra("studentID", Info[2]);
+                intent.putExtra("Course_id", Info[3]);
+                intent.putExtra("Date", Info[0]);
+                intent.putExtra("st_name", Info[5]);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getContext().startActivity(intent);
@@ -90,7 +90,6 @@ public class LictureAdpt_OfLecture_inST extends ArrayAdapter {
 
         return view;
     }
-
 
 
 }

@@ -55,7 +55,7 @@
             android:ems="10"
             android:hint="First Name"
             android:inputType="textPersonName"
-            android:maxLength="15"
+            android:maxLength="30"
             />
 
         <EditText
@@ -67,7 +67,7 @@
             android:ems="10"
             android:hint="Last Name"
             android:inputType="textPersonName"
-            android:maxLength="15"
+            android:maxLength="30"
             />
     </LinearLayout>
 

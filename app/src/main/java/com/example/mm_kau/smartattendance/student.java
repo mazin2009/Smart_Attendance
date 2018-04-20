@@ -6,12 +6,12 @@ package com.example.mm_kau.smartattendance;
 
 public class student {
 
-    private String id ;
+    private String id;
     private String Fname;
     private String Lname;
-    private String Pass ;
+    private String Pass;
     private String Email;
-    private String Mac_Address ;
+    private String Mac_Address;
 
 
     public void setId(String id) {

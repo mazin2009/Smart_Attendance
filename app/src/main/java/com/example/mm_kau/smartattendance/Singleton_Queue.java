@@ -39,8 +39,6 @@ public class Singleton_Queue {
         return queue;
     }
 
-
-    /*** To Add  the request into the qeueu */
     public void Add(StringRequest request) {
 
         getRequestQueu().add(request);

@@ -6,10 +6,9 @@ package com.example.mm_kau.smartattendance;
 
 public class classroom {
 
-private String ID ;
-private String Name;
-private String Cap;
-
+    private String ID;
+    private String Name;
+    private String Cap;
 
     public void setID(String ID) {
         this.ID = ID;

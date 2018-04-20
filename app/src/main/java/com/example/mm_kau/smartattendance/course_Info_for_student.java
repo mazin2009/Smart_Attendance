@@ -38,12 +38,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.MediaType;
@@ -54,7 +50,7 @@ public class course_Info_for_student extends AppCompatActivity implements Design
 
     private TextView C_id, C_name, Teacher_name, C_CR, STL, ETL, STA, ETA, No_absent;
     private Button ViewAttendanceInfo_BTN, MakeAttendance_BTN;
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences userfile;
     private ProgressDialog progressDialog;
     private ListView listview_of_attendance_info;
     private ArrayList<String> list_attendance_info;
@@ -67,9 +63,7 @@ public class course_Info_for_student extends AppCompatActivity implements Design
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course__info_for_student);
-
         InitializeView();
-
     }
 
     @Override
@@ -85,7 +79,7 @@ public class course_Info_for_student extends AppCompatActivity implements Design
         startScanning();// start scan for beacon device
 
 
-        sharedPreferences = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
+        userfile = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
         this.progressDialog = new ProgressDialog(course_Info_for_student.this);
 
         MakeAttendance_BTN = findViewById(R.id.buttonOfMakaAttendANCE);
@@ -144,6 +138,7 @@ public class course_Info_for_student extends AppCompatActivity implements Design
 
                 View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.list_of_lecture_for_st, null, false);
                 setContentView(v);
+
                 // set title of action bar.
                 setTitle("Attendance Information");
                 list_attendance_info = new ArrayList<>();
@@ -165,7 +160,7 @@ public class course_Info_for_student extends AppCompatActivity implements Design
                                 String AttendanceInfo;
                                 String Date = jsonObject.getString("Date");
                                 String State = jsonObject.getString("state");
-                                AttendanceInfo = Date + "," + State + "," + sharedPreferences.getString(Constants.StudentID, " ") + "," + C_id.getText().toString() + "," + getIntent().getStringExtra("T_ID") + "," + sharedPreferences.getString(Constants.s_Fname, "") + " " + sharedPreferences.getString(Constants.s_Lname, "");
+                                AttendanceInfo = Date + "," + State + "," + userfile.getString(Constants.StudentID, " ") + "," + C_id.getText().toString() + "," + getIntent().getStringExtra("T_ID") + "," + userfile.getString(Constants.s_Fname, "") + " " + userfile.getString(Constants.s_Lname, "");
                                 list_attendance_info.add(AttendanceInfo);
                             }
 
@@ -175,7 +170,7 @@ public class course_Info_for_student extends AppCompatActivity implements Design
                                 Toast.makeText(getBaseContext(), "There is no Lecture", Toast.LENGTH_LONG).show();
                             } else {
                                 progressDialog.dismiss();
-                                LictureAdpt_OfLecture_inST adapter = new LictureAdpt_OfLecture_inST(getBaseContext(), list_attendance_info);
+                                Adapter_LictureList_InStudent adapter = new Adapter_LictureList_InStudent(getBaseContext(), list_attendance_info);
                                 listview_of_attendance_info.setAdapter(adapter);
 
                             }
@@ -198,7 +193,7 @@ public class course_Info_for_student extends AppCompatActivity implements Design
                         // HTTP request parameters
                         HashMap<String, String> map = new HashMap<String, String>();
                         map.put("CR_ID", C_id.getText().toString());
-                        map.put("ST_ID", sharedPreferences.getString(Constants.StudentID, " "));
+                        map.put("ST_ID", userfile.getString(Constants.StudentID, " "));
                         return map;
                     }
                 };
@@ -249,7 +244,6 @@ public class course_Info_for_student extends AppCompatActivity implements Design
                                 // if the student inside the classroom.
                                 if (IsInsideTheClassroom) {
 
-
                                     // Get The android_id (it's unique like mac-address )
                                     final String android_id = Settings.Secure.getString(getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
 
@@ -269,7 +263,7 @@ public class course_Info_for_student extends AppCompatActivity implements Design
                                                     // if system make the student present but the student make attendance with new device.
                                                     // the application will send notification to teacher.
                                                     if (!jsonObject.isNull("mac_State")) { // if the state yes and the mac_State not null , means student attendance with new device
-                                                        SendAnnouncmentWhenNewMac_occure(getIntent().getStringExtra("T_ID"), sharedPreferences.getString(Constants.s_Fname, " ") + " " + sharedPreferences.getString(Constants.s_Lname, ""));
+                                                        SendAnnouncmentWhenNewMac_occure(getIntent().getStringExtra("T_ID"), userfile.getString(Constants.s_Fname, " ") + " " + userfile.getString(Constants.s_Lname, ""));
                                                     }
 
                                                     progressDialog.dismiss();
@@ -286,11 +280,11 @@ public class course_Info_for_student extends AppCompatActivity implements Design
                                                     // if system doesn't make student present and the student make attendance with device device belong to another student.
                                                     // the application will send notification to teacher.
                                                     if (!jsonObject.isNull("mac_State")) { // if the state no and the mac_State not null , means student attendance with  device belong to another student.
-                                                        SendAnnouncmentWhenrejectStudents(getIntent().getStringExtra("T_ID"), sharedPreferences.getString(Constants.s_Fname, " ") + " " + sharedPreferences.getString(Constants.s_Lname, ""));
+                                                        SendAnnouncmentWhenreRjectStudents(getIntent().getStringExtra("T_ID"), userfile.getString(Constants.s_Fname, " ") + " " + userfile.getString(Constants.s_Lname, ""));
                                                     }
 
                                                     progressDialog.dismiss();
-                                                    alertDialog.setMessage("Your attendance process has been Failed. \nReason : " + jsonObject.getString("reason"));
+                                                    alertDialog.setMessage("Your attendance process has been Failed. \n\nReason : " + jsonObject.getString("reason"));
                                                     alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                                                         public void onClick(DialogInterface dialog, int which) {
                                                         }
@@ -316,7 +310,7 @@ public class course_Info_for_student extends AppCompatActivity implements Design
                                             // HTTP request parameters
                                             HashMap<String, String> map = new HashMap<>();
                                             map.put("Course_id", C_id.getText().toString());
-                                            map.put("ST_ID", sharedPreferences.getString(Constants.StudentID, " "));
+                                            map.put("ST_ID", userfile.getString(Constants.StudentID, " "));
                                             map.put("Mac", android_id);
                                             return map;
                                         }
@@ -412,7 +406,7 @@ public class course_Info_for_student extends AppCompatActivity implements Design
                 // HTTP request parameters
                 HashMap<String, String> map = new HashMap<>();
                 map.put("CR_ID", C_id.getText().toString());
-                map.put("ID", sharedPreferences.getString(Constants.StudentID, " "));
+                map.put("ID", userfile.getString(Constants.StudentID, " "));
                 return map;
             }
         };
@@ -479,8 +473,8 @@ public class course_Info_for_student extends AppCompatActivity implements Design
                 JSONObject json = new JSONObject();
                 JSONObject jsonData = new JSONObject();
                 try {
-                    jsonData.put("body", StudentName + "has make attendace with new Device");
-                    jsonData.put("title", "Student with device");
+                    jsonData.put("body", StudentName + "has make attendace with new device");
+                    jsonData.put("title", "Student with new device");
                     json.put("notification", jsonData);
                     json.put("to", "/topics/" + Topic);
 
@@ -505,7 +499,7 @@ public class course_Info_for_student extends AppCompatActivity implements Design
     }
 
 
-    public void SendAnnouncmentWhenrejectStudents(final String Topic, final String StudentName) {
+    public void SendAnnouncmentWhenreRjectStudents(final String Topic, final String StudentName) {
 
         final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         new AsyncTask<Void, Void, Void>() {

@@ -15,21 +15,21 @@ import java.util.ArrayList;
  * Created by Mez on 24/02/18.
  */
 
-public class MystudentAdpt extends ArrayAdapter {
+public class Adapter_Student extends ArrayAdapter {
 
 
     private Context context;
     private ArrayList<student> students;
 
 
-    public MystudentAdpt(Context context, ArrayList<student> students) {
+    public Adapter_Student(Context context, ArrayList<student> students) {
         super(context, R.layout.costum_list, students);
         this.context = context;
         this.students = students;
 
     }
 
-    public student getItem(int position){
+    public student getItem(int position) {
         return students.get(position);
     }
 
@@ -39,7 +39,7 @@ public class MystudentAdpt extends ArrayAdapter {
         final View view = LayoutInflater.from(getContext()).inflate(R.layout.costum_list, parent, false);
 
         TextView textView = (TextView) view.findViewById(R.id.TextView_INcostum);
-        textView.setText("student Name : "+students.get(position).getFname() +"\nStudent ID : "+students.get(position).getId());
+        textView.setText("student Name : " + students.get(position).getFname() + "\nStudent ID : " + students.get(position).getId());
 
         return view;
     }

@@ -6,9 +6,9 @@ package com.example.mm_kau.smartattendance;
 
 public class admin {
 
-    String name ;
-    String password;
-    int id;
+    private String name;
+    private String password;
+    private int id;
 
     public admin() {
         this.name = name;
@@ -39,6 +39,5 @@ public class admin {
     public int getId() {
         return id;
     }
-
 
 }

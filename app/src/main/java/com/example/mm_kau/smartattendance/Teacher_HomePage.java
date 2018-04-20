@@ -42,15 +42,14 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
     private ArrayList<course> list_course;
     private TextView Name;
     private Bitmap decodedByte;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.Editor sharedPreferencesEditer;
+    private SharedPreferences userfile;
+    private SharedPreferences.Editor userfileEditer;
     private Button LogOUT;
     private ImageView requestExcuse_BTN, SettingBTN;
     private ArrayList<excuse> List_Excuse;
     private EditText newPass1, newPass2, prevPass;
     private ProgressDialog progressDialog;
     private android.app.AlertDialog alertDialog;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +64,8 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
 
 
         this.progressDialog = new ProgressDialog(Teacher_HomePage.this);
-        this.sharedPreferences = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
-        this.sharedPreferencesEditer = sharedPreferences.edit();
+        this.userfile = getSharedPreferences(Constants.UserFile, MODE_PRIVATE);
+        this.userfileEditer = userfile.edit();
         alertDialog = new android.app.AlertDialog.Builder(Teacher_HomePage.this).create();
 
         this.SettingBTN = findViewById(R.id.imageViewSetting);
@@ -78,7 +77,7 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
         this.Name = findViewById(R.id.textViewForNAmeOfTEACHER);
 
         // subscribe the teacher to topic (The topic is teacher id)
-        FirebaseMessaging.getInstance().subscribeToTopic(sharedPreferences.getString(Constants.TeacherID, " "));
+        FirebaseMessaging.getInstance().subscribeToTopic(userfile.getString(Constants.TeacherID, ""));
 
 
         progressDialog.setMessage("Please wait ...");
@@ -131,7 +130,7 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
 
                         progressDialog.dismiss();
 
-                        MyCoursAdpt adapter = new MyCoursAdpt(getBaseContext(), list_course);
+                        Adapter_Course adapter = new Adapter_Course(getBaseContext(), list_course);
                         listView_course.setAdapter(adapter);
 
                         // on click listener for items in the list view
@@ -174,7 +173,7 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
                 HashMap<String, String> map = new HashMap<String, String>();
 
                 // HTTP request parameters
-                map.put("ID", sharedPreferences.getString(Constants.TeacherID, " "));
+                map.put("ID", userfile.getString(Constants.TeacherID, " "));
                 return map;
             }
         };
@@ -191,7 +190,7 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
     public void Design() {
 
         setTitle("Teacher Home Page");
-        this.Name.setText(sharedPreferences.getString(Constants.T_Fname, "") + " " + sharedPreferences.getString(Constants.T_Lname, ""));
+        this.Name.setText(userfile.getString(Constants.T_Fname, "") + " " + userfile.getString(Constants.T_Lname, ""));
         HandleAction();
     }
 
@@ -233,7 +232,7 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
                                 } else if (Network.isConnected(getBaseContext()) == false) {
                                     Toast.makeText(getBaseContext(), "No Internet", Toast.LENGTH_LONG).show();
                                 } else if (!newPass1.getText().toString().equals(newPass2.getText().toString())) {
-                                    Toast.makeText(getBaseContext(), newPass1.getText().toString()+"Two passwords are not the same"+newPass2.getText().toString(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getBaseContext(), newPass1.getText().toString() + "Two passwords are not the same" + newPass2.getText().toString(), Toast.LENGTH_LONG).show();
                                 } else {
 
                                     progressDialog.setMessage("please wait ...");
@@ -254,10 +253,10 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
                                                     progressDialog.dismiss();
                                                     Toast.makeText(getBaseContext(), "the password has been changed", Toast.LENGTH_LONG).show();
                                                     // log out the teacher
-                                                    sharedPreferencesEditer.putBoolean(Constants.UserIsLoggedIn, false);
-                                                    sharedPreferencesEditer.commit();
+                                                    userfileEditer.putBoolean(Constants.UserIsLoggedIn, false);
+                                                    userfileEditer.commit();
                                                     // unsubscribe From Topic (Topic is the teacher ID)
-                                                    FirebaseMessaging.getInstance().unsubscribeFromTopic(sharedPreferences.getString(Constants.TeacherID, ""));
+                                                    FirebaseMessaging.getInstance().unsubscribeFromTopic(userfile.getString(Constants.TeacherID, ""));
                                                     Intent intent = new Intent(getBaseContext(), LoginPage.class);
                                                     startActivity(intent);
 
@@ -285,10 +284,10 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
 
                                             // HTTP request parameters
                                             HashMap<String, String> map = new HashMap<>();
-                                            map.put("ID", sharedPreferences.getString(Constants.TeacherID, " "));
+                                            map.put("ID", userfile.getString(Constants.TeacherID, " "));
                                             map.put("prevPass", prevPass.getText().toString());
                                             map.put("password", newPass1.getText().toString());
-                                            map.put("UserType", sharedPreferences.getString(Constants.UserType, " "));
+                                            map.put("UserType", userfile.getString(Constants.UserType, " "));
                                             return map;
                                         }
                                     };
@@ -325,10 +324,10 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
                             Toast.makeText(getBaseContext(), "No connection with Internet", Toast.LENGTH_LONG).show();
                         } else {
                             // unsubscribe From Topic (Topic is the teacher ID)
-                            FirebaseMessaging.getInstance().unsubscribeFromTopic(sharedPreferences.getString(Constants.TeacherID, ""));
+                            FirebaseMessaging.getInstance().unsubscribeFromTopic(userfile.getString(Constants.TeacherID, ""));
                             // logout teacher in cach file.
-                            sharedPreferencesEditer.putBoolean(Constants.UserIsLoggedIn, false);
-                            sharedPreferencesEditer.commit();
+                            userfileEditer.putBoolean(Constants.UserIsLoggedIn, false);
+                            userfileEditer.commit();
 
                             Intent intent = new Intent(getBaseContext(), LoginPage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -416,7 +415,7 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
 
 
                                 progressDialog.dismiss();
-                                Excuse_apdt adapter = new Excuse_apdt(getBaseContext(), List_Excuse);
+                                Adapter_Excuse adapter = new Adapter_Excuse(getBaseContext(), List_Excuse);
                                 ListViewExcuse.setAdapter(adapter);
 
                                 // on click listener for items in the list view
@@ -619,7 +618,7 @@ public class Teacher_HomePage extends AppCompatActivity implements Designable {
                         HashMap<String, String> map = new HashMap<String, String>();
 
                         // HTTP request parameters
-                        map.put("ID", sharedPreferences.getString(Constants.TeacherID, ""));
+                        map.put("ID", userfile.getString(Constants.TeacherID, ""));
                         return map;
                     }
                 };

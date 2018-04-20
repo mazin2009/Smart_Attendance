@@ -42,6 +42,7 @@ public class Manage_Teacher extends AppCompatActivity implements Designable {
     @Override
     public void InitializeView() {
 
+
         this.progressDialog = new ProgressDialog(Manage_Teacher.this);
 
         this.Update = findViewById(R.id.buttonOfUpdateTeacher);

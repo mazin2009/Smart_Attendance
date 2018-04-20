@@ -26,11 +26,11 @@ import java.util.Map;
 
 public class Manage_classRoom extends AppCompatActivity implements Designable {
 
-    private TextView ID ;
-    private EditText Name , Cap , Becons;
+    private TextView ID;
+    private EditText Name, Cap, Becons;
     private String BeaconList = " ";
     private ProgressDialog progressDialog;
-    private Button update  ;
+    private Button update;
 
 
     @Override
@@ -46,20 +46,19 @@ public class Manage_classRoom extends AppCompatActivity implements Designable {
         this.progressDialog = new ProgressDialog(Manage_classRoom.this);
 
         this.ID = findViewById(R.id.editTextForClassRoomID_InManage);
-        this.ID.setText( getIntent().getStringExtra("ID"));
+        this.ID.setText(getIntent().getStringExtra("ID"));
 
         this.Name = findViewById(R.id.editTextForCR_Name_InManage);
-        this.Name.setText( getIntent().getStringExtra("name"));
+        this.Name.setText(getIntent().getStringExtra("name"));
 
         this.Cap = findViewById(R.id.editTextForCapcty_CR_onManage);
-        this.Cap.setText( getIntent().getStringExtra("Cap"));
+        this.Cap.setText(getIntent().getStringExtra("Cap"));
 
         this.Becons = findViewById(R.id.editTextForBeacons_InManage);
         this.update = findViewById(R.id.UpdateClassRoomBTN);
 
         progressDialog.setMessage("Please wait ...");
         progressDialog.show();
-
 
 
         // cal server to get all beacon id belong to this classroom
@@ -69,29 +68,29 @@ public class Manage_classRoom extends AppCompatActivity implements Designable {
 
                 try {
 
-                        JSONArray jsonArray = new JSONArray(response);
+                    JSONArray jsonArray = new JSONArray(response);
 
-                        // save all beacon id in String to set it in beacon Text View
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            BeaconList += jsonObject.getString("BeaconID")+"\n";
-                        }
+                    // save all beacon id in String to set it in beacon Text View
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        BeaconList += jsonObject.getString("BeaconID") + "\n";
+                    }
 
 
                     progressDialog.dismiss();
-                        if (jsonArray.length()==0) {
-                            Becons.setText("There Is No Beacons");
-                        }else {
-                            Becons.setText(BeaconList);
-                        }
+                    if (jsonArray.length() == 0) {
+                        Becons.setText("There Is No Beacons");
+                    } else {
+                        Becons.setText(BeaconList);
+                    }
                     // call Design Function after response of get all beacon arrive.
-                        Design();
+                    Design();
 
 
                 } catch (JSONException e) {
 
                     progressDialog.dismiss();
-                    Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -121,8 +120,6 @@ public class Manage_classRoom extends AppCompatActivity implements Designable {
 
     @Override
     public void Design() {
-
-
 
 
         HandleAction();
@@ -179,13 +176,13 @@ public class Manage_classRoom extends AppCompatActivity implements Designable {
 
                                         } else {
                                             progressDialog.dismiss();
-                                            Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
                                 } catch (JSONException e) {
                                     progressDialog.dismiss();
-                                    Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
                                 }
 
                             }
@@ -218,7 +215,7 @@ public class Manage_classRoom extends AppCompatActivity implements Designable {
 
 
                 } catch (Exception e) {
-                    Toast.makeText(getBaseContext(),"There is problem please try again",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "There is problem please try again", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -226,9 +223,7 @@ public class Manage_classRoom extends AppCompatActivity implements Designable {
         //End Update classroom Button Click Event Listener
 
 
-
     }
-
 
 
     @Override

@@ -36,7 +36,7 @@
             android:inputType="number"
             android:hint="Classroom ID"
             android:layout_gravity="center"
-            android:maxLength="7"
+            android:maxLength="10"
 
             />
     </LinearLayout>
@@ -55,7 +55,7 @@
             android:ems="10"
             android:hint="Classroom Name"
             android:inputType="textPersonName"
-            android:maxLength="15"
+            android:maxLength="30"
             />
 
 
@@ -85,7 +85,7 @@
             android:layout_marginTop="30dp"
             android:hint="BeaconID (Separate by , )"
             android:inputType="text"
-            android:maxLength="500"/>
+          />
 
         <Button
             android:id="@+id/buttonOfAddNewclassRoom"

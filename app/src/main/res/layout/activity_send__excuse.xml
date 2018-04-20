@@ -23,7 +23,7 @@
         android:id="@+id/IMGVIEW"
         android:layout_width="match_parent"
         android:layout_height="240dp"
-        android:background="@drawable/steps_off"
+        android:background="@drawable/mystyle"
 android:padding="5dp"
        />
 
@@ -51,9 +51,10 @@ android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:ems="10"
+        android:maxLength="200"
         android:padding="5dp"
         android:gravity="top"
-        android:background="@drawable/steps_off"
+        android:background="@drawable/mystyle"
         android:inputType="textMultiLine" />
 
     <Button
